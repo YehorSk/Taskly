@@ -18,14 +18,15 @@ import com.yehorsk.taskly.ui.theme.TasklyTheme
 fun CategoryGrid(
     modifier: Modifier = Modifier,
     items: List<Category>,
-    onClick: (Category) -> Unit
+    onClick: (Category) -> Unit,
+    onAddNewClick: () -> Unit,
 ){
     LazyVerticalGrid(
         modifier = modifier,
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(
             items = items,
@@ -35,7 +36,14 @@ fun CategoryGrid(
                 modifier = Modifier
                     .fillMaxWidth(),
                 category = item,
-                onClick = {}
+                onClick = {
+                    onClick(item)
+                }
+            )
+        }
+        item {
+            AddNewButton(
+                onClick = { onAddNewClick() }
             )
         }
     }
@@ -92,7 +100,8 @@ fun CategoryGridPreview(){
         CategoryGrid(
             modifier = Modifier.fillMaxSize(),
             items = categories,
-            onClick = {}
+            onClick = {},
+            onAddNewClick = {}
         )
     }
 }

@@ -8,6 +8,6 @@ import com.yehorsk.taskly.categories.data.database.models.CategoryEntity
 @Database(entities = [(CategoryEntity::class)], version = 1)
 abstract class TasklyDatabase: RoomDatabase() {
 
-    abstract fun getCategoryDao(): CategoryDao
+    abstract val categoryDao: CategoryDao
 
 }

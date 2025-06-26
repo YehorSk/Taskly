@@ -8,7 +8,6 @@ fun CategoryEntity.toCategory() = Category(
     title = title,
     createdAt = createdAt,
     bgColor = bgColor,
-    amountOfTasks = amountOfTasks
 )
 
 fun Category.toCategoryEntity() = CategoryEntity(
@@ -16,5 +15,4 @@ fun Category.toCategoryEntity() = CategoryEntity(
     title = title,
     createdAt = createdAt,
     bgColor = bgColor,
-    amountOfTasks = amountOfTasks
 )

@@ -7,6 +7,7 @@ import com.yehorsk.taskly.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import timber.log.Timber
 
 class MainApplication : Application() {
 
@@ -17,6 +18,7 @@ class MainApplication : Application() {
             androidLogger()
             modules(databaseModule, repositoryModule, viewModelModule)
         }
+        Timber.plant(Timber.DebugTree())
     }
 
 }
