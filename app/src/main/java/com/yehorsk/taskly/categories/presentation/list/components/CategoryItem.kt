@@ -32,42 +32,36 @@ fun CategoryItem(
 ){
     Surface(
         modifier = modifier
-            .clickable{ onClick() }
-            .background(category.bgColor.toColor()),
+            .clickable{ onClick() },
         color = category.bgColor.toColor(),
         shape = RoundedCornerShape(18.dp),
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-        ){
-            Column(
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(20.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(bottom = 10.dp),
-                    text = category.title,
-                    style = MaterialTheme.typography.titleLarge,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = Color.White,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Text(
-                    modifier = Modifier
-                        .padding(top = 16.dp),
-                    text = "${category.amountOfTasks} Tasks",
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = Color.White,
-                )
-            }
+                    .padding(bottom = 10.dp),
+                text = category.title,
+                style = MaterialTheme.typography.titleLarge,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = Color.White,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                modifier = Modifier
+                    .padding(top = 10.dp),
+                text = "${category.amountOfTasks} Tasks",
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = Color.White,
+            )
         }
     }
 }

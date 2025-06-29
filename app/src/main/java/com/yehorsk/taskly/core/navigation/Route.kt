@@ -2,9 +2,25 @@ package com.yehorsk.taskly.core.navigation
 
 import kotlinx.serialization.Serializable
 
-sealed interface Route {
+@Serializable
+sealed class Route(val route: String) {
 
     @Serializable
-    data object Categories: Route
+    object Categories: Route(route = "CATEGORIES")
+
+    @Serializable
+    data class CategoryDetails(val id: String): Route(route = "CATEGORY_DETAILS")
+
+    @Serializable
+    data object ToDos: Route(route = "TODOS")
+
+    @Serializable
+    data class ToDoDetails(val id: String): Route(route = "TODO_DETAILS")
+
+    @Serializable
+    data object Notes: Route("NOTES")
+
+    @Serializable
+    data object Profile: Route("PROFILE")
 
 }

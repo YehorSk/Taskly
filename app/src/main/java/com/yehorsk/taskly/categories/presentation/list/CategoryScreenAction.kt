@@ -9,6 +9,7 @@ sealed interface CategoryScreenAction {
     data object OnCategoryDelete: CategoryScreenAction
     data object ShowCategoryDialog: CategoryScreenAction
     data object HideCategoryDialog: CategoryScreenAction
+    data object OnInputValidate: CategoryScreenAction
     data class OnCategoryClick(val category: Category): CategoryScreenAction
     data class OnCategoryTitleChange(val title: String): CategoryScreenAction
     data class OnCategoryColorChange(val color: Long): CategoryScreenAction

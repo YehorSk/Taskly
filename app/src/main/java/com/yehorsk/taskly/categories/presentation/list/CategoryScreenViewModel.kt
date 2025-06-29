@@ -46,7 +46,12 @@ class CategoryScreenViewModel(
             CategoryScreenAction.OnCategorySave -> insertCategory()
             CategoryScreenAction.HideCategoryDialog -> hideCategoryDialog()
             CategoryScreenAction.ShowCategoryDialog -> showCategoryDialog()
+            CategoryScreenAction.OnInputValidate -> validateInput()
         }
+    }
+
+    private fun validateInput(): Boolean{
+        return _state.value.title.isNotEmpty()
     }
 
     private fun onCategorySelect(category: Category){
@@ -107,7 +112,7 @@ class CategoryScreenViewModel(
                 Category(
                     title = _state.value.title,
                     createdAt = System.currentTimeMillis(),
-                    bgColor = 0xFFE1BEE7
+                    bgColor = _state.value.color
                 )
             )
             hideCategoryDialog()
