@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.room.util.TableInfo
 import com.yehorsk.taskly.categories.presentation.list.CategoryScreenRoot
+import com.yehorsk.taskly.todos.presentation.list.MainListScreen
 
 @Composable
 fun NavigationRoot(
@@ -20,7 +20,7 @@ fun NavigationRoot(
 ){
     NavHost(
         navController = navController,
-        startDestination = Route.Categories.route
+        startDestination = Route.ToDos.route
     ){
         composable(
             route = Route.Categories.route
@@ -32,16 +32,9 @@ fun NavigationRoot(
         composable(
             route = Route.ToDos.route
         ) {
-            Column(
+            MainListScreen(
                 modifier = modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Todos"
-                )
-            }
+            )
         }
         composable(
             route = Route.Notes.route

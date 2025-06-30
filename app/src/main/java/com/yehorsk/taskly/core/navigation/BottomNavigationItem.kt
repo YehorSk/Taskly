@@ -2,9 +2,12 @@ package com.yehorsk.taskly.core.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Notes
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Task
 import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Menu
@@ -24,21 +27,21 @@ sealed class BottomNavigationItem(
     object Tasks : BottomNavigationItem(
         route = "TODOS",
         title = R.string.my_tasks,
-        selectedIcon = Icons.Default.CheckCircle,
+        selectedIcon = Icons.Default.Task,
         unselectedIcon = Icons.Outlined.Task
     )
 
     object Categories : BottomNavigationItem(
         route = "CATEGORIES",
         title = R.string.categories,
-        selectedIcon = Icons.Default.Menu,
+        selectedIcon = Icons.Default.Category,
         unselectedIcon = Icons.Outlined.Category,
     )
 
     object Notes : BottomNavigationItem(
         route = "NOTES",
         title = R.string.notes,
-        selectedIcon = Icons.Default.Menu,
+        selectedIcon = Icons.Default.Notes,
         unselectedIcon = Icons.Outlined.Notes,
     )
 

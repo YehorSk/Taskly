@@ -93,7 +93,8 @@ class CategoryScreenViewModel(
             .getAllCategories()
             .onEach { categories ->
                 _state.update { it.copy(
-                    items = categories
+                    items = categories,
+                    isLoading = false
                 ) }
                 cachedCategories = categories
             }

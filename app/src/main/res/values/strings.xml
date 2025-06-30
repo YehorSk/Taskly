@@ -11,4 +11,7 @@
     <string name="my_tasks">My Tasks</string>
     <string name="notes">Notes</string>
     <string name="profile">Profile</string>
+    <string name="today">Today</string>
+    <string name="month">Month</string>
+    <string name="go_back">Go Back</string>
 </resources>

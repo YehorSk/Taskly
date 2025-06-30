@@ -5,6 +5,7 @@ import com.yehorsk.taskly.core.utils.brightColors
 
 data class CategoryScreenUiState(
     val items: List<Category> = emptyList(),
+    val isLoading: Boolean = true,
     val selectedCategory: Category? = null,
     val title: String = "",
     val color: Long = brightColors[0],

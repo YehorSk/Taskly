@@ -4,11 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.yehorsk.taskly.R
@@ -51,21 +51,31 @@ fun CategoryScreen(
             allowSubmit = true
         )
     }
-    Column {
+    Column(
+        modifier = modifier
+            .fillMaxSize(),
+    ) {
         TitleNavBar(
-            title = R.string.categories
+            title = R.string.categories,
+            onGoBack = {},
+            showGoBack = false
         )
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
+            contentAlignment = Alignment.Center
         ){
-            CategoryGrid(
-                modifier = Modifier.fillMaxSize(),
-                items = state.items,
-                onClick = { onAction(CategoryScreenAction.OnCategoryClick(it)) },
-                onAddNewClick = { onAction(CategoryScreenAction.ShowCategoryDialog) }
-            )
+            if(state.isLoading){
+                CircularProgressIndicator()
+            }else{
+                CategoryGrid(
+                    modifier = Modifier.fillMaxSize(),
+                    items = state.items,
+                    onClick = { onAction(CategoryScreenAction.OnCategoryClick(it)) },
+                    onAddNewClick = { onAction(CategoryScreenAction.ShowCategoryDialog) }
+                )
+            }
         }
     }
 }
