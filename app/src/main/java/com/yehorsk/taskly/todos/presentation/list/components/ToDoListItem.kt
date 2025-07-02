@@ -107,7 +107,8 @@ fun ToDoListItemPreview(){
         title = "Finish Jetpack Compose homework",
         description = "Review Room integration and AlarmManager usage",
         isDone = false,
-        dueDate = System.currentTimeMillis() + 3 * 24 * 60 * 60 * 1000
+        dueDate = System.currentTimeMillis() + 3 * 24 * 60 * 60 * 1000,
+        categoryId = 0
     )
     TasklyTheme {
         ToDoListItem(

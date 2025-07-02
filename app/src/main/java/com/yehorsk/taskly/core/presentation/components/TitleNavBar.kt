@@ -1,9 +1,9 @@
 package com.yehorsk.taskly.core.presentation.components
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,29 +37,24 @@ fun TitleNavBar(
     @StringRes title: Int = R.string.go_back,
     showGoBack: Boolean = true
 ){
-    Row(
+    Box(
         modifier = modifier
             .fillMaxWidth()
             .height(60.dp),
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically
+        contentAlignment = Alignment.Center
     ) {
-        if(showGoBack){
+        if (showGoBack) {
             Icon(
                 modifier = Modifier
-                    .size(30.dp)
+                    .align(Alignment.CenterStart)
                     .padding(start = 10.dp)
-                    .clickable {
-                        onGoBack()
-                    },
+                    .size(40.dp)
+                    .clickable { onGoBack() },
                 imageVector = Icons.Filled.ArrowBack,
                 contentDescription = null
             )
         }
         Text(
-            modifier = Modifier
-                .padding(start = 10.dp)
-                .fillMaxWidth(),
             text = stringResource(title),
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
@@ -87,7 +82,7 @@ fun TitleNavBarPreview(){
         TitleNavBar(
             title = R.string.categories,
             onGoBack = {},
-            showGoBack = false
+            showGoBack = true
         )
     }
 }

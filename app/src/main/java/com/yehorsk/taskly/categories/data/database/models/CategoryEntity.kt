@@ -1,6 +1,7 @@
 package com.yehorsk.taskly.categories.data.database.models
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -10,4 +11,9 @@ data class CategoryEntity(
     @ColumnInfo("title") val title: String,
     @ColumnInfo("created_at") val createdAt: Long,
     @ColumnInfo("bg_color") val bgColor: Long
+)
+
+data class CategoryWithCount(
+    @Embedded val category: CategoryEntity,
+    @ColumnInfo(name = "todo_count") val count: Int
 )

@@ -9,7 +9,8 @@ fun ToDoEntity.toToDo() = ToDo(
     title = title,
     description = description,
     isDone = isDone,
-    dueDate = dueDate
+    dueDate = dueDate,
+    categoryId = categoryId
 )
 
 fun ToDo.toToDoEntity() = ToDoEntity(
@@ -18,5 +19,6 @@ fun ToDo.toToDoEntity() = ToDoEntity(
     title = title,
     description = description,
     isDone = isDone,
-    dueDate = dueDate
+    dueDate = dueDate,
+    categoryId = categoryId,
 )

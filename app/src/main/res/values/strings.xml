@@ -5,7 +5,8 @@
     <string name="save">Save</string>
     <string name="update">Update</string>
     <string name="delete">Delete</string>
-    <string name="your_title">Your title</string>
+    <string name="your_title">Your Title</string>
+    <string name="your_description">Your Description</string>
     <string name="choose_color">Choose Color</string>
     <string name="categories">Categories</string>
     <string name="my_tasks">My Tasks</string>
@@ -14,4 +15,6 @@
     <string name="today">Today</string>
     <string name="month">Month</string>
     <string name="go_back">Go Back</string>
+    <string name="new_task">New Task</string>
+    <string name="update_task">Update Task</string>
 </resources>

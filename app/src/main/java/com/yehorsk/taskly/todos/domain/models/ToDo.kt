@@ -7,6 +7,7 @@ data class ToDo(
     val description: String? = null,
     val isDone: Boolean,
     val dueDate: Long,
+    val categoryId: Int
 )
 
 val sampleToDos = listOf(
@@ -16,7 +17,8 @@ val sampleToDos = listOf(
         title = "Buy groceries",
         description = "Milk, eggs, bread, fruits",
         isDone = false,
-        dueDate = System.currentTimeMillis() + 86400000 // +1 day
+        dueDate = System.currentTimeMillis() + 86400000,
+        categoryId = 0
     ),
     ToDo(
         id = 2,
@@ -24,7 +26,8 @@ val sampleToDos = listOf(
         title = "Finish project report",
         description = "Due by end of the week",
         isDone = true,
-        dueDate = System.currentTimeMillis() + 2 * 86400000 // +2 days
+        dueDate = System.currentTimeMillis() + 2 * 86400000,
+        categoryId = 0
     ),
     ToDo(
         id = 3,
@@ -32,7 +35,8 @@ val sampleToDos = listOf(
         title = "Call plumber",
         description = "Fix leaking kitchen faucet",
         isDone = false,
-        dueDate = System.currentTimeMillis() + 3 * 86400000 // +3 days
+        dueDate = System.currentTimeMillis() + 3 * 86400000,
+        categoryId = 0
     ),
     ToDo(
         id = 4,
@@ -40,7 +44,8 @@ val sampleToDos = listOf(
         title = "Schedule dentist appointment",
         description = null,
         isDone = false,
-        dueDate = System.currentTimeMillis() + 5 * 86400000 // +5 days
+        dueDate = System.currentTimeMillis() + 5 * 86400000,
+        categoryId = 0
     ),
     ToDo(
         id = 5,
@@ -48,6 +53,7 @@ val sampleToDos = listOf(
         title = "Workout session",
         description = "Leg day at the gym",
         isDone = true,
-        dueDate = System.currentTimeMillis() + 1 * 86400000 // +1 day
+        dueDate = System.currentTimeMillis() + 1 * 86400000,
+        categoryId = 0
     )
 )

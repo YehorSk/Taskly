@@ -10,8 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.yehorsk.taskly.categories.presentation.list.CategoryScreenRoot
+import com.yehorsk.taskly.todos.presentation.add_edit_todo.AddEditToDoScreenRoot
 import com.yehorsk.taskly.todos.presentation.list.MainListScreen
+import com.yehorsk.taskly.todos.presentation.list.MainListScreenViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun NavigationRoot(
@@ -63,6 +67,16 @@ fun NavigationRoot(
                     text = "Profile"
                 )
             }
+        }
+        composable(
+            Route.AddTodo.route
+        ) {
+            val viewModel: MainListScreenViewModel = koinViewModel()
+            AddEditToDoScreenRoot(
+                modifier = modifier,
+                viewModel = viewModel,
+                onGoBackClicked = { navController.popBackStack() }
+            )
         }
     }
 }
