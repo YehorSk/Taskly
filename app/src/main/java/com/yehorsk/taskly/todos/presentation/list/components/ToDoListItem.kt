@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.yehorsk.taskly.todos.domain.models.ToDo
 import com.yehorsk.taskly.ui.theme.TasklyTheme
+import java.time.LocalDateTime
 
 @Composable
 fun ToDoListItem(
@@ -103,11 +104,11 @@ fun ToDoListItem(
 fun ToDoListItemPreview(){
     val fakeToDo = ToDo(
         id = 1,
-        createdAt = System.currentTimeMillis(), // now
+        createdAt = LocalDateTime.now(), // now
         title = "Finish Jetpack Compose homework",
         description = "Review Room integration and AlarmManager usage",
         isDone = false,
-        dueDate = System.currentTimeMillis() + 3 * 24 * 60 * 60 * 1000,
+        dueDate = LocalDateTime.now(),
         categoryId = 0
     )
     TasklyTheme {

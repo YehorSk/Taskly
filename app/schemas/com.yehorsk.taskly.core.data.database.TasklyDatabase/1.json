@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ed7544b6dbae9e49fc8b3b0a2946ba18",
+    "identityHash": "37660c32b493141a54a44b4063e3cccd",
     "entities": [
       {
         "tableName": "category_table",
@@ -42,7 +42,7 @@
       },
       {
         "tableName": "todo_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `created_at` INTEGER NOT NULL, `title` TEXT NOT NULL, `description` TEXT, `is_done` INTEGER NOT NULL, `due_date` INTEGER NOT NULL, `category_id` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`category_id`) REFERENCES `category_table`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `created_at` INTEGER NOT NULL, `title` TEXT NOT NULL, `description` TEXT, `is_done` INTEGER NOT NULL, `due_date` INTEGER, `category_id` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`category_id`) REFERENCES `category_table`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -76,8 +76,7 @@
           {
             "fieldPath": "dueDate",
             "columnName": "due_date",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "categoryId",
@@ -92,6 +91,17 @@
             "id"
           ]
         },
+        "indices": [
+          {
+            "name": "index_todo_table_category_id",
+            "unique": false,
+            "columnNames": [
+              "category_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_todo_table_category_id` ON `${TABLE_NAME}` (`category_id`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "category_table",
@@ -109,7 +119,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ed7544b6dbae9e49fc8b3b0a2946ba18')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '37660c32b493141a54a44b4063e3cccd')"
     ]
   }
 }

@@ -5,11 +5,15 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.yehorsk.taskly.todos.domain.models.CategorySummary
 import com.yehorsk.taskly.todos.data.database.models.ToDoEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ToDoDao {
+
+    @Query("SELECT id, title FROM category_table")
+    suspend fun getCategorySummaries(): List<CategorySummary>
 
     @Query("SELECT * FROM todo_table")
     fun getTodos(): Flow<List<ToDoEntity>>

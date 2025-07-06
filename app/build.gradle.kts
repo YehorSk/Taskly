@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.yehorsk.taskly"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.yehorsk.taskly"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -50,6 +50,7 @@ dependencies {
     // Room
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
     implementation(libs.sqlite.bundled)
 
     // Koin
@@ -67,6 +68,8 @@ dependencies {
 
     //Icons
     implementation(libs.androidx.material.icons.extended)
+
+    implementation(libs.kmp.date.time.picker)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

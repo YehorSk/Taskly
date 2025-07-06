@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import kotlin.String
 
 class CategoryScreenViewModel(
@@ -112,7 +113,7 @@ class CategoryScreenViewModel(
             repository.insertCategory(
                 Category(
                     title = _state.value.title,
-                    createdAt = System.currentTimeMillis(),
+                    createdAt = LocalDateTime.now(),
                     bgColor = _state.value.color
                 )
             )
@@ -128,8 +129,7 @@ class CategoryScreenViewModel(
                     id = _state.value.selectedCategory!!.id,
                     title = _state.value.title,
                     bgColor = _state.value.color,
-                    createdAt = System.currentTimeMillis(),
-                )
+                    createdAt = LocalDateTime.now(),                )
             )
             hideCategoryDialog()
             clearState()

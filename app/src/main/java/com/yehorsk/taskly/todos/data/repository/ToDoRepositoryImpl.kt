@@ -1,6 +1,7 @@
 package com.yehorsk.taskly.todos.data.repository
 
 import com.yehorsk.taskly.todos.data.database.dao.ToDoDao
+import com.yehorsk.taskly.todos.domain.models.CategorySummary
 import com.yehorsk.taskly.todos.data.database.models.ToDoEntity
 import com.yehorsk.taskly.todos.domain.repository.ToDoRepository
 import kotlinx.coroutines.flow.Flow
@@ -8,6 +9,11 @@ import kotlinx.coroutines.flow.Flow
 class ToDoRepositoryImpl(
     val toDoDao: ToDoDao
 ): ToDoRepository {
+
+    override suspend fun getCategorySummaries(): List<CategorySummary> {
+        return toDoDao.getCategorySummaries()
+    }
+
     override fun getTodos(): Flow<List<ToDoEntity>> {
         return toDoDao.getTodos()
     }

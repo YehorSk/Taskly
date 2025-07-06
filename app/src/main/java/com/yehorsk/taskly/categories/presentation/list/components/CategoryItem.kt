@@ -23,6 +23,7 @@ import com.yehorsk.taskly.categories.domain.models.Category
 import com.yehorsk.taskly.categories.utils.toColor
 import com.yehorsk.taskly.core.utils.brightColors
 import com.yehorsk.taskly.ui.theme.TasklyTheme
+import java.time.LocalDateTime
 
 @Composable
 fun CategoryItem(
@@ -73,7 +74,7 @@ fun CategoryItemPreview(){
         val category = Category(
             id = 1,
             title = "Homework",
-            createdAt = System.currentTimeMillis(),
+            createdAt = LocalDateTime.now(),
             bgColor = brightColors[0],
             amountOfTasks = 5
         )

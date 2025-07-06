@@ -9,13 +9,14 @@ lifecycleRuntimeKtx = "2.9.1"
 activityCompose = "1.10.1"
 composeBom = "2025.06.01"
 room_version = "2.7.2"
-ksp = "2.1.21-2.0.1"
+ksp = "2.2.0-2.0.2"
 sqlite = "2.5.2"
 koin = "4.1.0"
-nav_version = "2.9.0"
-kotlinSerialization = "1.8.1"
+nav_version = "2.9.1"
+kotlinSerialization = "1.9.0"
 kizitonwose_calendar = "2.7.0"
 timber = "5.0.1"
+kmp_date_time_picker = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,9 +35,12 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room_version" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room_version" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room_version" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+
+kmp-date-time-picker = { module = "network.chaintech:kmp-date-time-picker", version.ref = "kmp_date_time_picker"}
 
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin"}
 koin-compose  = { module = "io.insert-koin:koin-compose", version.ref = "koin"}

@@ -17,18 +17,18 @@ interface CategoryDao {
 
     @Query("SELECT * FROM category_table")
     fun getAllCategories(): Flow<List<CategoryEntity>>
-
     @Transaction
-    @Query("SELECT * FROM category_table")
-    fun getAllCategoriesWithToDos(): Flow<List<CategoryWithToDos>>
-
-    @Query("""
-    SELECT c.*, COUNT(t.id) AS todo_count
-    FROM category_table c
-    LEFT JOIN todo_table t ON c.id = t.category_id
-    GROUP BY c.id
-    """)
-    fun getCategoriesWithToDoCount(): Flow<List<CategoryWithCount>>
+//    @Query("SELECT * FROM category_table")
+//    fun getAllCategoriesWithToDos(): Flow<List<CategoryWithToDos>>
+//
+//    @Query("""
+//    SELECT c.*, COUNT(t.id) AS todo_count
+//    FROM category_table c
+//    LEFT JOIN todo_table t ON c.id = t.category_id
+//    GROUP BY c.id
+//    """)
+//    fun getCategoriesWithToDoCount(): Flow<List<CategoryWithCount>>
+//
 
     @Insert
     suspend fun insertCategory(categoryEntity: CategoryEntity)

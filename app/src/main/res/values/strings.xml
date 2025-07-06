@@ -17,4 +17,8 @@
     <string name="go_back">Go Back</string>
     <string name="new_task">New Task</string>
     <string name="update_task">Update Task</string>
+    <string name="due_date">Due Date</string>
+    <string name="anytime">"Anytime"</string>
+    <string name="category">Category</string>
+    <string name="select">Select</string>
 </resources>

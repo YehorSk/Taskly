@@ -1,9 +1,12 @@
 package com.yehorsk.taskly.todos.domain.repository
 
+import com.yehorsk.taskly.todos.domain.models.CategorySummary
 import com.yehorsk.taskly.todos.data.database.models.ToDoEntity
 import kotlinx.coroutines.flow.Flow
 
 interface ToDoRepository {
+
+    suspend fun getCategorySummaries(): List<CategorySummary>
 
     fun getTodos(): Flow<List<ToDoEntity>>
 
