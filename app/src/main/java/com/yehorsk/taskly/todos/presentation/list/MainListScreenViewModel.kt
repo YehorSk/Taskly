@@ -42,7 +42,7 @@ class MainListScreenViewModel(
 
     fun onAction(action: MainListScreenAction){
         when(action){
-            MainListScreenAction.OnDeleteClicked -> TODO()
+            is MainListScreenAction.OnGetToDoById -> getToDoById(action.id)
             is MainListScreenAction.OnDescriptionChanged -> onDescriptionChanged(action.description)
             is MainListScreenAction.OnDueDateChanged -> onDueDateChanged(action.dueDate)
             is MainListScreenAction.OnTitleChanged -> onTitleChanged(action.title)
@@ -51,13 +51,52 @@ class MainListScreenViewModel(
             is MainListScreenAction.OnIsDoneClicked -> TODO()
             MainListScreenAction.OnGoBackClicked -> {}
             MainListScreenAction.OnSaveClicked -> insertToDo()
-            MainListScreenAction.OnUpdateClicked -> TODO()
+            MainListScreenAction.OnUpdateClicked -> updateToDo()
+            MainListScreenAction.OnDeleteClicked -> deleteToDo()
             MainListScreenAction.OnHideDateTimePicker -> onHideDateTimePicker()
             MainListScreenAction.OnShowDateTimePicker -> onShowDateTimePicker()
         }
     }
 
+    private fun getToDoById(id: Int) {
+        viewModelScope.launch {
+            val todo = toDoRepository.getToDoById(id.toString())
+            _state.update { it.copy(
+                currentToDo = todo,
+                title = todo.title,
+                description = todo.description ?: "",
+                selectedCategory = todo.categoryId,
+                dueDate = todo.dueDate,
+                alarmOn = todo.alarmOn,
+                action = AddEditAction.EDIT,
+                isLoading = false
+            ) }
+        }
+    }
+
     private fun insertToDo(){
+        viewModelScope.launch {
+            val updateToDo = ToDo(
+                id = _state.value.currentToDo!!.id,
+                createdAt = LocalDateTime.now(),
+                title = _state.value.title,
+                description = _state.value.description,
+                isDone = false,
+                dueDate = _state.value.dueDate,
+                categoryId = _state.value.selectedCategory!!,
+                alarmOn = _state.value.alarmOn
+            )
+            toDoRepository.insertTodo(updateToDo)
+        }
+    }
+
+    private fun deleteToDo(){
+        viewModelScope.launch {
+            toDoRepository.deleteTodo(_state.value.currentToDo!!)
+        }
+    }
+
+    private fun updateToDo(){
         viewModelScope.launch {
             val newToDo = ToDo(
                 createdAt = LocalDateTime.now(),
@@ -65,7 +104,7 @@ class MainListScreenViewModel(
                 description = _state.value.description,
                 isDone = false,
                 dueDate = _state.value.dueDate,
-                categoryId = _state.value.selectedCategory!!.id,
+                categoryId = _state.value.selectedCategory!!,
                 alarmOn = _state.value.alarmOn
             )
             toDoRepository.insertTodo(newToDo)
@@ -101,7 +140,7 @@ class MainListScreenViewModel(
         ) }
     }
 
-    private fun onCategoryChanged(category: CategorySummary){
+    private fun onCategoryChanged(category: Int){
         _state.update { it.copy(
             selectedCategory = category
         ) }

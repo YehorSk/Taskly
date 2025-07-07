@@ -22,7 +22,7 @@ fun TodayListScreenRoot(
     TodayListScreen(
         modifier = modifier,
         state = state,
-        onAction = { viewModel::onAction }
+        onItemClick = { onItemClick(it) }
     )
 }
 
@@ -30,7 +30,7 @@ fun TodayListScreenRoot(
 fun TodayListScreen(
     modifier: Modifier = Modifier,
     state: MainListScreenUiState,
-    onAction: (MainListScreenAction) -> Unit
+    onItemClick: (ToDo) -> Unit
 ){
     Column(
         modifier = modifier
@@ -39,7 +39,7 @@ fun TodayListScreen(
         ToDoList(
             modifier = Modifier.fillMaxSize(),
             items = state.items,
-            onItemClick = {}
+            onItemClick = { onItemClick(it) }
         )
     }
 }

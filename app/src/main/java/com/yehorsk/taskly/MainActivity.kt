@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
                         val navBackStackEntry = navController.currentBackStackEntryAsState().value
                         when (navBackStackEntry?.destination?.route) {
                             Route.ToDos.route -> {
-                                FloatingActionButton(onClick = { navController.navigate(Route.AddTodo.route) }) {
+                                FloatingActionButton(onClick = { navController.navigate(Route.AddEditTodo()) }) {
                                     Icon(Icons.Default.Add, contentDescription = null)
                                 }
                             }

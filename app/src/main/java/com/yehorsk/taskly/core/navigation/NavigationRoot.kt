@@ -5,8 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,6 +17,7 @@ import androidx.navigation.toRoute
 import com.yehorsk.taskly.categories.presentation.list.CategoryScreenRoot
 import com.yehorsk.taskly.todos.presentation.add_edit_todo.AddEditToDoScreenRoot
 import com.yehorsk.taskly.todos.presentation.list.MainListScreen
+import com.yehorsk.taskly.todos.presentation.list.MainListScreenAction
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -37,7 +41,8 @@ fun NavigationRoot(
             route = Route.ToDos.route
         ) {
             MainListScreen(
-                modifier = modifier
+                modifier = modifier,
+                onItemClick = { id -> navController.navigate(Route.AddEditTodo(id = id.toString())) }
             )
         }
         composable(
@@ -68,10 +73,14 @@ fun NavigationRoot(
                 )
             }
         }
-        composable(
-            Route.AddTodo.route
-        ) {
+        composable<Route.AddEditTodo>() {
+            val args = it.toRoute<Route.AddEditTodo>()
             val viewModel: MainListScreenViewModel = koinViewModel()
+            LaunchedEffect(args.id) {
+                if(args.id != null){
+                    viewModel.onAction(MainListScreenAction.OnGetToDoById(args.id.toInt()))
+                }
+            }
             AddEditToDoScreenRoot(
                 modifier = modifier,
                 viewModel = viewModel,

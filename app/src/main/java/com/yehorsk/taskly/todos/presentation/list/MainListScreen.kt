@@ -34,7 +34,8 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun MainListScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainListScreenViewModel = koinViewModel()
+    viewModel: MainListScreenViewModel = koinViewModel(),
+    onItemClick: (Int) -> Unit
 ){
 
     val tabItems = listOf(
@@ -111,7 +112,7 @@ fun MainListScreen(
                     TodayListScreenRoot(
                         modifier = Modifier.fillMaxSize(),
                         viewModel = viewModel,
-                        onItemClick = {}
+                        onItemClick = { onItemClick(it.id) }
                     )
                 }
                 1 -> {

@@ -16,10 +16,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -29,7 +29,6 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -48,6 +47,7 @@ import com.yehorsk.taskly.categories.utils.select
 import com.yehorsk.taskly.core.presentation.components.DateTimePicker
 import com.yehorsk.taskly.core.presentation.components.TitleNavBar
 import com.yehorsk.taskly.todos.presentation.add_edit_todo.components.SelectCategoryDialog
+import com.yehorsk.taskly.todos.presentation.list.AddEditAction
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenAction
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenUiState
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenViewModel
@@ -86,177 +86,221 @@ fun AddEditToDoScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        TitleNavBar(
-            title = R.string.new_task,
-            onGoBack = { onAction(MainListScreenAction.OnGoBackClicked) },
-            showGoBack = true
-        )
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp),
-            value = state.title,
-            onValueChange = { onAction(MainListScreenAction.OnTitleChanged(it)) },
-            placeholder = {
-                Text(
-                    text = stringResource(R.string.your_title),
-                    style = MaterialTheme.typography.bodyLarge
-                )
+        if(state.action == AddEditAction.EDIT && state.isLoading){
+            Box(
+                contentAlignment = Alignment.Center
+            ){
+                CircularProgressIndicator()
             }
-        )
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp),
-            value = state.description,
-            onValueChange = { onAction(MainListScreenAction.OnDescriptionChanged(it)) },
-            placeholder = {
-                Text(
-                    text = stringResource(R.string.your_description),
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
-        )
-        Box(
-            modifier = Modifier
-                .height(IntrinsicSize.Min)
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-        ){
+        }else{
+            TitleNavBar(
+                title = when(state.action){
+                    AddEditAction.ADD -> R.string.new_task
+                    AddEditAction.EDIT -> R.string.update_task
+                },
+                onGoBack = { onAction(MainListScreenAction.OnGoBackClicked) },
+                showGoBack = true
+            )
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable(enabled = true) { expanded = true },
-                readOnly = true,
-                label = { Text(stringResource(R.string.category)) },
-                value = state.selectedCategory?.title ?: stringResource(R.string.select),
-                onValueChange = {},
-                trailingIcon = {
-                    val icon = expanded.select(Icons.Filled.ArrowDropUp, Icons.Filled.ArrowDropDown)
-                    Icon(imageVector = icon, "")
-                },
+                    .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                value = state.title,
+                onValueChange = { onAction(MainListScreenAction.OnTitleChanged(it)) },
+                placeholder = {
+                    Text(
+                        text = stringResource(R.string.your_title),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
             )
-            Surface(
+            OutlinedTextField(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 8.dp)
-                    .clip(MaterialTheme.shapes.extraSmall)
-                    .clickable(enabled = true) { expanded = true },
-                color = Color.Transparent,
-            ) {  }
-        }
-        Row(
-            modifier = Modifier
-                .padding(
-                    top = 16.dp,
-                    bottom = 16.dp,
-                    start = 16.dp,
-                    end = 16.dp
-                ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                modifier = Modifier
-                    .padding(end = 16.dp),
-                text = stringResource(R.string.due_date),
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+                value = state.description,
+                onValueChange = { onAction(MainListScreenAction.OnDescriptionChanged(it)) },
+                placeholder = {
+                    Text(
+                        text = stringResource(R.string.your_description),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
             )
+            Box(
+                modifier = Modifier
+                    .height(IntrinsicSize.Min)
+                    .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+            ){
+                OutlinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(enabled = true) { expanded = true },
+                    readOnly = true,
+                    label = { Text(stringResource(R.string.category)) },
+                    value = if(state.selectedCategory == null) {
+                        stringResource(R.string.select)
+                    }else{
+                        state.categories.find { it.id == state.selectedCategory }!!.title
+                    },
+                    onValueChange = {},
+                    trailingIcon = {
+                        val icon = expanded.select(Icons.Filled.ArrowDropUp, Icons.Filled.ArrowDropDown)
+                        Icon(imageVector = icon, "")
+                    },
+                )
+                Surface(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 8.dp)
+                        .clip(MaterialTheme.shapes.extraSmall)
+                        .clickable(enabled = true) { expanded = true },
+                    color = Color.Transparent,
+                ) {  }
+            }
+            Row(
+                modifier = Modifier
+                    .padding(
+                        top = 16.dp,
+                        bottom = 16.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    ),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(end = 16.dp),
+                    text = stringResource(R.string.due_date),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Button(
+                    modifier = Modifier
+                        .wrapContentWidth(),
+                    shape = RoundedCornerShape(4.dp),
+                    content = {
+                        Text(
+                            text = state.dueDate?.formatReadable() ?: stringResource(R.string.anytime),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    },
+                    onClick = { onAction(MainListScreenAction.OnShowDateTimePicker) }
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .padding(
+                        bottom = 16.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    ),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(end = 16.dp),
+                    text = stringResource(R.string.alarm),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Switch(
+                    checked = state.alarmOn,
+                    onCheckedChange = { onAction(MainListScreenAction.OnAlarmChanged(it)) },
+                    thumbContent = if(state.alarmOn){
+                        {
+                            Icon(
+                                imageVector = Icons.Filled.Notifications,
+                                contentDescription = null,
+                                modifier = Modifier.size(SwitchDefaults.IconSize),
+                            )
+                        }
+                    } else {
+                        {
+                            Icon(
+                                imageVector = Icons.Filled.NotificationsNone,
+                                contentDescription = null,
+                                modifier = Modifier.size(SwitchDefaults.IconSize),
+                            )
+                        }
+                    }
+                )
+            }
             Button(
                 modifier = Modifier
-                    .wrapContentWidth(),
+                    .padding(
+                        top = 16.dp,
+                        bottom = 16.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    )
+                    .fillMaxWidth(),
                 shape = RoundedCornerShape(4.dp),
                 content = {
                     Text(
-                        text = state.dueDate?.formatReadable() ?: stringResource(R.string.anytime),
+                        text = when(state.action){
+                            AddEditAction.ADD -> stringResource(R.string.add_task)
+                            AddEditAction.EDIT -> stringResource(R.string.update_task)
+                        },
                         style = MaterialTheme.typography.bodyLarge
                     )
                 },
-                onClick = { onAction(MainListScreenAction.OnShowDateTimePicker) }
-            )
-        }
-        Row(
-            modifier = Modifier
-                .padding(
-                    bottom = 16.dp,
-                    start = 16.dp,
-                    end = 16.dp
-                ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                modifier = Modifier
-                    .padding(end = 16.dp),
-                text = stringResource(R.string.alarm),
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold
-            )
-            Switch(
-                checked = state.alarmOn,
-                onCheckedChange = { onAction(MainListScreenAction.OnAlarmChanged(it)) },
-                thumbContent = if(state.alarmOn){
-                    {
-                        Icon(
-                            imageVector = Icons.Filled.Notifications,
-                            contentDescription = null,
-                            modifier = Modifier.size(SwitchDefaults.IconSize),
-                        )
+                onClick = {
+                    when(state.action){
+                        AddEditAction.ADD -> onAction(MainListScreenAction.OnSaveClicked)
+                        AddEditAction.EDIT -> onAction(MainListScreenAction.OnUpdateClicked)
                     }
-                } else {
-                    {
-                        Icon(
-                            imageVector = Icons.Filled.NotificationsNone,
-                            contentDescription = null,
-                            modifier = Modifier.size(SwitchDefaults.IconSize),
+                    onAction(MainListScreenAction.OnGoBackClicked)
+                },
+                enabled = true
+            )
+            if(state.action == AddEditAction.EDIT){
+                Button(
+                    modifier = Modifier
+                        .padding(
+                            bottom = 16.dp,
+                            start = 16.dp,
+                            end = 16.dp
                         )
-                    }
+                        .fillMaxWidth(),
+                    shape = RoundedCornerShape(4.dp),
+                    content = {
+                        Text(
+                            text = stringResource(R.string.delete),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    },
+                    onClick = {
+                        onAction(MainListScreenAction.OnDeleteClicked)
+                        onAction(MainListScreenAction.OnGoBackClicked)
+                    },
+                    enabled = true
+                )
+            }
+            DateTimePicker(
+                showDatePicker = state.showDateTimePicker,
+                title = R.string.due_date,
+                startDate = state.dueDate,
+                onDateChangeListener = {
+                    onAction(MainListScreenAction.OnDueDateChanged(it))
+                    onAction(MainListScreenAction.OnHideDateTimePicker)
+                },
+                onDismiss = {
+                    onAction(MainListScreenAction.OnHideDateTimePicker)
                 }
             )
-        }
-        Button(
-            modifier = Modifier
-                .padding(
-                    top = 16.dp,
-                    bottom = 16.dp,
-                    start = 16.dp,
-                    end = 16.dp
+            if(expanded){
+                SelectCategoryDialog(
+                    label = stringResource(R.string.category),
+                    categories = state.categories,
+                    selectedIndex = state.selectedCategory ?: 0,
+                    onSelect = { item ->
+                        onAction(MainListScreenAction.OnSelectedCategoryChange(item.id))
+                        expanded = false
+                    },
+                    onDismissRequest = { expanded = false }
                 )
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(4.dp),
-            content = {
-                Text(
-                    text = "Add Task",
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            },
-            onClick = {
-                onAction(MainListScreenAction.OnSaveClicked)
-                onAction(MainListScreenAction.OnGoBackClicked)
-            },
-            enabled = true
-        )
-        DateTimePicker(
-            showDatePicker = state.showDateTimePicker,
-            title = R.string.due_date,
-            startDate = state.dueDate,
-            onDateChangeListener = {
-                onAction(MainListScreenAction.OnDueDateChanged(it))
-                onAction(MainListScreenAction.OnHideDateTimePicker)
-            },
-            onDismiss = {
-                onAction(MainListScreenAction.OnHideDateTimePicker)
             }
-        )
-        if(expanded){
-            SelectCategoryDialog(
-                label = stringResource(R.string.category),
-                categories = state.categories,
-                selectedIndex = state.selectedCategory?.id ?: 0,
-                onSelect = { item ->
-                    onAction(MainListScreenAction.OnSelectedCategoryChange(item))
-                    expanded = false
-                           },
-                onDismissRequest = { expanded = false }
-            )
         }
     }
 }
