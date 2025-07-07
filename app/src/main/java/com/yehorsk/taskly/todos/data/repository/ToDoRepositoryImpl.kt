@@ -3,8 +3,12 @@ package com.yehorsk.taskly.todos.data.repository
 import com.yehorsk.taskly.todos.data.database.dao.ToDoDao
 import com.yehorsk.taskly.todos.domain.models.CategorySummary
 import com.yehorsk.taskly.todos.data.database.models.ToDoEntity
+import com.yehorsk.taskly.todos.data.mappers.toToDo
+import com.yehorsk.taskly.todos.data.mappers.toToDoEntity
+import com.yehorsk.taskly.todos.domain.models.ToDo
 import com.yehorsk.taskly.todos.domain.repository.ToDoRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class ToDoRepositoryImpl(
     val toDoDao: ToDoDao
@@ -14,23 +18,27 @@ class ToDoRepositoryImpl(
         return toDoDao.getCategorySummaries()
     }
 
-    override fun getTodos(): Flow<List<ToDoEntity>> {
-        return toDoDao.getTodos()
+    override fun getTodos(): Flow<List<ToDo>> {
+        return toDoDao.getTodos().map { data ->
+            data.map {
+                it.toToDo()
+            }
+        }
     }
 
-    override suspend fun getToDoById(id: String): ToDoEntity {
-        return toDoDao.getToDoById(id)
+    override suspend fun getToDoById(id: String): ToDo {
+        return toDoDao.getToDoById(id).toToDo()
     }
 
-    override suspend fun insertTodo(toDoEntity: ToDoEntity) {
-        return toDoDao.insertTodo(toDoEntity)
+    override suspend fun insertTodo(toDo: ToDo) {
+        return toDoDao.insertTodo(toDo.toToDoEntity())
     }
 
-    override suspend fun updateTodo(toDoEntity: ToDoEntity) {
-        return toDoDao.updateTodo(toDoEntity)
+    override suspend fun updateTodo(toDo: ToDo) {
+        return toDoDao.updateTodo(toDo.toToDoEntity())
     }
 
-    override suspend fun deleteTodo(toDoEntity: ToDoEntity) {
-        return toDoDao.deleteTodo(toDoEntity)
+    override suspend fun deleteTodo(toDo: ToDo) {
+        return toDoDao.deleteTodo(toDo.toToDoEntity())
     }
 }

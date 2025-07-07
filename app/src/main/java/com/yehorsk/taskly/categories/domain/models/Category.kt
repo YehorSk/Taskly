@@ -10,3 +10,8 @@ data class Category(
     val bgColor: Long,
     val amountOfTasks: Int = 0
 )
+
+data class CategoryMain(
+    val category: Category,
+    val amount: Int
+)

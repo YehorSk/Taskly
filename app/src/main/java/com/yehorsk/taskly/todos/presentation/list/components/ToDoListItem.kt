@@ -24,12 +24,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.yehorsk.taskly.categories.utils.getTime
 import com.yehorsk.taskly.todos.domain.models.ToDo
 import com.yehorsk.taskly.ui.theme.TasklyTheme
+import com.yehorsk.taskly.R
 import java.time.LocalDateTime
 
 @Composable
@@ -43,6 +46,7 @@ fun ToDoListItem(
             .fillMaxWidth()
             .clickable{ onClick() }
             .padding(start = 8.dp, end = 8.dp),
+        shadowElevation = 3.dp,
         shape = RoundedCornerShape(18.dp),
     ){
         Row(
@@ -80,7 +84,7 @@ fun ToDoListItem(
                 Text(
                     modifier = Modifier
                         .padding(top = 8.dp),
-                    text = "9:00 am",
+                    text = todo.dueDate?.getTime() ?: stringResource(R.string.anytime),
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
@@ -99,12 +103,15 @@ fun ToDoListItem(
     }
 }
 
-@Preview
+@Preview(
+    backgroundColor = 0xFFFFFFFF,
+    showBackground = true
+)
 @Composable
 fun ToDoListItemPreview(){
     val fakeToDo = ToDo(
         id = 1,
-        createdAt = LocalDateTime.now(), // now
+        createdAt = LocalDateTime.now(),
         title = "Finish Jetpack Compose homework",
         description = "Review Room integration and AlarmManager usage",
         isDone = false,
@@ -112,9 +119,16 @@ fun ToDoListItemPreview(){
         categoryId = 0
     )
     TasklyTheme {
-        ToDoListItem(
-            todo = fakeToDo,
-            onClick = {}
-        )
+        Column(
+            modifier = Modifier
+                .height(200.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ToDoListItem(
+                todo = fakeToDo,
+                onClick = {}
+            )
+        }
     }
 }

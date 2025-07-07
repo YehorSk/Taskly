@@ -16,5 +16,5 @@ data class CategoryEntity(
 
 data class CategoryWithCount(
     @Embedded val category: CategoryEntity,
-    @ColumnInfo(name = "todo_count") val count: Int
+    @ColumnInfo(name = "amount") val count: Int
 )

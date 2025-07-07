@@ -71,7 +71,7 @@ fun CategoryScreen(
             }else{
                 CategoryGrid(
                     modifier = Modifier.fillMaxSize(),
-                    items = state.items,
+                    items = state.itemsMain,
                     onClick = { onAction(CategoryScreenAction.OnCategoryClick(it)) },
                     onAddNewClick = { onAction(CategoryScreenAction.ShowCategoryDialog) }
                 )

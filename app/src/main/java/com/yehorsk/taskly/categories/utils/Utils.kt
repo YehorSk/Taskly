@@ -14,6 +14,11 @@ fun LocalDateTime.formatReadable(): String {
     return this.format(formatter)
 }
 
+fun LocalDateTime.getTime(): String {
+    val formatter = DateTimeFormatter.ofPattern("HH a", Locale.getDefault())
+    return this.format(formatter)
+}
+
 fun Boolean.select(
     arrowDropUp: ImageVector,
     arrowDropDown: ImageVector

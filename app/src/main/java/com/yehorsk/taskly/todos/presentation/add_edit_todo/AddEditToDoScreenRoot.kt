@@ -10,16 +10,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,7 +37,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,7 +47,6 @@ import com.yehorsk.taskly.categories.utils.formatReadable
 import com.yehorsk.taskly.categories.utils.select
 import com.yehorsk.taskly.core.presentation.components.DateTimePicker
 import com.yehorsk.taskly.core.presentation.components.TitleNavBar
-import com.yehorsk.taskly.todos.domain.models.CategorySummary
 import com.yehorsk.taskly.todos.presentation.add_edit_todo.components.SelectCategoryDialog
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenAction
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenUiState
@@ -124,7 +128,7 @@ fun AddEditToDoScreen(
                     .clickable(enabled = true) { expanded = true },
                 readOnly = true,
                 label = { Text(stringResource(R.string.category)) },
-                value = "",
+                value = state.selectedCategory?.title ?: stringResource(R.string.select),
                 onValueChange = {},
                 trailingIcon = {
                     val icon = expanded.select(Icons.Filled.ArrowDropUp, Icons.Filled.ArrowDropDown)
@@ -170,6 +174,44 @@ fun AddEditToDoScreen(
                 onClick = { onAction(MainListScreenAction.OnShowDateTimePicker) }
             )
         }
+        Row(
+            modifier = Modifier
+                .padding(
+                    bottom = 16.dp,
+                    start = 16.dp,
+                    end = 16.dp
+                ),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(end = 16.dp),
+                text = stringResource(R.string.alarm),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Switch(
+                checked = state.alarmOn,
+                onCheckedChange = { onAction(MainListScreenAction.OnAlarmChanged(it)) },
+                thumbContent = if(state.alarmOn){
+                    {
+                        Icon(
+                            imageVector = Icons.Filled.Notifications,
+                            contentDescription = null,
+                            modifier = Modifier.size(SwitchDefaults.IconSize),
+                        )
+                    }
+                } else {
+                    {
+                        Icon(
+                            imageVector = Icons.Filled.NotificationsNone,
+                            contentDescription = null,
+                            modifier = Modifier.size(SwitchDefaults.IconSize),
+                        )
+                    }
+                }
+            )
+        }
         Button(
             modifier = Modifier
                 .padding(
@@ -186,7 +228,10 @@ fun AddEditToDoScreen(
                     style = MaterialTheme.typography.bodyLarge
                 )
             },
-            onClick = {  },
+            onClick = {
+                onAction(MainListScreenAction.OnSaveClicked)
+                onAction(MainListScreenAction.OnGoBackClicked)
+            },
             enabled = true
         )
         DateTimePicker(
@@ -202,12 +247,14 @@ fun AddEditToDoScreen(
             }
         )
         if(expanded){
-            var selectedIndex by remember { mutableIntStateOf(-1) }
             SelectCategoryDialog(
-                label = "Sample",
+                label = stringResource(R.string.category),
                 categories = state.categories,
-                selectedIndex = selectedIndex,
-                onSelect = { item -> selectedIndex = item.id },
+                selectedIndex = state.selectedCategory?.id ?: 0,
+                onSelect = { item ->
+                    onAction(MainListScreenAction.OnSelectedCategoryChange(item))
+                    expanded = false
+                           },
                 onDismissRequest = { expanded = false }
             )
         }

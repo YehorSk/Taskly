@@ -10,6 +10,7 @@ fun ToDoEntity.toToDo() = ToDo(
     description = description,
     isDone = isDone,
     dueDate = dueDate,
+    alarmOn = alarmOn,
     categoryId = categoryId
 )
 
@@ -20,5 +21,6 @@ fun ToDo.toToDoEntity() = ToDoEntity(
     description = description,
     isDone = isDone,
     dueDate = dueDate,
+    alarmOn = alarmOn,
     categoryId = categoryId,
 )

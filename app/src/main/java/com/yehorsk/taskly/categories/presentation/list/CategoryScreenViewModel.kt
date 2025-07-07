@@ -3,6 +3,7 @@ package com.yehorsk.taskly.categories.presentation.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yehorsk.taskly.categories.domain.models.Category
+import com.yehorsk.taskly.categories.domain.models.CategoryMain
 import com.yehorsk.taskly.categories.domain.repository.CategoryRepository
 import com.yehorsk.taskly.core.utils.brightColors
 import kotlinx.coroutines.Job
@@ -21,7 +22,7 @@ class CategoryScreenViewModel(
     private val repository: CategoryRepository
 ): ViewModel() {
 
-    private var cachedCategories = emptyList<Category>()
+    private var cachedCategories = emptyList<CategoryMain>()
     private var categoryJob: Job? = null
 
     private val _state = MutableStateFlow(CategoryScreenUiState())
@@ -91,10 +92,10 @@ class CategoryScreenViewModel(
     private fun observeCategories(){
         categoryJob?.cancel()
         categoryJob = repository
-            .getAllCategories()
+            .getCategoriesWithToDoCount()
             .onEach { categories ->
                 _state.update { it.copy(
-                    items = categories,
+                    itemsMain = categories,
                     isLoading = false
                 ) }
                 cachedCategories = categories

@@ -1,6 +1,7 @@
 package com.yehorsk.taskly.todos.presentation.list.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -17,9 +18,9 @@ fun ToDoList(
     items: List<ToDo>,
     onItemClick: (ToDo) -> Unit
 ){
-
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier
+            .padding(top = 8.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(items = items, key = { it.id }){ todo ->

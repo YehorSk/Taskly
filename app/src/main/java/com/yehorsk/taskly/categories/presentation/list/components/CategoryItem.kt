@@ -29,12 +29,14 @@ import java.time.LocalDateTime
 fun CategoryItem(
     modifier: Modifier = Modifier,
     category: Category,
+    count: Int,
     onClick: () -> Unit
 ){
     Surface(
         modifier = modifier
             .clickable{ onClick() },
         color = category.bgColor.toColor(),
+        shadowElevation = 3.dp,
         shape = RoundedCornerShape(18.dp),
     ) {
         Column(
@@ -57,7 +59,7 @@ fun CategoryItem(
             Text(
                 modifier = Modifier
                     .padding(top = 10.dp),
-                text = "${category.amountOfTasks} Tasks",
+                text = "$count Tasks",
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -82,6 +84,7 @@ fun CategoryItemPreview(){
             modifier = Modifier
                 .fillMaxSize(),
             category = category,
+            count = 10,
             onClick = {}
         )
     }

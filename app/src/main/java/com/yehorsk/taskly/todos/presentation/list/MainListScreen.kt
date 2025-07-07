@@ -27,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.yehorsk.taskly.R
 import com.yehorsk.taskly.core.presentation.components.TitleNavBar
 import org.koin.compose.viewmodel.koinViewModel
@@ -37,8 +36,6 @@ fun MainListScreen(
     modifier: Modifier = Modifier,
     viewModel: MainListScreenViewModel = koinViewModel()
 ){
-
-    val state by viewModel.state.collectAsStateWithLifecycle()
 
     val tabItems = listOf(
         TabItem(
@@ -112,7 +109,7 @@ fun MainListScreen(
             when(index){
                 0 -> {
                     TodayListScreenRoot(
-                        modifier = modifier,
+                        modifier = Modifier.fillMaxSize(),
                         viewModel = viewModel,
                         onItemClick = {}
                     )

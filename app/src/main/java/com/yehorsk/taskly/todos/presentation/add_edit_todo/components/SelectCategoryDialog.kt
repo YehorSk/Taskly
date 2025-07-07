@@ -8,12 +8,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -56,12 +57,12 @@ fun SelectCategoryDialog(
                     }
                 }
                 itemsIndexed(items = categories){ index, item ->
-                    val selectedItem = index == selectedIndex
+                    val selectedItem = item.id == selectedIndex
                     LargeDropdownMenuItem(
                         text = item.title,
                         selected = selectedItem,
-                        enabled = false,
-                        onClick = { },
+                        enabled = true,
+                        onClick = { onSelect(item) },
                     )
                     if (index < categories.lastIndex) {
                         HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -80,18 +81,20 @@ fun LargeDropdownMenuItem(
     onClick: () -> Unit,
 ) {
     val contentColor = when {
-        !enabled -> MaterialTheme.colorScheme.onSurface
-        selected -> MaterialTheme.colorScheme.primary
-        else -> MaterialTheme.colorScheme.onSurface
+        !enabled -> MaterialTheme.colorScheme.onSurface.copy(0.38f)
+        selected -> MaterialTheme.colorScheme.primary.copy(1.0f)
+        else -> MaterialTheme.colorScheme.onSurface.copy(1.0f)
     }
 
-    Box(modifier = Modifier
-        .clickable(enabled) { onClick() }
-        .fillMaxWidth()
-        .padding(16.dp)) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.titleSmall,
-        )
+    CompositionLocalProvider(LocalContentColor provides contentColor) {
+        Box(modifier = Modifier
+            .clickable(enabled) { onClick() }
+            .fillMaxWidth()
+            .padding(16.dp)) {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.titleSmall,
+            )
+        }
     }
 }

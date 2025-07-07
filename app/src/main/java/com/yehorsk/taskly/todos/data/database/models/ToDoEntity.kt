@@ -22,11 +22,12 @@ import java.time.LocalDateTime
     indices = [Index("category_id")]
 )
 data class ToDoEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo("created_at") val createdAt: LocalDateTime,
     @ColumnInfo("title") val title: String,
     @ColumnInfo("description") val description: String? = null,
     @ColumnInfo("is_done") val isDone: Boolean,
     @ColumnInfo("due_date") val dueDate: LocalDateTime? = null,
+    @ColumnInfo("alarm_on") val alarmOn: Boolean = false,
     @ColumnInfo("category_id") val categoryId: Int
 )
