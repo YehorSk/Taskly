@@ -1,7 +1,7 @@
 package com.yehorsk.taskly.todos.presentation.list
 
-import com.yehorsk.taskly.todos.domain.models.CategorySummary
 import com.yehorsk.taskly.todos.domain.models.ToDo
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 sealed interface MainListScreenAction {
@@ -16,9 +16,13 @@ sealed interface MainListScreenAction {
 
     data class OnDueDateChanged(val dueDate: LocalDateTime): MainListScreenAction
 
+    data class OnSelectedDateChanged(val date: LocalDate): MainListScreenAction
+
     data class OnAlarmChanged(val alarmOn: Boolean): MainListScreenAction
 
     data class OnIsDoneClicked(val todo: ToDo): MainListScreenAction
+
+    data class OnItemClick(val todo: ToDo): MainListScreenAction
 
     data class OnGetToDoById(val id: Int): MainListScreenAction
 

@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -84,7 +82,7 @@ fun NavigationRoot(
             AddEditToDoScreenRoot(
                 modifier = modifier,
                 viewModel = viewModel,
-                onGoBackClicked = { navController.popBackStack() }
+                onGoBackClicked = { navController.navigateUp() }
             )
         }
     }

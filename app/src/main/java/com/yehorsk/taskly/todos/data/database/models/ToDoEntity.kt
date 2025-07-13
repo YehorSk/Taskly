@@ -1,6 +1,7 @@
 package com.yehorsk.taskly.todos.data.database.models
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -29,5 +30,10 @@ data class ToDoEntity(
     @ColumnInfo("is_done") val isDone: Boolean,
     @ColumnInfo("due_date") val dueDate: LocalDateTime? = null,
     @ColumnInfo("alarm_on") val alarmOn: Boolean = false,
-    @ColumnInfo("category_id") val categoryId: Int
+    @ColumnInfo("category_id") val categoryId: Int,
+)
+
+data class ToDoWithCategoryColor(
+    @Embedded val todo: ToDoEntity,
+    @ColumnInfo(name = "bg_color") val bgColor: Long
 )

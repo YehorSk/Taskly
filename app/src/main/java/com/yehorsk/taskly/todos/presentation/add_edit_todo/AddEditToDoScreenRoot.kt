@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -46,8 +47,8 @@ import com.yehorsk.taskly.categories.utils.formatReadable
 import com.yehorsk.taskly.categories.utils.select
 import com.yehorsk.taskly.core.presentation.components.DateTimePicker
 import com.yehorsk.taskly.core.presentation.components.TitleNavBar
+import com.yehorsk.taskly.core.utils.AddEditAction
 import com.yehorsk.taskly.todos.presentation.add_edit_todo.components.SelectCategoryDialog
-import com.yehorsk.taskly.todos.presentation.list.AddEditAction
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenAction
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenUiState
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenViewModel
@@ -90,7 +91,12 @@ fun AddEditToDoScreen(
             Box(
                 contentAlignment = Alignment.Center
             ){
-                CircularProgressIndicator()
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
             }
         }else{
             TitleNavBar(
@@ -264,6 +270,9 @@ fun AddEditToDoScreen(
                         )
                         .fillMaxWidth(),
                     shape = RoundedCornerShape(4.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFEF5350)
+                    ),
                     content = {
                         Text(
                             text = stringResource(R.string.delete),

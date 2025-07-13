@@ -7,3 +7,8 @@ val brightColors  = listOf(
     0xFF9575CD, // Medium Purple
     0xFF42A5F5  // Sky Blue
 )
+
+sealed interface AddEditAction{
+    data object EDIT: AddEditAction
+    data object ADD: AddEditAction
+}

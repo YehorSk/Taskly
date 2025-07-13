@@ -11,7 +11,8 @@ data class ToDo(
     val isDone: Boolean,
     val dueDate: LocalDateTime? = null,
     val alarmOn: Boolean = false,
-    val categoryId: Int
+    val categoryId: Int,
+    val bgColor: Long? = null,
 )
 
 val sampleToDos = emptyList<ToDo>()

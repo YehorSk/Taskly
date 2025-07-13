@@ -14,9 +14,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.yehorsk.taskly.R
 import com.yehorsk.taskly.categories.presentation.list.components.CategoryGrid
 import org.koin.compose.viewmodel.koinViewModel
-import com.yehorsk.taskly.categories.presentation.list.components.CategoryAction
 import com.yehorsk.taskly.categories.presentation.list.components.CategoryDialog
 import com.yehorsk.taskly.core.presentation.components.TitleNavBar
+import com.yehorsk.taskly.core.utils.AddEditAction
 
 @Composable
 fun CategoryScreenRoot(
@@ -44,10 +44,16 @@ fun CategoryScreen(
             categoryTitle = state.title,
             categoryColor = state.color,
             onHide = { onAction(CategoryScreenAction.HideCategoryDialog) },
-            onButtonClick = { onAction(CategoryScreenAction.OnCategorySave) },
+            onButtonClick = {
+                when(state.action){
+                    AddEditAction.ADD -> onAction(CategoryScreenAction.OnCategorySave)
+                    AddEditAction.EDIT -> onAction(CategoryScreenAction.OnCategoryUpdate)
+                }
+            },
+            onDeleteClick = { onAction(CategoryScreenAction.OnCategoryDelete) },
             onTitleChange = { onAction(CategoryScreenAction.OnCategoryTitleChange(it)) },
             onColorChange = { onAction(CategoryScreenAction.OnCategoryColorChange(it)) },
-            action = CategoryAction.Insert,
+            action = state.action,
             allowSubmit = true
         )
     }

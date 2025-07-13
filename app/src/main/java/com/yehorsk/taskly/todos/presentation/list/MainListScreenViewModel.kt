@@ -2,18 +2,24 @@ package com.yehorsk.taskly.todos.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yehorsk.taskly.core.utils.AddEditAction
 import com.yehorsk.taskly.todos.domain.models.CategorySummary
 import com.yehorsk.taskly.todos.domain.models.ToDo
 import com.yehorsk.taskly.todos.domain.repository.ToDoRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 class MainListScreenViewModel(
@@ -48,13 +54,27 @@ class MainListScreenViewModel(
             is MainListScreenAction.OnTitleChanged -> onTitleChanged(action.title)
             is MainListScreenAction.OnSelectedCategoryChange -> onCategoryChanged(action.category)
             is MainListScreenAction.OnAlarmChanged -> onAlarmChanged(action.alarmOn)
+            is MainListScreenAction.OnSelectedDateChanged -> {
+                onSelectedDateChange(action.date)
+            }
             is MainListScreenAction.OnIsDoneClicked -> TODO()
-            MainListScreenAction.OnGoBackClicked -> {}
             MainListScreenAction.OnSaveClicked -> insertToDo()
             MainListScreenAction.OnUpdateClicked -> updateToDo()
             MainListScreenAction.OnDeleteClicked -> deleteToDo()
             MainListScreenAction.OnHideDateTimePicker -> onHideDateTimePicker()
             MainListScreenAction.OnShowDateTimePicker -> onShowDateTimePicker()
+            is MainListScreenAction.OnItemClick -> {}
+            MainListScreenAction.OnGoBackClicked -> {}
+        }
+    }
+
+    init {
+        viewModelScope.launch {
+            _state.map { it.selectedDate }
+                .distinctUntilChanged()
+                .collectLatest { selectedDate ->
+                    observeToDos()
+                }
         }
     }
 
@@ -76,28 +96,6 @@ class MainListScreenViewModel(
 
     private fun insertToDo(){
         viewModelScope.launch {
-            val updateToDo = ToDo(
-                id = _state.value.currentToDo!!.id,
-                createdAt = LocalDateTime.now(),
-                title = _state.value.title,
-                description = _state.value.description,
-                isDone = false,
-                dueDate = _state.value.dueDate,
-                categoryId = _state.value.selectedCategory!!,
-                alarmOn = _state.value.alarmOn
-            )
-            toDoRepository.insertTodo(updateToDo)
-        }
-    }
-
-    private fun deleteToDo(){
-        viewModelScope.launch {
-            toDoRepository.deleteTodo(_state.value.currentToDo!!)
-        }
-    }
-
-    private fun updateToDo(){
-        viewModelScope.launch {
             val newToDo = ToDo(
                 createdAt = LocalDateTime.now(),
                 title = _state.value.title,
@@ -111,10 +109,32 @@ class MainListScreenViewModel(
         }
     }
 
+    private fun deleteToDo(){
+        viewModelScope.launch {
+            toDoRepository.deleteTodo(_state.value.currentToDo!!)
+        }
+    }
+
+    private fun updateToDo(){
+        viewModelScope.launch {
+            val updateToDo = ToDo(
+                id = _state.value.currentToDo!!.id,
+                createdAt = LocalDateTime.now(),
+                title = _state.value.title,
+                description = _state.value.description,
+                isDone = false,
+                dueDate = _state.value.dueDate,
+                categoryId = _state.value.selectedCategory!!,
+                alarmOn = _state.value.alarmOn
+            )
+            toDoRepository.updateTodo(updateToDo)
+        }
+    }
+
     private fun observeToDos(){
         todoJob?.cancel()
         todoJob = toDoRepository
-            .getTodos()
+            .getTodos(date = _state.value.selectedDate.toString())
             .onEach { todos ->
                 _state.update { it.copy(
                     items = todos
@@ -132,6 +152,13 @@ class MainListScreenViewModel(
             ) }
             cachedCategories = categories
         }
+    }
+
+
+    private fun onSelectedDateChange(date: LocalDate) {
+        _state.update { it.copy(
+            selectedDate = date
+        ) }
     }
 
     private fun onAlarmChanged(alarmOn: Boolean){
@@ -153,6 +180,7 @@ class MainListScreenViewModel(
     }
 
     private fun onDueDateChanged(dueDate: LocalDateTime){
+        Timber.d("Date $dueDate")
         _state.update { it.copy(
             dueDate = dueDate
         ) }

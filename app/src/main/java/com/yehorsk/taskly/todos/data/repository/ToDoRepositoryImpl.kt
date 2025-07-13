@@ -1,8 +1,8 @@
 package com.yehorsk.taskly.todos.data.repository
 
 import com.yehorsk.taskly.todos.data.database.dao.ToDoDao
+import com.yehorsk.taskly.todos.data.database.models.ToDoWithCategoryColor
 import com.yehorsk.taskly.todos.domain.models.CategorySummary
-import com.yehorsk.taskly.todos.data.database.models.ToDoEntity
 import com.yehorsk.taskly.todos.data.mappers.toToDo
 import com.yehorsk.taskly.todos.data.mappers.toToDoEntity
 import com.yehorsk.taskly.todos.domain.models.ToDo
@@ -18,8 +18,8 @@ class ToDoRepositoryImpl(
         return toDoDao.getCategorySummaries()
     }
 
-    override fun getTodos(): Flow<List<ToDo>> {
-        return toDoDao.getTodos().map { data ->
+    override fun getTodos(date: String): Flow<List<ToDo>> {
+        return toDoDao.getTodos(date).map { data ->
             data.map {
                 it.toToDo()
             }

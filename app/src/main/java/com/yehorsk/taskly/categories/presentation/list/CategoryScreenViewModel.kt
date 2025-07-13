@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.yehorsk.taskly.categories.domain.models.Category
 import com.yehorsk.taskly.categories.domain.models.CategoryMain
 import com.yehorsk.taskly.categories.domain.repository.CategoryRepository
+import com.yehorsk.taskly.core.utils.AddEditAction
 import com.yehorsk.taskly.core.utils.brightColors
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -60,7 +61,9 @@ class CategoryScreenViewModel(
         _state.update { it.copy(
             selectedCategory = category,
             title = category.title,
-            color = category.bgColor
+            color = category.bgColor,
+            showAddCategoryDialog = true,
+            action = AddEditAction.EDIT
         ) }
     }
 
@@ -78,14 +81,16 @@ class CategoryScreenViewModel(
 
     private fun hideCategoryDialog() {
         _state.update { it.copy(
-            showAddCategoryDialog = false
+            showAddCategoryDialog = false,
+            action = AddEditAction.ADD
         ) }
         clearState()
     }
 
     private fun showCategoryDialog() {
         _state.update { it.copy(
-            showAddCategoryDialog = true
+            showAddCategoryDialog = true,
+            action = AddEditAction.ADD
         ) }
     }
 
@@ -106,6 +111,7 @@ class CategoryScreenViewModel(
     private fun deleteCategory() {
         viewModelScope.launch {
             repository.deleteCategory(_state.value.selectedCategory!!)
+            hideCategoryDialog()
         }
     }
 
@@ -125,12 +131,13 @@ class CategoryScreenViewModel(
 
     private fun updateCategory() {
         viewModelScope.launch {
-            repository.insertCategory(
+            repository.updateCategory(
                 Category(
                     id = _state.value.selectedCategory!!.id,
                     title = _state.value.title,
                     bgColor = _state.value.color,
-                    createdAt = LocalDateTime.now(),                )
+                    createdAt = _state.value.selectedCategory!!.createdAt,
+                    )
             )
             hideCategoryDialog()
             clearState()

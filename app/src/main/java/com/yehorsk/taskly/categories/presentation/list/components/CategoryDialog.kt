@@ -15,6 +15,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -35,27 +37,24 @@ import androidx.compose.ui.window.Dialog
 import com.yehorsk.taskly.ui.theme.TasklyTheme
 import com.yehorsk.taskly.R
 import com.yehorsk.taskly.categories.utils.toColor
+import com.yehorsk.taskly.core.utils.AddEditAction
 import com.yehorsk.taskly.core.utils.brightColors
-
-sealed interface CategoryAction{
-    data object Insert: CategoryAction
-    data object Update: CategoryAction
-}
 
 @Composable
 fun CategoryDialog(
     categoryTitle: String,
     categoryColor: Long,
     allowSubmit: Boolean,
-    action: CategoryAction,
+    action: AddEditAction,
     onTitleChange: (String) -> Unit,
     onColorChange: (Long) -> Unit,
     onButtonClick: () -> Unit,
+    onDeleteClick: () -> Unit,
     onHide: () -> Unit
 ){
     val (title, button) = when(action){
-        CategoryAction.Insert -> Pair(R.string.add_category,R.string.save)
-        CategoryAction.Update -> Pair(R.string.update_category,R.string.update)
+        AddEditAction.ADD -> Pair(R.string.add_category,R.string.save)
+        AddEditAction.EDIT -> Pair(R.string.update_category,R.string.update)
     }
 
     Dialog(
@@ -154,7 +153,7 @@ fun CategoryDialog(
                     modifier = Modifier
                         .padding(
                             top = 4.dp,
-                            bottom = 16.dp,
+                            bottom = 8.dp,
                             start = 16.dp,
                             end = 16.dp
                         )
@@ -168,6 +167,27 @@ fun CategoryDialog(
                     onClick = { onButtonClick() },
                     enabled = allowSubmit
                 )
+                if(action == AddEditAction.EDIT){
+                    Button(
+                        modifier = Modifier
+                            .padding(
+                                bottom = 16.dp,
+                                start = 16.dp,
+                                end = 16.dp
+                            )
+                            .fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFEF5350)
+                        ),
+                        content = {
+                            Text(
+                                text = stringResource(R.string.delete),
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        },
+                        onClick = { onDeleteClick() }
+                    )
+                }
             }
         }
     }
@@ -182,10 +202,11 @@ fun CategoryDialogPreview(){
             allowSubmit = false,
             onTitleChange = {},
             onButtonClick = {},
+            onDeleteClick = {},
             onHide = {},
             categoryColor = brightColors[0],
             onColorChange = {},
-            action = CategoryAction.Insert
+            action = AddEditAction.ADD
         )
     }
 }

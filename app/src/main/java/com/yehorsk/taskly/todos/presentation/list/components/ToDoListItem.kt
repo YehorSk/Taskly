@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
@@ -33,6 +35,7 @@ import com.yehorsk.taskly.categories.utils.getTime
 import com.yehorsk.taskly.todos.domain.models.ToDo
 import com.yehorsk.taskly.ui.theme.TasklyTheme
 import com.yehorsk.taskly.R
+import com.yehorsk.taskly.categories.utils.toColor
 import java.time.LocalDateTime
 
 @Composable
@@ -59,7 +62,7 @@ fun ToDoListItem(
             Icon(
                 modifier = Modifier
                     .padding(16.dp),
-                tint = Color(0xFF9C27B0),
+                tint = todo.bgColor!!.toColor(),
                 imageVector = if(todo.isDone){
                     Icons.Default.CheckCircle
                 }else Icons.Default.RadioButtonUnchecked,
@@ -97,7 +100,7 @@ fun ToDoListItem(
                         end = 16.dp,
                         bottom = 16.dp
                     )
-                    .background(Color(0xFF9C27B0))
+                    .background(todo.bgColor.toColor())
             )
         }
     }

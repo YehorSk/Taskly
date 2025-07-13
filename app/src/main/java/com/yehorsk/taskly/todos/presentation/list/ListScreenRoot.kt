@@ -7,11 +7,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.yehorsk.taskly.todos.domain.models.ToDo
+import com.yehorsk.taskly.todos.presentation.list.components.CustomDatePicker
 import com.yehorsk.taskly.todos.presentation.list.components.ToDoList
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun TodayListScreenRoot(
+fun ListScreenRoot(
     modifier: Modifier = Modifier,
     viewModel: MainListScreenViewModel,
     onItemClick: (ToDo) -> Unit
@@ -22,7 +22,13 @@ fun TodayListScreenRoot(
     TodayListScreen(
         modifier = modifier,
         state = state,
-        onItemClick = { onItemClick(it) }
+        onAction = { action ->
+            when(action){
+                is MainListScreenAction.OnItemClick -> { onItemClick(action.todo) }
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        }
     )
 }
 
@@ -30,16 +36,20 @@ fun TodayListScreenRoot(
 fun TodayListScreen(
     modifier: Modifier = Modifier,
     state: MainListScreenUiState,
-    onItemClick: (ToDo) -> Unit
+    onAction: (MainListScreenAction) -> Unit
 ){
     Column(
         modifier = modifier
             .fillMaxSize(),
     ) {
+        CustomDatePicker(
+            selectedDate = state.selectedDate,
+            onDateChange = { onAction(MainListScreenAction.OnSelectedDateChanged(it)) }
+        )
         ToDoList(
             modifier = Modifier.fillMaxSize(),
             items = state.items,
-            onItemClick = { onItemClick(it) }
+            onItemClick = { onAction(MainListScreenAction.OnItemClick(it)) }
         )
     }
 }
