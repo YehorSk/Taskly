@@ -10,6 +10,8 @@ interface ToDoRepository {
 
     fun getTodos(date: String): Flow<List<ToDo>>
 
+    suspend fun getTodosSuspend(): List<ToDo>
+
     suspend fun getToDoById(id: String): ToDo
 
     suspend fun insertTodo(toDoEntity: ToDo)

@@ -1,7 +1,7 @@
 package com.yehorsk.taskly.todos.data.repository
 
+import com.yehorsk.taskly.core.domain.alarm.AlarmScheduler
 import com.yehorsk.taskly.todos.data.database.dao.ToDoDao
-import com.yehorsk.taskly.todos.data.database.models.ToDoWithCategoryColor
 import com.yehorsk.taskly.todos.domain.models.CategorySummary
 import com.yehorsk.taskly.todos.data.mappers.toToDo
 import com.yehorsk.taskly.todos.data.mappers.toToDoEntity
@@ -9,9 +9,11 @@ import com.yehorsk.taskly.todos.domain.models.ToDo
 import com.yehorsk.taskly.todos.domain.repository.ToDoRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlin.collections.map
 
 class ToDoRepositoryImpl(
-    val toDoDao: ToDoDao
+    val toDoDao: ToDoDao,
+    val alarmScheduler: AlarmScheduler
 ): ToDoRepository {
 
     override suspend fun getCategorySummaries(): List<CategorySummary> {
@@ -26,11 +28,16 @@ class ToDoRepositoryImpl(
         }
     }
 
+    override suspend fun getTodosSuspend(): List<ToDo> {
+        return toDoDao.getTodosSuspend().map { it.toToDo() }
+    }
+
     override suspend fun getToDoById(id: String): ToDo {
         return toDoDao.getToDoById(id).toToDo()
     }
 
     override suspend fun insertTodo(toDo: ToDo) {
+        alarmScheduler.schedule(toDo)
         return toDoDao.insertTodo(toDo.toToDoEntity())
     }
 
