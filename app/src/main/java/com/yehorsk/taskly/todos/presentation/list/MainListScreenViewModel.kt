@@ -2,6 +2,7 @@ package com.yehorsk.taskly.todos.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yehorsk.taskly.core.domain.onSuccess
 import com.yehorsk.taskly.core.utils.AddEditAction
 import com.yehorsk.taskly.todos.domain.models.CategorySummary
 import com.yehorsk.taskly.todos.domain.models.ToDo
@@ -55,7 +56,7 @@ class MainListScreenViewModel(
             is MainListScreenAction.OnSelectedCategoryChange -> onCategoryChanged(action.category)
             is MainListScreenAction.OnAlarmChanged -> onAlarmChanged(action.alarmOn)
             is MainListScreenAction.OnSelectedDateChanged -> {
-                onSelectedDateChange(action.date)
+                onSelectedDateClick(action.date)
             }
             is MainListScreenAction.OnIsDoneClicked -> TODO()
             MainListScreenAction.OnSaveClicked -> insertToDo()
@@ -65,12 +66,28 @@ class MainListScreenViewModel(
             MainListScreenAction.OnShowDateTimePicker -> onShowDateTimePicker()
             is MainListScreenAction.OnItemClick -> {}
             MainListScreenAction.OnGoBackClicked -> {}
+            MainListScreenAction.OnAddNewToDoClicked -> onAddNewToDoClicked()
+        }
+    }
+
+    private fun onAddNewToDoClicked() {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                currentToDo = null,
+                title = "",
+                description = "",
+                selectedCategory = null,
+                dueDate = LocalDate.now().atTime(23, 59),
+                alarmOn = false,
+                action = AddEditAction.ADD
+            )
         }
     }
 
     init {
         viewModelScope.launch {
-            _state.map { it.selectedDate }
+            _state.map { it.selectedDates }
                 .distinctUntilChanged()
                 .collectLatest { selectedDate ->
                     observeToDos()
@@ -80,17 +97,22 @@ class MainListScreenViewModel(
 
     private fun getToDoById(id: Int) {
         viewModelScope.launch {
-            val todo = toDoRepository.getToDoById(id.toString())
             _state.update { it.copy(
-                currentToDo = todo,
-                title = todo.title,
-                description = todo.description ?: "",
-                selectedCategory = todo.categoryId,
-                dueDate = todo.dueDate,
-                alarmOn = todo.alarmOn,
-                action = AddEditAction.EDIT,
-                isLoading = false
+                isLoading = true
             ) }
+            toDoRepository.getToDoById(id.toString())
+                .onSuccess { todo ->
+                    _state.update { it.copy(
+                        currentToDo = todo,
+                        title = todo.title,
+                        description = todo.description ?: "",
+                        selectedCategory = todo.categoryId,
+                        dueDate = todo.dueDate!!,
+                        alarmOn = todo.alarmOn,
+                        action = AddEditAction.EDIT,
+                        isLoading = false
+                    ) }
+                }
         }
     }
 
@@ -134,7 +156,7 @@ class MainListScreenViewModel(
     private fun observeToDos(){
         todoJob?.cancel()
         todoJob = toDoRepository
-            .getTodos(date = _state.value.selectedDate.toString())
+            .getTodos(dates = _state.value.selectedDates)
             .onEach { todos ->
                 _state.update { it.copy(
                     items = todos
@@ -155,10 +177,15 @@ class MainListScreenViewModel(
     }
 
 
-    private fun onSelectedDateChange(date: LocalDate) {
-        _state.update { it.copy(
-            selectedDate = date
-        ) }
+    private fun onSelectedDateClick(date: LocalDate) {
+        _state.update {
+            val newDates = if (date in it.selectedDates) {
+                it.selectedDates - date
+            } else {
+                it.selectedDates + date
+            }
+            it.copy(selectedDates = newDates)
+        }
     }
 
     private fun onAlarmChanged(alarmOn: Boolean){

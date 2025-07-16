@@ -27,11 +27,11 @@ import java.time.LocalDate
 
 @Composable
 fun CustomDatePicker(
-    selectedDate: LocalDate,
+    selectedDates: List<LocalDate>,
     onDateChange: (LocalDate) -> Unit
 ){
-    val startDate = remember { selectedDate.minusDays(100) }
-    val endDate = remember { selectedDate.plusDays(100) }
+    val startDate = remember { LocalDate.now().minusDays(100) }
+    val endDate = remember { LocalDate.now().plusDays(100) }
     val firstDayOfWeek = remember { firstDayOfWeekFromLocale() }
     val weekState = rememberWeekCalendarState(
         startDate = startDate,
@@ -48,7 +48,7 @@ fun CustomDatePicker(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "${selectedDate.dayOfMonth} ${selectedDate.month}",
+                text = "Open Full Calendar",
                 style = MaterialTheme.typography.titleLarge
             )
             Spacer(modifier = Modifier.width(4.dp))
@@ -64,7 +64,7 @@ fun CustomDatePicker(
             dayContent = { day ->
                 WeekDayComponent(
                     day = day,
-                    isSelected = selectedDate == day.date,
+                    isSelected = (day.date in selectedDates) ,
                     onClick = { onDateChange(it) }
                 )
             }
@@ -80,7 +80,7 @@ fun CustomDatePicker(
 fun CustomDatePickerPreview(){
     TasklyTheme {
         CustomDatePicker(
-            selectedDate = LocalDate.now()
+            selectedDates = emptyList()
         ) { }
     }
 }

@@ -87,7 +87,7 @@ fun AddEditToDoScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        if(state.action == AddEditAction.EDIT && state.isLoading){
+        if(state.isLoading){
             Box(
                 contentAlignment = Alignment.Center
             ){

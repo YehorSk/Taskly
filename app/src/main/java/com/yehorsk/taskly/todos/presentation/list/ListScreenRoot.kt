@@ -43,7 +43,7 @@ fun TodayListScreen(
             .fillMaxSize(),
     ) {
         CustomDatePicker(
-            selectedDate = state.selectedDate,
+            selectedDates = state.selectedDates,
             onDateChange = { onAction(MainListScreenAction.OnSelectedDateChanged(it)) }
         )
         ToDoList(

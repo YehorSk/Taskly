@@ -36,4 +36,6 @@ sealed interface MainListScreenAction {
 
     data object OnHideDateTimePicker: MainListScreenAction
 
+    data object OnAddNewToDoClicked: MainListScreenAction
+
 }

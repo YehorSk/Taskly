@@ -77,6 +77,8 @@ fun NavigationRoot(
             LaunchedEffect(args.id) {
                 if(args.id != null){
                     viewModel.onAction(MainListScreenAction.OnGetToDoById(args.id.toInt()))
+                }else{
+                    viewModel.onAction(MainListScreenAction.OnAddNewToDoClicked)
                 }
             }
             AddEditToDoScreenRoot(

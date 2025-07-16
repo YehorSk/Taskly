@@ -8,8 +8,8 @@ import androidx.room.Update
 import com.yehorsk.taskly.todos.domain.models.CategorySummary
 import com.yehorsk.taskly.todos.data.database.models.ToDoEntity
 import com.yehorsk.taskly.todos.data.database.models.ToDoWithCategoryColor
-import com.yehorsk.taskly.todos.domain.models.ToDo
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 @Dao
 interface ToDoDao {
@@ -21,10 +21,18 @@ interface ToDoDao {
         SELECT todo_table.*, category_table.bg_color 
         FROM todo_table 
         JOIN category_table ON todo_table.category_id = category_table.id 
-        WHERE date(due_date) = :date 
+        WHERE date(due_date) in (:dates)
         ORDER BY time(due_date) ASC
     """)
-    fun getTodos(date: String): Flow<List<ToDoWithCategoryColor>>
+    fun getTodosByDate(dates: List<LocalDate>): Flow<List<ToDoWithCategoryColor>>
+
+    @Query("""
+    SELECT todo_table.*, category_table.bg_color 
+    FROM todo_table 
+    JOIN category_table ON todo_table.category_id = category_table.id 
+    ORDER BY date(due_date) ASC, time(due_date) ASC
+    """)
+    fun getAllTodos(): Flow<List<ToDoWithCategoryColor>>
 
     @Query("SELECT * FROM todo_table")
     suspend fun getTodosSuspend(): List<ToDoEntity>

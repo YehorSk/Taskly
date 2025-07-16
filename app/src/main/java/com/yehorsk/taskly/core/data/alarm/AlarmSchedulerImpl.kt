@@ -49,8 +49,4 @@ class AlarmSchedulerImpl(
         )
     }
 
-    override fun rescheduleAlarms() {
-        TODO("Not yet implemented")
-    }
-
 }
