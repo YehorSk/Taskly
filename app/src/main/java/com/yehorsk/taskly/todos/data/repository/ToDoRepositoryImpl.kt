@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.time.LocalDate
+import java.time.LocalDateTime
 import kotlin.collections.map
 
 class ToDoRepositoryImpl(
@@ -92,7 +93,13 @@ class ToDoRepositoryImpl(
 
     override suspend fun rescheduleAlarms() = withContext(Dispatchers.IO){
         toDoDao.getTodosSuspend()
-            .filter { it.alarmOn }
+            .filter { todo ->
+                todo.alarmOn && todo.dueDate?.isAfter(LocalDateTime.now()) == true
+            }
             .forEach { alarmScheduler.schedule(it.toToDo()) }
+    }
+
+    override suspend fun onDone(id: String) {
+        toDoDao.onDone(id)
     }
 }

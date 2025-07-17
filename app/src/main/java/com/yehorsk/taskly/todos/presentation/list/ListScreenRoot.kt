@@ -49,7 +49,8 @@ fun TodayListScreen(
         ToDoList(
             modifier = Modifier.fillMaxSize(),
             items = state.items,
-            onItemClick = { onAction(MainListScreenAction.OnItemClick(it)) }
+            onItemClick = { onAction(MainListScreenAction.OnItemClick(it)) },
+            onIsDoneClick = { onAction(MainListScreenAction.OnIsDoneClicked(it))  }
         )
     }
 }

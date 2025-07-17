@@ -26,4 +26,5 @@ interface ToDoRepository {
 
     suspend fun rescheduleAlarms()
 
+    suspend fun onDone(id: String)
 }

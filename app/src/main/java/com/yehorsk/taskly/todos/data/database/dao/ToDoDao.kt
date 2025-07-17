@@ -49,4 +49,7 @@ interface ToDoDao {
     @Delete
     suspend fun deleteTodo(toDoEntity: ToDoEntity)
 
+    @Query("UPDATE todo_table SET is_done = 1 WHERE id = :id")
+    suspend fun onDone(id: String)
+
 }

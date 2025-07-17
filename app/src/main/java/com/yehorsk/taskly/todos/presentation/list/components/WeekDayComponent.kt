@@ -30,11 +30,13 @@ fun WeekDayComponent(
     isSelected: Boolean = false,
     onClick: (LocalDate) -> Unit
 ) {
+
     val textColor = if (isSelected) {
         MaterialTheme.colorScheme.onPrimary
     } else {
         MaterialTheme.colorScheme.onBackground
     }
+
     val isPastDate = day.date.isBefore(LocalDate.now())
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -65,12 +67,12 @@ fun WeekDayComponent(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = day.date.dayOfMonth.toString(),
-                color = textColor
+                text = day.date.dayOfWeek.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.getDefault()),
+                color = textColor,
             )
             Text(
-                text = day.date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault()),
-                color = textColor,
+                text = day.date.dayOfMonth.toString(),
+                color = textColor
             )
         }
     }

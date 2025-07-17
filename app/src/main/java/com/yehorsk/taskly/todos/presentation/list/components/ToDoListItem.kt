@@ -11,10 +11,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicText
-import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
@@ -25,9 +24,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,7 +41,8 @@ import java.time.LocalDateTime
 fun ToDoListItem(
     modifier: Modifier = Modifier,
     todo: ToDo,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onDoneClick: () -> Unit
 ){
     Surface(
         modifier = modifier
@@ -59,15 +59,25 @@ fun ToDoListItem(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
+            Box(
                 modifier = Modifier
-                    .padding(16.dp),
-                tint = todo.bgColor!!.toColor(),
-                imageVector = if(todo.isDone){
-                    Icons.Default.CheckCircle
-                }else Icons.Default.RadioButtonUnchecked,
-                contentDescription = null
-            )
+                    .fillMaxHeight()
+                    .width(62.dp)
+                    .clickable{
+                        onDoneClick()
+                    },
+                contentAlignment = Alignment.Center
+            ){
+                Icon(
+                    modifier = Modifier
+                        .size(32.dp),
+                    tint = todo.bgColor!!.toColor(),
+                    imageVector = if(todo.isDone){
+                        Icons.Default.CheckCircle
+                    }else Icons.Default.RadioButtonUnchecked,
+                    contentDescription = null
+                )
+            }
             Column(
                 modifier = Modifier
                     .padding(
@@ -79,6 +89,7 @@ fun ToDoListItem(
             ) {
                 Text(
                     text = todo.title,
+                    textDecoration = if(todo.isDone) TextDecoration.LineThrough else null,
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
@@ -87,6 +98,7 @@ fun ToDoListItem(
                 Text(
                     modifier = Modifier
                         .padding(top = 8.dp),
+                    textDecoration = if(todo.isDone) TextDecoration.LineThrough else null,
                     text = todo.dueDate?.getTime() ?: stringResource(R.string.anytime),
                     style = MaterialTheme.typography.bodyLarge
                 )
@@ -100,7 +112,7 @@ fun ToDoListItem(
                         end = 16.dp,
                         bottom = 16.dp
                     )
-                    .background(todo.bgColor.toColor())
+                    .background(todo.bgColor!!.toColor())
             )
         }
     }
@@ -117,9 +129,10 @@ fun ToDoListItemPreview(){
         createdAt = LocalDateTime.now(),
         title = "Finish Jetpack Compose homework",
         description = "Review Room integration and AlarmManager usage",
-        isDone = false,
+        isDone = true,
         dueDate = LocalDateTime.now(),
-        categoryId = 0
+        categoryId = 0,
+        bgColor = 0xFFFFB300
     )
     TasklyTheme {
         Column(
@@ -130,7 +143,8 @@ fun ToDoListItemPreview(){
         ) {
             ToDoListItem(
                 todo = fakeToDo,
-                onClick = {}
+                onClick = {},
+                onDoneClick = {}
             )
         }
     }

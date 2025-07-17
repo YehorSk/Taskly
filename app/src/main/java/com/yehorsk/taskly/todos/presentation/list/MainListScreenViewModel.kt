@@ -58,7 +58,7 @@ class MainListScreenViewModel(
             is MainListScreenAction.OnSelectedDateChanged -> {
                 onSelectedDateClick(action.date)
             }
-            is MainListScreenAction.OnIsDoneClicked -> TODO()
+            is MainListScreenAction.OnIsDoneClicked -> onDoneClicked(action.todo.id.toString())
             MainListScreenAction.OnSaveClicked -> insertToDo()
             MainListScreenAction.OnUpdateClicked -> updateToDo()
             MainListScreenAction.OnDeleteClicked -> deleteToDo()
@@ -113,6 +113,12 @@ class MainListScreenViewModel(
                         isLoading = false
                     ) }
                 }
+        }
+    }
+
+    private fun onDoneClicked(id: String) {
+        viewModelScope.launch {
+            toDoRepository.onDone(id)
         }
     }
 

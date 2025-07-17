@@ -16,7 +16,8 @@ import com.yehorsk.taskly.ui.theme.TasklyTheme
 fun ToDoList(
     modifier: Modifier = Modifier,
     items: List<ToDo>,
-    onItemClick: (ToDo) -> Unit
+    onItemClick: (ToDo) -> Unit,
+    onIsDoneClick: (ToDo) -> Unit,
 ){
     LazyColumn(
         modifier = modifier
@@ -26,7 +27,8 @@ fun ToDoList(
         items(items = items, key = { it.id }){ todo ->
             ToDoListItem(
                 todo = todo,
-                onClick = { onItemClick(todo) }
+                onClick = { onItemClick(todo) },
+                onDoneClick = { onIsDoneClick(todo) },
             )
         }
     }
@@ -39,7 +41,8 @@ fun ToDoListPreview(){
     TasklyTheme {
         ToDoList(
             items = sampleToDos,
-            onItemClick = {}
+            onItemClick = {},
+            onIsDoneClick = {}
         )
     }
 }
