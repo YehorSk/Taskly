@@ -38,4 +38,6 @@ sealed interface MainListScreenAction {
 
     data object OnAddNewToDoClicked: MainListScreenAction
 
+    data object OnFullCalendarClicked: MainListScreenAction
+
 }

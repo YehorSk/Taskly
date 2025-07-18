@@ -1,5 +1,6 @@
 package com.yehorsk.taskly.todos.domain.models
 
+import com.yehorsk.taskly.core.utils.UiText
 import java.time.LocalDateTime
 
 
@@ -15,4 +16,9 @@ data class ToDo(
     val bgColor: Long? = null,
 )
 
-val sampleToDos = emptyList<ToDo>()
+data class SectionedToDo(
+    val date: UiText,
+    val todos: List<ToDo>
+)
+
+val sampleToDos = emptyList<SectionedToDo>()

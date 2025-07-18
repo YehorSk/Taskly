@@ -24,7 +24,7 @@ interface ToDoRepository {
 
     suspend fun deleteTodo(toDoEntity: ToDo): EmptyResult<DataError.Local>
 
-    suspend fun rescheduleAlarms()
+    suspend fun onDone(todo: ToDo): EmptyResult<DataError.Local>
 
-    suspend fun onDone(id: String)
+    suspend fun rescheduleAlarms()
 }

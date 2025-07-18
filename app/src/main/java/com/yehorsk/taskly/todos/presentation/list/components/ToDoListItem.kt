@@ -90,7 +90,7 @@ fun ToDoListItem(
                 Text(
                     text = todo.title,
                     textDecoration = if(todo.isDone) TextDecoration.LineThrough else null,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -100,7 +100,7 @@ fun ToDoListItem(
                         .padding(top = 8.dp),
                     textDecoration = if(todo.isDone) TextDecoration.LineThrough else null,
                     text = todo.dueDate?.getTime() ?: stringResource(R.string.anytime),
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodySmall
                 )
             }
             Box(
@@ -129,7 +129,7 @@ fun ToDoListItemPreview(){
         createdAt = LocalDateTime.now(),
         title = "Finish Jetpack Compose homework",
         description = "Review Room integration and AlarmManager usage",
-        isDone = true,
+        isDone = false,
         dueDate = LocalDateTime.now(),
         categoryId = 0,
         bgColor = 0xFFFFB300

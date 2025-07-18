@@ -44,11 +44,13 @@ fun TodayListScreen(
     ) {
         CustomDatePicker(
             selectedDates = state.selectedDates,
-            onDateChange = { onAction(MainListScreenAction.OnSelectedDateChanged(it)) }
+            fullCalendar = state.openFullCalendar,
+            onDateChange = { onAction(MainListScreenAction.OnSelectedDateChanged(it)) },
+            onFullCalendarClick = { onAction(MainListScreenAction.OnFullCalendarClicked) }
         )
         ToDoList(
             modifier = Modifier.fillMaxSize(),
-            items = state.items,
+            items = state.sectionedToDos,
             onItemClick = { onAction(MainListScreenAction.OnItemClick(it)) },
             onIsDoneClick = { onAction(MainListScreenAction.OnIsDoneClicked(it))  }
         )

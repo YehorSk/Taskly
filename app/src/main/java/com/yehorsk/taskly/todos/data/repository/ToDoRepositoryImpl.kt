@@ -99,7 +99,14 @@ class ToDoRepositoryImpl(
             .forEach { alarmScheduler.schedule(it.toToDo()) }
     }
 
-    override suspend fun onDone(id: String) {
-        toDoDao.onDone(id)
+    override suspend fun onDone(todo: ToDo): EmptyResult<DataError.Local> {
+        return try{
+            toDoDao.onDone(todo.id.toString())
+            Result.Success(Unit)
+        }catch (e: SQLiteException){
+            Result.Error(DataError.Local.DISK_FULL)
+        }.onSuccess {
+            alarmScheduler.cancel(todo)
+        }
     }
 }

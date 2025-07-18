@@ -4,14 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yehorsk.taskly.core.domain.onSuccess
 import com.yehorsk.taskly.core.utils.AddEditAction
+import com.yehorsk.taskly.core.utils.UiText
 import com.yehorsk.taskly.todos.domain.models.CategorySummary
 import com.yehorsk.taskly.todos.domain.models.ToDo
 import com.yehorsk.taskly.todos.domain.repository.ToDoRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -22,6 +26,9 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import com.yehorsk.taskly.R
 
 class MainListScreenViewModel(
     private val toDoRepository: ToDoRepository
@@ -55,18 +62,21 @@ class MainListScreenViewModel(
             is MainListScreenAction.OnTitleChanged -> onTitleChanged(action.title)
             is MainListScreenAction.OnSelectedCategoryChange -> onCategoryChanged(action.category)
             is MainListScreenAction.OnAlarmChanged -> onAlarmChanged(action.alarmOn)
-            is MainListScreenAction.OnSelectedDateChanged -> {
-                onSelectedDateClick(action.date)
-            }
-            is MainListScreenAction.OnIsDoneClicked -> onDoneClicked(action.todo.id.toString())
+            is MainListScreenAction.OnSelectedDateChanged -> onSelectedDateClick(action.date)
+            is MainListScreenAction.OnIsDoneClicked -> onDoneClicked(action.todo)
+            is MainListScreenAction.OnItemClick -> {}
             MainListScreenAction.OnSaveClicked -> insertToDo()
             MainListScreenAction.OnUpdateClicked -> updateToDo()
             MainListScreenAction.OnDeleteClicked -> deleteToDo()
             MainListScreenAction.OnHideDateTimePicker -> onHideDateTimePicker()
             MainListScreenAction.OnShowDateTimePicker -> onShowDateTimePicker()
-            is MainListScreenAction.OnItemClick -> {}
-            MainListScreenAction.OnGoBackClicked -> {}
             MainListScreenAction.OnAddNewToDoClicked -> onAddNewToDoClicked()
+            MainListScreenAction.OnGoBackClicked -> {}
+            MainListScreenAction.OnFullCalendarClicked -> {
+                _state.update { it.copy(
+                    openFullCalendar = !_state.value.openFullCalendar
+                ) }
+            }
         }
     }
 
@@ -116,9 +126,9 @@ class MainListScreenViewModel(
         }
     }
 
-    private fun onDoneClicked(id: String) {
+    private fun onDoneClicked(todo: ToDo) {
         viewModelScope.launch {
-            toDoRepository.onDone(id)
+            toDoRepository.onDone(todo)
         }
     }
 
@@ -163,13 +173,43 @@ class MainListScreenViewModel(
         todoJob?.cancel()
         todoJob = toDoRepository
             .getTodos(dates = _state.value.selectedDates)
+            .groupByRelativeDate()
             .onEach { todos ->
                 _state.update { it.copy(
                     items = todos
                 ) }
             }
+            .flowOn(Dispatchers.Default)
             .launchIn(viewModelScope)
     }
+
+    private fun Flow<List<ToDo>>.groupByRelativeDate(): Flow<Map<UiText, List<ToDo>>> {
+        val formatter = DateTimeFormatter.ofPattern("dd MMM")
+        val today = LocalDate.now()
+        return map{ todos ->
+            todos
+                .groupBy { todo ->
+                    LocalDateTime.ofInstant(
+                        todo.dueDate!!.atZone(ZoneId.systemDefault()).toInstant(),
+                        ZoneId.systemDefault()
+                    )
+                }
+                .mapValues { (_, todos) ->
+                    todos.sortedBy { it.dueDate }
+                }
+                .toSortedMap(compareBy { it })
+                .mapKeys { (dateTime, _) ->
+                    val date = dateTime.toLocalDate()
+                    when(date){
+                        today -> UiText.StringResource(R.string.today)
+                        today.plusDays(1) -> UiText.StringResource(R.string.tomorrow)
+                        today.minusDays(1) -> UiText.StringResource(R.string.yesterday)
+                        else -> UiText.DynamicString(date.format(formatter))
+                    }
+                }
+        }
+    }
+
 
     private fun fetchCategories(){
         viewModelScope.launch {
