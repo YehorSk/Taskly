@@ -23,4 +23,8 @@ val databaseModule = module {
         get<TasklyDatabase>().todoDao
     }
 
+    single {
+        get<TasklyDatabase>().noteDao
+    }
+
 }

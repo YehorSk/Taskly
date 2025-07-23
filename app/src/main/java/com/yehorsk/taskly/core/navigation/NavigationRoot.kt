@@ -14,7 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.yehorsk.taskly.categories.presentation.list.CategoryScreenRoot
 import com.yehorsk.taskly.todos.presentation.add_edit_todo.AddEditToDoScreenRoot
-import com.yehorsk.taskly.todos.presentation.list.MainListScreen
+import com.yehorsk.taskly.todos.presentation.list.MainListScreenRoot
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenAction
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenViewModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -38,7 +38,7 @@ fun NavigationRoot(
         composable(
             route = Route.ToDos.route
         ) {
-            MainListScreen(
+            MainListScreenRoot(
                 modifier = modifier,
                 onItemClick = { id -> navController.navigate(Route.AddEditTodo(id = id.toString())) }
             )

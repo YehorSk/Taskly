@@ -1,6 +1,8 @@
 package com.yehorsk.taskly.todos.presentation.list.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,7 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -33,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import com.yehorsk.taskly.categories.utils.getTime
 import com.yehorsk.taskly.todos.domain.models.ToDo
 import com.yehorsk.taskly.ui.theme.TasklyTheme
-import com.yehorsk.taskly.R
 import com.yehorsk.taskly.categories.utils.toColor
 import java.time.LocalDateTime
 
@@ -44,13 +45,15 @@ fun ToDoListItem(
     onClick: () -> Unit,
     onDoneClick: () -> Unit
 ){
+    val isOverDue = if (todo.dueDate!!.isBefore(LocalDateTime.now()) && !todo.isDone) Color.Red else Color.Transparent
     Surface(
         modifier = modifier
             .fillMaxWidth()
             .clickable{ onClick() }
             .padding(start = 8.dp, end = 8.dp),
         shadowElevation = 3.dp,
-        shape = RoundedCornerShape(18.dp),
+        border = BorderStroke(2.dp, isOverDue),
+        shape = RoundedCornerShape(18.dp)
     ){
         Row(
             modifier = Modifier
@@ -89,8 +92,12 @@ fun ToDoListItem(
             ) {
                 Text(
                     text = todo.title,
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        color = MaterialTheme.typography.headlineSmall.color.copy(
+                            alpha = if (todo.isDone) 0.5f else 1f
+                        )
+                    ),
                     textDecoration = if(todo.isDone) TextDecoration.LineThrough else null,
-                    style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -99,8 +106,13 @@ fun ToDoListItem(
                     modifier = Modifier
                         .padding(top = 8.dp),
                     textDecoration = if(todo.isDone) TextDecoration.LineThrough else null,
-                    text = todo.dueDate?.getTime() ?: stringResource(R.string.anytime),
-                    style = MaterialTheme.typography.bodySmall
+                    text = todo.dueDate.getTime(),
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = MaterialTheme.typography.headlineSmall.color.copy(
+                            alpha = if (todo.isDone) 0.5f else 1f
+                        )
+                    )
+
                 )
             }
             Box(
@@ -130,8 +142,40 @@ fun ToDoListItemPreview(){
         title = "Finish Jetpack Compose homework",
         description = "Review Room integration and AlarmManager usage",
         isDone = false,
-        dueDate = LocalDateTime.now(),
+        dueDate = LocalDateTime.now().plusDays(1),
         categoryId = 0,
+        bgColor = 0xFFFFB300
+    )
+    TasklyTheme {
+        Column(
+            modifier = Modifier
+                .height(200.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ToDoListItem(
+                todo = fakeToDo,
+                onClick = {},
+                onDoneClick = {}
+            )
+        }
+    }
+}
+
+@Preview(
+    backgroundColor = 0xFFFFFFFF,
+    showBackground = true
+)
+@Composable
+fun ToDoListItemIsDonePreview(){
+    val fakeToDo = ToDo(
+        id = 1,
+        createdAt = LocalDateTime.now(),
+        title = "Finish Jetpack Compose homework",
+        description = "Review Room integration and AlarmManager usage",
+        isDone = true,
+        dueDate = LocalDateTime.now().plusDays(1),
+        categoryId = 1,
         bgColor = 0xFFFFB300
     )
     TasklyTheme {

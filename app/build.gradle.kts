@@ -66,6 +66,9 @@ dependencies {
 
     implementation(libs.timber)
 
+    implementation(libs.gson)
+    implementation(libs.androidx.ui.text.google.fonts)
+
     //Icons
     implementation(libs.androidx.material.icons.extended)
 

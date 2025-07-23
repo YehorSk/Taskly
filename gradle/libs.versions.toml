@@ -17,6 +17,8 @@ kotlinSerialization = "1.9.0"
 kizitonwose_calendar = "2.7.0"
 timber = "5.0.1"
 kmp_date_time_picker = "1.1.0"
+gson = "2.13.1"
+uiTextGoogleFonts = "1.8.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -52,6 +54,10 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 kizitonwose-calendar = { module = "com.kizitonwose.calendar:compose" , version.ref = "kizitonwose_calendar"}
 
 timber = { module = "com.jakewharton.timber:timber" , version.ref = "timber"}
+
+gson = { module = "com.google.code.gson:gson", version.ref = "gson"}
+
+androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

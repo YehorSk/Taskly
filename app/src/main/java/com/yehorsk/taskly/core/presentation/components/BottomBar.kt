@@ -18,7 +18,9 @@ fun BottomBar(
     val bottomBarDestination = items.any { it.route == currentDestination?.route}
 
     if(bottomBarDestination){
-        NavigationBar {
+        NavigationBar(
+
+        ) {
             items.forEach { screen ->
                 AddItem(
                     screen = screen,

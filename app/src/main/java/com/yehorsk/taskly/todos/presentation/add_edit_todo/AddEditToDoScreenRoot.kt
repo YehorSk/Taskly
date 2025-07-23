@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
@@ -36,9 +38,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -118,7 +122,10 @@ fun AddEditToDoScreen(
                         text = stringResource(R.string.your_title),
                         style = MaterialTheme.typography.bodyLarge
                     )
-                }
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done
+                )
             )
             OutlinedTextField(
                 modifier = Modifier
@@ -131,7 +138,10 @@ fun AddEditToDoScreen(
                         text = stringResource(R.string.your_description),
                         style = MaterialTheme.typography.bodyLarge
                     )
-                }
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done
+                )
             )
             Box(
                 modifier = Modifier
@@ -260,7 +270,28 @@ fun AddEditToDoScreen(
                 },
                 enabled = true
             )
-            if(state.action == AddEditAction.EDIT){
+            if(state.action == AddEditAction.EDIT && state.currentToDo != null){
+                Button(
+                    modifier = Modifier
+                        .padding(
+                            bottom = 16.dp,
+                            start = 16.dp,
+                            end = 16.dp
+                        )
+                        .fillMaxWidth(),
+                    shape = RoundedCornerShape(4.dp),
+                    content = {
+                        Text(
+                            text = stringResource(R.string.complete),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    },
+                    enabled = !state.currentToDo.isDone,
+                    onClick = {
+                        onAction(MainListScreenAction.OnIsDoneClicked(todo = state.selectedToDo!!))
+                        onAction(MainListScreenAction.OnGoBackClicked)
+                    }
+                )
                 Button(
                     modifier = Modifier
                         .padding(

@@ -46,7 +46,7 @@ fun WeekDayComponent(
             .padding(2.dp)
             .clip(RoundedCornerShape(16.dp))
             .background(color = when{
-                isSelected -> MaterialTheme.colorScheme.tertiary
+                isSelected -> MaterialTheme.colorScheme.primary
                 isPastDate -> Color.LightGray
                 else -> Color.White
             })

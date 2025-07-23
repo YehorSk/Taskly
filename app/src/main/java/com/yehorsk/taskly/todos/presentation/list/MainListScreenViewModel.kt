@@ -105,6 +105,10 @@ class MainListScreenViewModel(
         }
     }
 
+//    private fun validateForm(): Boolean{
+//        return _state.value.selectedCategory != null &&
+//    }
+
     private fun getToDoById(id: Int) {
         viewModelScope.launch {
             _state.update { it.copy(

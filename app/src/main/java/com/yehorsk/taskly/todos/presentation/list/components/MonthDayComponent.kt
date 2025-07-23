@@ -22,10 +22,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.kizitonwose.calendar.core.CalendarDay
-import com.kizitonwose.calendar.core.WeekDay
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.MonthDay
 import java.time.format.TextStyle
 import java.util.Locale
 
