@@ -14,11 +14,12 @@ data class CheckList(
     val items: List<CheckItem>
 )
 
-@Entity
+@Entity(tableName = "note_table")
 data class NoteEntity(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo("created_at") val createdAt: LocalDateTime,
     @ColumnInfo("title") val title: String,
     @ColumnInfo("description") val description: String? = null,
-    @ColumnInfo("check_list") val checkList: CheckList? = null
+    @ColumnInfo("check_list") val checkList: CheckList? = null,
+    @ColumnInfo(name = "color") val color: Long
 )

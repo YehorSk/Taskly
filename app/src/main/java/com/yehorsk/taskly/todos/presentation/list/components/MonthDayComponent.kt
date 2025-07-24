@@ -35,12 +35,6 @@ fun MonthDayComponent(
     onClick: (LocalDate) -> Unit
 ) {
 
-    val textColor = if (isSelected) {
-        MaterialTheme.colorScheme.onPrimary
-    } else {
-        MaterialTheme.colorScheme.onBackground
-    }
-
     val isPastDate = day.date.isBefore(LocalDate.now())
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -50,7 +44,7 @@ fun MonthDayComponent(
             .padding(2.dp)
             .clip(RoundedCornerShape(16.dp))
             .background(color = when{
-                isSelected -> MaterialTheme.colorScheme.tertiary
+                isSelected -> MaterialTheme.colorScheme.primaryContainer
                 isPastDate -> Color.LightGray
                 else -> Color.White
             })
@@ -71,8 +65,7 @@ fun MonthDayComponent(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = day.date.dayOfMonth.toString(),
-                color = textColor
+                text = day.date.dayOfMonth.toString()
             )
         }
     }

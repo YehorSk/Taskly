@@ -8,5 +8,6 @@ data class Note(
     val createdAt: LocalDateTime,
     val title: String,
     val description: String? = null,
-    val checkList: CheckList? = null
+    val checkList: CheckList? = null,
+    val color: Long
 )

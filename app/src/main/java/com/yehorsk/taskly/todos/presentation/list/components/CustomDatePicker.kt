@@ -137,7 +137,7 @@ fun CustomDatePicker(
 fun CustomDatePickerPreview(){
     TasklyTheme {
         CustomDatePicker(
-            selectedDates = emptyList(),
+            selectedDates = listOf(LocalDate.now(), LocalDate.now().plusDays(1)),
             fullCalendar = false,
             onDateChange = {},
             onFullCalendarClick = {}
