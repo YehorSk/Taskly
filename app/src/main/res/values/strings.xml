@@ -10,6 +10,7 @@
     <string name="choose_color">Choose Color</string>
     <string name="categories">Categories</string>
     <string name="my_tasks">My Tasks</string>
+    <string name="my_notes">My Notes</string>
     <string name="notes">Notes</string>
     <string name="profile">Profile</string>
     <string name="today">Today</string>
@@ -27,4 +28,8 @@
     <string name="alarm">Alarm</string>
     <string name="calendar">Calendar</string>
     <string name="complete">Complete Task</string>
+    <string name="update_note">Update Note</string>
+    <string name="add_note">Add Note</string>
+    <string name="new_note">New Note</string>
+    <string name="add_new_item">+ Add new item</string>
 </resources>

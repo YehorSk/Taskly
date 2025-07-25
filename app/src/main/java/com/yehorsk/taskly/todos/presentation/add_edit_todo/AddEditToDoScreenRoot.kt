@@ -26,6 +26,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -56,6 +57,7 @@ import com.yehorsk.taskly.todos.presentation.add_edit_todo.components.SelectCate
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenAction
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenUiState
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenViewModel
+import com.yehorsk.taskly.ui.theme.TasklyTheme
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -86,23 +88,12 @@ fun AddEditToDoScreen(
     onAction: (MainListScreenAction) -> Unit
 ){
     var expanded by remember { mutableStateOf(false) }
-    Column(
+
+    Scaffold(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
-    ) {
-        if(state.isLoading){
-            Box(
-                contentAlignment = Alignment.Center
-            ){
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
-        }else{
+        topBar = {
             TitleNavBar(
                 title = when(state.action){
                     AddEditAction.ADD -> R.string.new_task
@@ -111,190 +102,166 @@ fun AddEditToDoScreen(
                 onGoBack = { onAction(MainListScreenAction.OnGoBackClicked) },
                 showGoBack = true
             )
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                value = state.title,
-                onValueChange = { onAction(MainListScreenAction.OnTitleChanged(it)) },
-                placeholder = {
-                    Text(
-                        text = stringResource(R.string.your_title),
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done
-                )
-            )
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 16.dp),
-                value = state.description,
-                onValueChange = { onAction(MainListScreenAction.OnDescriptionChanged(it)) },
-                placeholder = {
-                    Text(
-                        text = stringResource(R.string.your_description),
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done
-                )
-            )
-            Box(
-                modifier = Modifier
-                    .height(IntrinsicSize.Min)
-                    .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-            ){
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+        ) {
+            if(state.isLoading){
+                Box(
+                    contentAlignment = Alignment.Center
+                ){
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+            }else{
                 OutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable(enabled = true) { expanded = true },
-                    readOnly = true,
-                    label = { Text(stringResource(R.string.category)) },
-                    value = if(state.selectedCategory == null) {
-                        stringResource(R.string.select)
-                    }else{
-                        state.categories.find { it.id == state.selectedCategory }!!.title
-                    },
-                    onValueChange = {},
-                    trailingIcon = {
-                        val icon = expanded.select(Icons.Filled.ArrowDropUp, Icons.Filled.ArrowDropDown)
-                        Icon(imageVector = icon, "")
-                    },
-                )
-                Surface(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 8.dp)
-                        .clip(MaterialTheme.shapes.extraSmall)
-                        .clickable(enabled = true) { expanded = true },
-                    color = Color.Transparent,
-                ) {  }
-            }
-            Row(
-                modifier = Modifier
-                    .padding(
-                        top = 16.dp,
-                        bottom = 16.dp,
-                        start = 16.dp,
-                        end = 16.dp
-                    ),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(end = 16.dp),
-                    text = stringResource(R.string.due_date),
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Bold
-                )
-                Button(
-                    modifier = Modifier
-                        .wrapContentWidth(),
-                    shape = RoundedCornerShape(4.dp),
-                    content = {
+                        .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                    value = state.title,
+                    onValueChange = { onAction(MainListScreenAction.OnTitleChanged(it)) },
+                    placeholder = {
                         Text(
-                            text = state.dueDate?.formatReadable() ?: stringResource(R.string.anytime),
+                            text = stringResource(R.string.your_title),
                             style = MaterialTheme.typography.bodyLarge
                         )
                     },
-                    onClick = { onAction(MainListScreenAction.OnShowDateTimePicker) }
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done
+                    )
                 )
-            }
-            Row(
-                modifier = Modifier
-                    .padding(
-                        bottom = 16.dp,
-                        start = 16.dp,
-                        end = 16.dp
-                    ),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
+                OutlinedTextField(
                     modifier = Modifier
-                        .padding(end = 16.dp),
-                    text = stringResource(R.string.alarm),
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Bold
-                )
-                Switch(
-                    checked = state.alarmOn,
-                    onCheckedChange = { onAction(MainListScreenAction.OnAlarmChanged(it)) },
-                    thumbContent = if(state.alarmOn){
-                        {
-                            Icon(
-                                imageVector = Icons.Filled.Notifications,
-                                contentDescription = null,
-                                modifier = Modifier.size(SwitchDefaults.IconSize),
-                            )
-                        }
-                    } else {
-                        {
-                            Icon(
-                                imageVector = Icons.Filled.NotificationsNone,
-                                contentDescription = null,
-                                modifier = Modifier.size(SwitchDefaults.IconSize),
-                            )
-                        }
-                    }
-                )
-            }
-            Button(
-                modifier = Modifier
-                    .padding(
-                        top = 16.dp,
-                        bottom = 16.dp,
-                        start = 16.dp,
-                        end = 16.dp
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+                    value = state.description,
+                    onValueChange = { onAction(MainListScreenAction.OnDescriptionChanged(it)) },
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.your_description),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done
                     )
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(4.dp),
-                content = {
-                    Text(
-                        text = when(state.action){
-                            AddEditAction.ADD -> stringResource(R.string.add_task)
-                            AddEditAction.EDIT -> stringResource(R.string.update_task)
+                )
+                Box(
+                    modifier = Modifier
+                        .height(IntrinsicSize.Min)
+                        .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                ){
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable(enabled = true) { expanded = true },
+                        readOnly = true,
+                        label = { Text(stringResource(R.string.category)+"*") },
+                        value = if(state.selectedCategory == null) {
+                            stringResource(R.string.select)
+                        }else{
+                            state.categories.find { it.id == state.selectedCategory }!!.title
                         },
-                        style = MaterialTheme.typography.bodyLarge
+                        onValueChange = {},
+                        trailingIcon = {
+                            val icon = expanded.select(Icons.Filled.ArrowDropUp, Icons.Filled.ArrowDropDown)
+                            Icon(imageVector = icon, "")
+                        },
                     )
-                },
-                onClick = {
-                    when(state.action){
-                        AddEditAction.ADD -> onAction(MainListScreenAction.OnSaveClicked)
-                        AddEditAction.EDIT -> onAction(MainListScreenAction.OnUpdateClicked)
-                    }
-                    onAction(MainListScreenAction.OnGoBackClicked)
-                },
-                enabled = true
-            )
-            if(state.action == AddEditAction.EDIT && state.currentToDo != null){
-                Button(
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 8.dp)
+                            .clip(MaterialTheme.shapes.extraSmall)
+                            .clickable(enabled = true) { expanded = true },
+                        color = Color.Transparent,
+                    ) {  }
+                }
+                Row(
+                    modifier = Modifier
+                        .padding(
+                            top = 16.dp,
+                            bottom = 16.dp,
+                            start = 16.dp,
+                            end = 16.dp
+                        ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(end = 16.dp),
+                        text = stringResource(R.string.due_date),
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Button(
+                        modifier = Modifier
+                            .wrapContentWidth(),
+                        shape = RoundedCornerShape(4.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer
+                        ),
+                        content = {
+                            Text(
+                                text = state.dueDate?.formatReadable() ?: stringResource(R.string.anytime),
+                                style = MaterialTheme.typography.bodyLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
+                            )
+                        },
+                        onClick = { onAction(MainListScreenAction.OnShowDateTimePicker) }
+                    )
+                }
+                Row(
                     modifier = Modifier
                         .padding(
                             bottom = 16.dp,
                             start = 16.dp,
                             end = 16.dp
-                        )
-                        .fillMaxWidth(),
-                    shape = RoundedCornerShape(4.dp),
-                    content = {
-                        Text(
-                            text = stringResource(R.string.complete),
-                            style = MaterialTheme.typography.bodyLarge
-                        )
-                    },
-                    enabled = !state.currentToDo.isDone,
-                    onClick = {
-                        onAction(MainListScreenAction.OnIsDoneClicked(todo = state.selectedToDo!!))
-                        onAction(MainListScreenAction.OnGoBackClicked)
-                    }
-                )
+                        ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(end = 16.dp),
+                        text = stringResource(R.string.alarm),
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Switch(
+                        checked = state.alarmOn,
+                        onCheckedChange = { onAction(MainListScreenAction.OnAlarmChanged(it)) },
+                        thumbContent = if(state.alarmOn){
+                            {
+                                Icon(
+                                    imageVector = Icons.Filled.Notifications,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(SwitchDefaults.IconSize),
+                                )
+                            }
+                        } else {
+                            {
+                                Icon(
+                                    imageVector = Icons.Filled.NotificationsNone,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(SwitchDefaults.IconSize),
+                                )
+                            }
+                        }
+                    )
+                }
                 Button(
                     modifier = Modifier
                         .padding(
+                            top = 16.dp,
                             bottom = 16.dp,
                             start = 16.dp,
                             end = 16.dp
@@ -302,54 +269,112 @@ fun AddEditToDoScreen(
                         .fillMaxWidth(),
                     shape = RoundedCornerShape(4.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFEF5350)
+                        containerColor = MaterialTheme.colorScheme.primaryContainer
                     ),
                     content = {
                         Text(
-                            text = stringResource(R.string.delete),
-                            style = MaterialTheme.typography.bodyLarge
+                            text = when(state.action){
+                                AddEditAction.ADD -> stringResource(R.string.add_task)
+                                AddEditAction.EDIT -> stringResource(R.string.update_task)
+                            },
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
                         )
                     },
                     onClick = {
-                        onAction(MainListScreenAction.OnDeleteClicked)
+                        when(state.action){
+                            AddEditAction.ADD -> onAction(MainListScreenAction.OnSaveClicked)
+                            AddEditAction.EDIT -> onAction(MainListScreenAction.OnUpdateClicked)
+                        }
                         onAction(MainListScreenAction.OnGoBackClicked)
                     },
-                    enabled = true
+                    enabled = state.title.isNotEmpty() && state.selectedCategory != null
                 )
-            }
-            DateTimePicker(
-                showDatePicker = state.showDateTimePicker,
-                title = R.string.due_date,
-                startDate = state.dueDate,
-                onDateChangeListener = {
-                    onAction(MainListScreenAction.OnDueDateChanged(it))
-                    onAction(MainListScreenAction.OnHideDateTimePicker)
-                },
-                onDismiss = {
-                    onAction(MainListScreenAction.OnHideDateTimePicker)
+                if(state.action == AddEditAction.EDIT && state.currentToDo != null){
+                    Button(
+                        modifier = Modifier
+                            .padding(
+                                bottom = 16.dp,
+                                start = 16.dp,
+                                end = 16.dp
+                            )
+                            .fillMaxWidth(),
+                        shape = RoundedCornerShape(4.dp),
+                        content = {
+                            Text(
+                                text = stringResource(R.string.complete),
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        },
+                        enabled = !state.currentToDo.isDone,
+                        onClick = {
+                            onAction(MainListScreenAction.OnIsDoneClicked(todo = state.selectedToDo!!))
+                            onAction(MainListScreenAction.OnGoBackClicked)
+                        }
+                    )
+                    Button(
+                        modifier = Modifier
+                            .padding(
+                                bottom = 16.dp,
+                                start = 16.dp,
+                                end = 16.dp
+                            )
+                            .fillMaxWidth(),
+                        shape = RoundedCornerShape(4.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFEF5350)
+                        ),
+                        content = {
+                            Text(
+                                text = stringResource(R.string.delete),
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        },
+                        onClick = {
+                            onAction(MainListScreenAction.OnDeleteClicked)
+                            onAction(MainListScreenAction.OnGoBackClicked)
+                        },
+                        enabled = true
+                    )
                 }
-            )
-            if(expanded){
-                SelectCategoryDialog(
-                    label = stringResource(R.string.category),
-                    categories = state.categories,
-                    selectedIndex = state.selectedCategory ?: 0,
-                    onSelect = { item ->
-                        onAction(MainListScreenAction.OnSelectedCategoryChange(item.id))
-                        expanded = false
+                DateTimePicker(
+                    showDatePicker = state.showDateTimePicker,
+                    title = R.string.due_date,
+                    startDate = state.dueDate,
+                    onDateChangeListener = {
+                        onAction(MainListScreenAction.OnDueDateChanged(it))
+                        onAction(MainListScreenAction.OnHideDateTimePicker)
                     },
-                    onDismissRequest = { expanded = false }
+                    onDismiss = {
+                        onAction(MainListScreenAction.OnHideDateTimePicker)
+                    }
                 )
+                if(expanded){
+                    SelectCategoryDialog(
+                        label = stringResource(R.string.category),
+                        categories = state.categories,
+                        selectedIndex = state.selectedCategory ?: 0,
+                        onSelect = { item ->
+                            onAction(MainListScreenAction.OnSelectedCategoryChange(item.id))
+                            expanded = false
+                        },
+                        onDismissRequest = { expanded = false }
+                    )
+                }
             }
         }
     }
+
 }
 
 @Preview
 @Composable
 fun AddEditToDoScreenPreview(){
-    AddEditToDoScreen(
-        state = MainListScreenUiState(),
-        onAction = {}
-    )
+    TasklyTheme {
+        AddEditToDoScreen(
+            state = MainListScreenUiState(isLoading = false),
+            onAction = {}
+        )
+    }
 }

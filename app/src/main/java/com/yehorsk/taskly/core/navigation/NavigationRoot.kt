@@ -13,6 +13,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.yehorsk.taskly.categories.presentation.list.CategoryScreenRoot
+import com.yehorsk.taskly.notes.presentation.add_edit_note.AddEditNoteListScreenRoot
+import com.yehorsk.taskly.notes.presentation.list.NoteListScreenRoot
+import com.yehorsk.taskly.notes.presentation.list.NoteListScreenViewModel
 import com.yehorsk.taskly.todos.presentation.add_edit_todo.AddEditToDoScreenRoot
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenRoot
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenAction
@@ -46,16 +49,10 @@ fun NavigationRoot(
         composable(
             route = Route.Notes.route
         ) {
-            Column(
+            NoteListScreenRoot(
                 modifier = modifier
                     .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Notes"
-                )
-            }
+            )
         }
         composable(
             route = Route.Profile.route
@@ -82,6 +79,15 @@ fun NavigationRoot(
                 }
             }
             AddEditToDoScreenRoot(
+                modifier = modifier,
+                viewModel = viewModel,
+                onGoBackClicked = { navController.navigateUp() }
+            )
+        }
+        composable<Route.AddEditNote> {
+            val args = it.toRoute<Route.AddEditNote>()
+            val viewModel: NoteListScreenViewModel = koinViewModel()
+            AddEditNoteListScreenRoot(
                 modifier = modifier,
                 viewModel = viewModel,
                 onGoBackClicked = { navController.navigateUp() }

@@ -2,10 +2,11 @@ package com.yehorsk.taskly.categories.presentation.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -57,17 +58,21 @@ fun CategoryScreen(
             allowSubmit = true
         )
     }
-    Column(
+    Scaffold(
         modifier = modifier
-            .fillMaxSize(),
-    ) {
-        TitleNavBar(
-            title = R.string.categories,
-            onGoBack = {},
-            showGoBack = false
-        )
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        topBar = {
+            TitleNavBar(
+                title = R.string.categories,
+                onGoBack = {},
+                showGoBack = false
+            )
+        }
+    ) { innerPadding ->
         Box(
             modifier = Modifier
+                .padding(innerPadding)
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
             contentAlignment = Alignment.Center

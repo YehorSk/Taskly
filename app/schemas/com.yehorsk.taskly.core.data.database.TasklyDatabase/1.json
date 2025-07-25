@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "874f6e2f8f0f601cf51e8d2f67583391",
+    "identityHash": "448a9f65fa9d8fbd1c6751d670d2284f",
     "entities": [
       {
         "tableName": "category_table",
@@ -123,7 +123,7 @@
         ]
       },
       {
-        "tableName": "NoteEntity",
+        "tableName": "note_table",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `created_at` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT, `check_list` TEXT, `color` INTEGER NOT NULL)",
         "fields": [
           {
@@ -171,7 +171,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '874f6e2f8f0f601cf51e8d2f67583391')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '448a9f65fa9d8fbd1c6751d670d2284f')"
     ]
   }
 }

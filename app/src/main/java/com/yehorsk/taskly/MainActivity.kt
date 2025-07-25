@@ -39,6 +39,11 @@ class MainActivity : ComponentActivity() {
                                     Icon(Icons.Default.Add, contentDescription = null)
                                 }
                             }
+                            Route.Notes.route -> {
+                                FloatingActionButton(onClick = { navController.navigate(Route.AddEditNote()) }) {
+                                    Icon(Icons.Default.Add, contentDescription = null)
+                                }
+                            }
                             else -> {}
                         }
                     }
