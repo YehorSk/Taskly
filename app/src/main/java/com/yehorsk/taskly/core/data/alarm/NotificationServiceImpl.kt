@@ -29,6 +29,7 @@ class NotificationServiceImpl(
             .setContentTitle("Taskly")
             .setContentText("Message: $message")
             .setContentIntent(activityPendingIntent)
+            .setAutoCancel(true)
             .build()
         notificationManager.notify(
             1,

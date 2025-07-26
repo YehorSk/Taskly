@@ -21,7 +21,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.yehorsk.taskly.categories.utils.toColor
 import com.yehorsk.taskly.notes.data.database.models.CheckItem
-import com.yehorsk.taskly.notes.data.database.models.CheckList
 import com.yehorsk.taskly.notes.domain.models.Note
 import com.yehorsk.taskly.ui.theme.TasklyTheme
 import java.time.LocalDateTime
@@ -87,7 +86,7 @@ fun NoteListItem(
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
-                note.checkList?.items?.forEachIndexed { index, item ->
+                note.checkItems?.forEachIndexed { index, item ->
                     CheckListItem(
                         item = item,
                         onClick = {}
@@ -106,14 +105,12 @@ fun NoteListItemPreview(){
         createdAt = LocalDateTime.now(),
         title = "Grocery Shopping",
         description = "Don't forget these essentials!",
-        checkList = CheckList(
-            items = listOf(
-                CheckItem(name = "Milk"),
-                CheckItem(name = "Eggs"),
-                CheckItem(name = "Bread"),
-                CheckItem(name = "Apples"),
-                CheckItem(name = "Cheese", isDone = true)
-            )
+        checkItems = listOf(
+            CheckItem(id = "",name = "Milk"),
+            CheckItem(id = "",name = "Eggs"),
+            CheckItem(id = "",name = "Bread"),
+            CheckItem(id = "",name = "Apples"),
+            CheckItem(id = "",name = "Cheese", isDone = true)
         ),
         color = 0xFFFFB300
     )

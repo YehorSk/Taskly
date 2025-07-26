@@ -24,6 +24,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -42,7 +43,6 @@ import com.yehorsk.taskly.core.presentation.components.TitleNavBar
 import com.yehorsk.taskly.core.utils.AddEditAction
 import com.yehorsk.taskly.core.utils.brightColors
 import com.yehorsk.taskly.notes.data.database.models.CheckItem
-import com.yehorsk.taskly.notes.data.database.models.CheckList
 import com.yehorsk.taskly.notes.presentation.list.NoteListScreenAction
 import com.yehorsk.taskly.notes.presentation.list.NoteListScreenUiState
 import com.yehorsk.taskly.notes.presentation.list.NoteListScreenViewModel
@@ -101,7 +101,7 @@ fun AddEditNoteListScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+                    .padding(start = 16.dp, end = 16.dp, top = 8.dp),
                 value = state.title,
                 onValueChange = { onAction(NoteListScreenAction.OnTitleChanged(it)) },
                 placeholder = {
@@ -130,7 +130,7 @@ fun AddEditNoteListScreen(
                     imeAction = ImeAction.Done
                 )
             )
-            state.checkList.items.forEachIndexed { index, item ->
+            state.checkItems.forEachIndexed { index, item ->
                 Row(
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp, top = 16.dp),
@@ -139,7 +139,7 @@ fun AddEditNoteListScreen(
                 ) {
                     IconButton(
                         onClick = {
-
+                            onAction(NoteListScreenAction.OnCheckItemDeleted(item))
                         },
                         content = {
                             Icon(
@@ -152,7 +152,18 @@ fun AddEditNoteListScreen(
                         modifier = Modifier
                             .padding(start = 8.dp),
                         value = item.name,
-                        onValueChange = {},
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                        ),
+                        placeholder = {
+                            Text(
+                                text = "Item"
+                            )
+                        },
+                        onValueChange = {
+                            onAction(NoteListScreenAction.OnCheckItemUpdated(CheckItem(item.id, it)))
+                        },
                     )
                 }
             }
@@ -160,7 +171,7 @@ fun AddEditNoteListScreen(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, top = 16.dp)
                     .clickable{
-
+                        onAction(NoteListScreenAction.OnCheckItemAdded)
                     },
                 text = stringResource(R.string.add_new_item),
                 fontWeight = FontWeight.Bold,
@@ -188,7 +199,7 @@ fun AddEditNoteListScreen(
                             .clip(RoundedCornerShape(16.dp))
                             .background(item.toColor())
                             .clickable{
-
+                                onAction(NoteListScreenAction.OnColorChange(item))
                             }
                     ){
                         if(state.color == item){
@@ -247,7 +258,7 @@ fun AddEditNoteListScreenPreview(){
         AddEditNoteListScreen(
             state = NoteListScreenUiState(
                 isLoading = false,
-                checkList = CheckList(listOf(CheckItem("Test 1", isDone = false),CheckItem("Test 2", isDone = false)))
+                checkItems = listOf(CheckItem(id = "","Test 1", isDone = false),CheckItem(id = "","Test 2", isDone = false))
             ),
             onAction = {}
         )

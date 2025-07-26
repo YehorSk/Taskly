@@ -1,6 +1,6 @@
 package com.yehorsk.taskly.notes.domain.models
 
-import com.yehorsk.taskly.notes.data.database.models.CheckList
+import com.yehorsk.taskly.notes.data.database.models.CheckItem
 import java.time.LocalDateTime
 
 data class Note(
@@ -8,6 +8,6 @@ data class Note(
     val createdAt: LocalDateTime,
     val title: String,
     val description: String? = null,
-    val checkList: CheckList? = null,
+    val checkItems: List<CheckItem>? = null,
     val color: Long
 )

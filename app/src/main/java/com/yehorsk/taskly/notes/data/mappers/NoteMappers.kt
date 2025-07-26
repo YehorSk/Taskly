@@ -9,7 +9,7 @@ fun NoteEntity.toNote(): Note {
         createdAt = createdAt,
         title = title,
         description = description,
-        checkList = checkList,
+        checkItems = checkItems,
         color = color
     )
 }
@@ -20,7 +20,7 @@ fun Note.toEntity(): NoteEntity {
         createdAt = createdAt,
         title = title,
         description = description,
-        checkList = checkList,
+        checkItems = checkItems,
         color = color
     )
 }

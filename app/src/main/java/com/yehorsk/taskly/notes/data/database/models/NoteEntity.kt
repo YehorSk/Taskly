@@ -6,12 +6,9 @@ import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 
 data class CheckItem(
+    val id: String,
     val name: String,
     val isDone: Boolean = false
-)
-
-data class CheckList(
-    val items: List<CheckItem>
 )
 
 @Entity(tableName = "note_table")
@@ -20,6 +17,6 @@ data class NoteEntity(
     @ColumnInfo("created_at") val createdAt: LocalDateTime,
     @ColumnInfo("title") val title: String,
     @ColumnInfo("description") val description: String? = null,
-    @ColumnInfo("check_list") val checkList: CheckList? = null,
+    @ColumnInfo("check_items") val checkItems: List<CheckItem>? = null,
     @ColumnInfo(name = "color") val color: Long
 )

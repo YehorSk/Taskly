@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "448a9f65fa9d8fbd1c6751d670d2284f",
+    "identityHash": "01959c68b2a89766d7592b2faecd9da5",
     "entities": [
       {
         "tableName": "category_table",
@@ -124,7 +124,7 @@
       },
       {
         "tableName": "note_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `created_at` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT, `check_list` TEXT, `color` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `created_at` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT, `check_items` TEXT, `color` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -150,8 +150,8 @@
             "affinity": "TEXT"
           },
           {
-            "fieldPath": "checkList",
-            "columnName": "check_list",
+            "fieldPath": "checkItems",
+            "columnName": "check_items",
             "affinity": "TEXT"
           },
           {
@@ -171,7 +171,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '448a9f65fa9d8fbd1c6751d670d2284f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '01959c68b2a89766d7592b2faecd9da5')"
     ]
   }
 }

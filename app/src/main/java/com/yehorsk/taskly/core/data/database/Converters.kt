@@ -2,8 +2,8 @@ package com.yehorsk.taskly.core.data.database
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import com.yehorsk.taskly.notes.data.database.models.CheckList
-import kotlinx.serialization.json.Json
+import com.google.gson.reflect.TypeToken
+import com.yehorsk.taskly.notes.data.database.models.CheckItem
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -33,13 +33,14 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromCheckList(value: CheckList?): String?{
+    fun fromCheckList(value: List<CheckItem>?): String?{
         return value?.let { Gson().toJson(it) }
     }
 
     @TypeConverter
-    fun toCheckList(value: String?): CheckList?{
-        return value?.let { Gson().fromJson(it, CheckList::class.java) }
+    fun toCheckList(value: String?): List<CheckItem>? {
+        val type = object : TypeToken<List<CheckItem>>() {}.type
+        return value?.let { Gson().fromJson(it, type) }
     }
 
 }
