@@ -2,6 +2,9 @@ package com.yehorsk.taskly.notes.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yehorsk.taskly.core.domain.onSuccess
+import com.yehorsk.taskly.core.utils.AddEditAction
+import com.yehorsk.taskly.core.utils.brightColors
 import com.yehorsk.taskly.notes.data.database.models.CheckItem
 import com.yehorsk.taskly.notes.domain.models.Note
 import com.yehorsk.taskly.notes.domain.repository.NoteRepository
@@ -9,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -42,6 +44,7 @@ class NoteListScreenViewModel(
 
     fun onAction(action: NoteListScreenAction){
         when(action){
+            is NoteListScreenAction.OnGetNoteById -> getNoteById(action.id)
             is NoteListScreenAction.OnDescriptionChanged -> onDescriptionChanged(action.description)
             is NoteListScreenAction.OnTitleChanged -> onTitleChanged(action.title)
             is NoteListScreenAction.OnColorChange -> onColorChanged(action.color)
@@ -51,6 +54,41 @@ class NoteListScreenViewModel(
             NoteListScreenAction.OnGoBackClicked -> {}
             NoteListScreenAction.OnSaveClicked -> onSaveClicked()
             NoteListScreenAction.OnUpdateClicked -> onUpdateClicked()
+            NoteListScreenAction.OnAddNewNoteClicked -> onAddNewClicked()
+            NoteListScreenAction.OnFABClicked -> {}
+            is NoteListScreenAction.OnItemClick -> {}
+        }
+    }
+
+    private fun onAddNewClicked() {
+        _state.update { it.copy(
+            isLoading = false,
+            currentNote = null,
+            title = "",
+            description = "",
+            color = brightColors[0],
+            checkItems = emptyList(),
+            action = AddEditAction.ADD,
+        ) }
+    }
+
+    private fun getNoteById(id: Int) {
+        viewModelScope.launch {
+            _state.update { it.copy(
+                isLoading = true
+            ) }
+            noteRepository.getNoteById(id.toString())
+                .onSuccess { note ->
+                    _state.update { it.copy(
+                        currentNote = note,
+                        title = note.title,
+                        description = note.description ?: "",
+                        color = note.color,
+                        checkItems = note.checkItems ?: emptyList(),
+                        action = AddEditAction.EDIT,
+                        isLoading = false
+                    ) }
+                }
         }
     }
 

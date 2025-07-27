@@ -26,6 +26,8 @@ sealed interface MainListScreenAction {
 
     data class OnGetToDoById(val id: Int): MainListScreenAction
 
+    data object OnFABClicked: MainListScreenAction
+
     data object OnSaveClicked: MainListScreenAction
 
     data object OnUpdateClicked: MainListScreenAction

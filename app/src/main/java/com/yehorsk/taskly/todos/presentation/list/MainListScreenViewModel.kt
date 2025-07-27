@@ -77,6 +77,8 @@ class MainListScreenViewModel(
                     openFullCalendar = !_state.value.openFullCalendar
                 ) }
             }
+
+            MainListScreenAction.OnFABClicked -> {}
         }
     }
 

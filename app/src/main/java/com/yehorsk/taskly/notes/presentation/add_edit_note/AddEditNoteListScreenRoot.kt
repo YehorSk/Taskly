@@ -101,7 +101,7 @@ fun AddEditNoteListScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                    .padding(start = 16.dp, end = 16.dp, top = 12.dp),
                 value = state.title,
                 onValueChange = { onAction(NoteListScreenAction.OnTitleChanged(it)) },
                 placeholder = {
@@ -253,12 +253,28 @@ fun AddEditNoteListScreen(
 
 @Preview
 @Composable
-fun AddEditNoteListScreenPreview(){
+fun AddNoteListScreenPreview(){
     TasklyTheme {
         AddEditNoteListScreen(
             state = NoteListScreenUiState(
                 isLoading = false,
-                checkItems = listOf(CheckItem(id = "","Test 1", isDone = false),CheckItem(id = "","Test 2", isDone = false))
+                checkItems = listOf(CheckItem(id = "","Test 1", isDone = false),CheckItem(id = "","Test 2", isDone = false)),
+                action = AddEditAction.ADD
+            ),
+            onAction = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun EditNoteListScreenPreview(){
+    TasklyTheme {
+        AddEditNoteListScreen(
+            state = NoteListScreenUiState(
+                isLoading = false,
+                checkItems = listOf(CheckItem(id = "","Test 1", isDone = false),CheckItem(id = "","Test 2", isDone = false)),
+                action = AddEditAction.EDIT
             ),
             onAction = {}
         )

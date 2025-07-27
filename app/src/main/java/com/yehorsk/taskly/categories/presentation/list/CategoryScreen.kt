@@ -12,16 +12,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.yehorsk.taskly.R
 import com.yehorsk.taskly.categories.presentation.list.components.CategoryGrid
 import org.koin.compose.viewmodel.koinViewModel
 import com.yehorsk.taskly.categories.presentation.list.components.CategoryDialog
+import com.yehorsk.taskly.core.presentation.components.BottomBar
 import com.yehorsk.taskly.core.presentation.components.TitleNavBar
 import com.yehorsk.taskly.core.utils.AddEditAction
 
 @Composable
 fun CategoryScreenRoot(
     modifier: Modifier = Modifier,
+    navController: NavHostController,
     viewModel: CategoryScreenViewModel = koinViewModel()
 ){
 
@@ -30,7 +33,14 @@ fun CategoryScreenRoot(
     CategoryScreen(
         modifier = modifier,
         state = state,
-        onAction = viewModel::onAction
+        onAction = {
+            viewModel.onAction(it)
+        },
+        bottomBar = {
+            BottomBar(
+                navController = navController
+            )
+        }
     )
 }
 
@@ -38,7 +48,8 @@ fun CategoryScreenRoot(
 fun CategoryScreen(
     modifier: Modifier = Modifier,
     state: CategoryScreenUiState,
-    onAction: (CategoryScreenAction) -> Unit
+    onAction: (CategoryScreenAction) -> Unit,
+    bottomBar: @Composable() () -> Unit,
 ){
     if(state.showAddCategoryDialog){
         CategoryDialog(
@@ -68,6 +79,9 @@ fun CategoryScreen(
                 onGoBack = {},
                 showGoBack = false
             )
+        },
+        bottomBar = {
+            bottomBar()
         }
     ) { innerPadding ->
         Box(

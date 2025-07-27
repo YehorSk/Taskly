@@ -4,43 +4,56 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.yehorsk.taskly.R
+import com.yehorsk.taskly.core.navigation.Route
+import com.yehorsk.taskly.core.presentation.components.BottomBar
 import com.yehorsk.taskly.core.presentation.components.TitleNavBar
 import com.yehorsk.taskly.todos.presentation.list.components.CustomDatePicker
 import com.yehorsk.taskly.todos.presentation.list.components.ToDoList
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun MainListScreenRoot(
-    modifier: Modifier = Modifier,
+fun ToDoListScreenRoot(
     viewModel: MainListScreenViewModel = koinViewModel(),
+    navController: NavHostController,
     onItemClick: (Int) -> Unit
 ){
 
-    MainListScreen(
-        modifier = modifier
-            .fillMaxSize(),
+    ToDoListScreen(
         viewModel = viewModel,
         onAction = { action ->
             when(action){
                 is MainListScreenAction.OnItemClick -> { onItemClick(action.todo.id) }
+                is MainListScreenAction.OnFABClicked -> { navController.navigate(Route.AddEditTodo()) }
                 else -> Unit
             }
             viewModel.onAction(action)
+        },
+        bottomBar = {
+            BottomBar(
+                navController = navController
+            )
         }
     )
 }
 
 @Composable
-fun MainListScreen(
+fun ToDoListScreen(
     modifier: Modifier = Modifier,
     viewModel: MainListScreenViewModel,
+    bottomBar: @Composable() () -> Unit,
     onAction: (MainListScreenAction) -> Unit
 ){
 
@@ -48,7 +61,6 @@ fun MainListScreen(
 
     Scaffold(
         modifier = modifier
-            .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         topBar = {
             TitleNavBar(
@@ -56,6 +68,14 @@ fun MainListScreen(
                 onGoBack = {},
                 showGoBack = false
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { onAction(MainListScreenAction.OnFABClicked) }) {
+                Icon(Icons.Default.Add, contentDescription = null)
+            }
+        },
+        bottomBar = {
+            bottomBar()
         }
     ) { innerPadding ->
         Column(
