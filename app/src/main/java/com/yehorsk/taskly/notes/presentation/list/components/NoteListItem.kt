@@ -53,6 +53,7 @@ fun NoteListItem(
     modifier: Modifier = Modifier,
     note: Note,
     onClick: () -> Unit,
+    onCheckItemClick: (Note, CheckItem) -> Unit
 ){
     Surface(
         modifier = modifier
@@ -89,7 +90,16 @@ fun NoteListItem(
                 note.checkItems?.forEachIndexed { index, item ->
                     CheckListItem(
                         item = item,
-                        onClick = {}
+                        onClick = {
+                            onCheckItemClick(
+                                note,
+                                CheckItem(
+                                    id = item.id,
+                                    name = item.name,
+                                    isDone = it
+                                )
+                            )
+                        }
                     )
                 }
             }
@@ -116,7 +126,9 @@ fun NoteListItemPreview(){
     )
     TasklyTheme {
         NoteListItem(
-            note = fakeNote
-        ) { }
+            note = fakeNote,
+            onClick = {},
+            onCheckItemClick = { note, item -> }
+        )
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.yehorsk.taskly.notes.data.database.models.CheckItem
 import com.yehorsk.taskly.notes.domain.models.Note
 
 @Composable
@@ -16,6 +17,7 @@ fun NoteList(
     modifier: Modifier = Modifier,
     items: List<Note>,
     onItemClick: (Note) -> Unit,
+    onCheckItemClick: (Note, CheckItem) -> Unit
 ){
     LazyColumn(
         modifier = modifier
@@ -28,7 +30,8 @@ fun NoteList(
         ){ index, item ->
             NoteListItem(
                 note = item,
-                onClick = { onItemClick(item) }
+                onClick = { onItemClick(item) },
+                onCheckItemClick = { note, item ->  onCheckItemClick(note, item) }
             )
         }
         item {

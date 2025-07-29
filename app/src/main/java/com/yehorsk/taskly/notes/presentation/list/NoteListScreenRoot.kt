@@ -84,7 +84,8 @@ fun NoteListScreen(
                 modifier = Modifier
                     .fillMaxSize(),
                 items = state.items,
-                onItemClick = { onAction(NoteListScreenAction.OnItemClick(it)) }
+                onItemClick = { onAction(NoteListScreenAction.OnItemClick(it)) },
+                onCheckItemClick = { note, item -> onAction(NoteListScreenAction.OnNoteCheckItemClick(note, item)) }
             )
         }
     }

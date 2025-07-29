@@ -23,6 +23,8 @@ sealed interface NoteListScreenAction {
 
     data class OnItemClick(val note: Note): NoteListScreenAction
 
+    data class OnNoteCheckItemClick(val note: Note, val checkItem: CheckItem): NoteListScreenAction
+
     data object OnSaveClicked: NoteListScreenAction
 
     data object OnUpdateClicked: NoteListScreenAction

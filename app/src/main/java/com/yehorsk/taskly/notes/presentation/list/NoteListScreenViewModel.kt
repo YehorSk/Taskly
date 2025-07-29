@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -51,6 +52,7 @@ class NoteListScreenViewModel(
             is NoteListScreenAction.OnCheckItemAdded -> onCheckItemAdded()
             is NoteListScreenAction.OnCheckItemDeleted -> onCheckItemDeleted(action.item)
             is NoteListScreenAction.OnCheckItemUpdated -> onCheckItemUpdated(action.item)
+            is NoteListScreenAction.OnNoteCheckItemClick -> onNoteCheckItemClick(action.note, action.checkItem)
             NoteListScreenAction.OnGoBackClicked -> {}
             NoteListScreenAction.OnSaveClicked -> onSaveClicked()
             NoteListScreenAction.OnUpdateClicked -> onUpdateClicked()
@@ -116,6 +118,22 @@ class NoteListScreenViewModel(
                 color = _state.value.color
             )
             noteRepository.updateNote(updatedItem)
+        }
+    }
+
+    private fun onNoteCheckItemClick(
+        note: Note,
+        checkItem: CheckItem
+    ) {
+        viewModelScope.launch {
+            val updatedCheckItems = note.checkItems?.map {
+                if (it.id == checkItem.id) {
+                    checkItem.copy(isDone = checkItem.isDone)
+                } else it
+            }
+            val updatedNote = note.copy(checkItems = updatedCheckItems)
+            Timber.d("onNoteCheckItemClick $updatedNote")
+            noteRepository.updateNote(updatedNote)
         }
     }
 

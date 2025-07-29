@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -47,6 +48,9 @@ android {
 }
 
 dependencies {
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
 
     // Room
     ksp(libs.androidx.room.compiler)
