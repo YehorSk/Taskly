@@ -21,6 +21,6 @@ sealed class Route(val route: String) {
     data class AddEditNote(val id: String? = null): Route(route = "ADD_EDIT_NOTE")
 
     @Serializable
-    data object Profile: Route("PROFILE")
+    data object Settings: Route("SETTINGS")
 
 }

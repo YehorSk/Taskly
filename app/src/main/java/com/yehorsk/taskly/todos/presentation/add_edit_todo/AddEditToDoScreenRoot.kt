@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -39,7 +38,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -56,14 +54,13 @@ import com.yehorsk.taskly.core.utils.AddEditAction
 import com.yehorsk.taskly.todos.presentation.add_edit_todo.components.SelectCategoryDialog
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenAction
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenUiState
-import com.yehorsk.taskly.todos.presentation.list.MainListScreenViewModel
+import com.yehorsk.taskly.todos.presentation.MainToDoScreensViewModel
 import com.yehorsk.taskly.ui.theme.TasklyTheme
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun AddEditToDoScreenRoot(
     modifier: Modifier = Modifier,
-    viewModel: MainListScreenViewModel = koinViewModel(),
+    viewModel: MainToDoScreensViewModel,
     onGoBackClicked: () -> Unit
 ){
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -88,6 +85,7 @@ fun AddEditToDoScreen(
     onAction: (MainListScreenAction) -> Unit
 ){
     var expanded by remember { mutableStateOf(false) }
+    var isNavigating by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = modifier
@@ -99,7 +97,10 @@ fun AddEditToDoScreen(
                     AddEditAction.ADD -> R.string.new_task
                     AddEditAction.EDIT -> R.string.update_task
                 },
-                onGoBack = { onAction(MainListScreenAction.OnGoBackClicked) },
+                onGoBack = {
+                    isNavigating = true
+                    onAction(MainListScreenAction.OnGoBackClicked)
+                           },
                 showGoBack = true
             )
         }
@@ -136,7 +137,8 @@ fun AddEditToDoScreen(
                     },
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done
-                    )
+                    ),
+                    enabled = !isNavigating
                 )
                 OutlinedTextField(
                     modifier = Modifier
@@ -152,7 +154,8 @@ fun AddEditToDoScreen(
                     },
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done
-                    )
+                    ),
+                    enabled = !isNavigating
                 )
                 Box(
                     modifier = Modifier
@@ -175,6 +178,7 @@ fun AddEditToDoScreen(
                             val icon = expanded.select(Icons.Filled.ArrowDropUp, Icons.Filled.ArrowDropDown)
                             Icon(imageVector = icon, "")
                         },
+                        enabled = !isNavigating
                     )
                     Surface(
                         modifier = Modifier
@@ -217,7 +221,8 @@ fun AddEditToDoScreen(
                                 color = Color.Black
                             )
                         },
-                        onClick = { onAction(MainListScreenAction.OnShowDateTimePicker) }
+                        onClick = { onAction(MainListScreenAction.OnShowDateTimePicker) },
+                        enabled = !isNavigating
                     )
                 }
                 Row(
@@ -255,7 +260,8 @@ fun AddEditToDoScreen(
                                     modifier = Modifier.size(SwitchDefaults.IconSize),
                                 )
                             }
-                        }
+                        },
+                        enabled = !isNavigating
                     )
                 }
                 Button(
@@ -289,7 +295,7 @@ fun AddEditToDoScreen(
                         }
                         onAction(MainListScreenAction.OnGoBackClicked)
                     },
-                    enabled = state.title.isNotEmpty() && state.selectedCategory != null
+                    enabled = state.title.isNotEmpty() && state.selectedCategory != null && !isNavigating
                 )
                 if(state.action == AddEditAction.EDIT && state.currentToDo != null){
                     Button(

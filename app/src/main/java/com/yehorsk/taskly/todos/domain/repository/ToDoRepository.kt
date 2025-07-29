@@ -10,7 +10,7 @@ import java.time.LocalDate
 
 interface ToDoRepository {
 
-    suspend fun getCategorySummaries(): List<CategorySummary>
+    fun getCategorySummaries(): Flow<List<CategorySummary>>
 
     fun getTodos(dates: List<LocalDate>): Flow<List<ToDo>>
 

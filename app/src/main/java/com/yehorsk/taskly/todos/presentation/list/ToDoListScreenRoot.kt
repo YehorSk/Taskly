@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
@@ -20,13 +19,15 @@ import com.yehorsk.taskly.R
 import com.yehorsk.taskly.core.navigation.Route
 import com.yehorsk.taskly.core.presentation.components.BottomBar
 import com.yehorsk.taskly.core.presentation.components.TitleNavBar
+import com.yehorsk.taskly.todos.presentation.MainToDoScreensViewModel
+import com.yehorsk.taskly.todos.presentation.list.components.CategoryFilter
 import com.yehorsk.taskly.todos.presentation.list.components.CustomDatePicker
 import com.yehorsk.taskly.todos.presentation.list.components.ToDoList
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ToDoListScreenRoot(
-    viewModel: MainListScreenViewModel = koinViewModel(),
+    viewModel: MainToDoScreensViewModel = koinViewModel(),
     navController: NavHostController,
     onItemClick: (Int) -> Unit
 ){
@@ -52,12 +53,13 @@ fun ToDoListScreenRoot(
 @Composable
 fun ToDoListScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainListScreenViewModel,
+    viewModel: MainToDoScreensViewModel,
     bottomBar: @Composable() () -> Unit,
     onAction: (MainListScreenAction) -> Unit
 ){
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val selectedFilter by viewModel.selectedCategories.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = modifier
@@ -88,6 +90,11 @@ fun ToDoListScreen(
                 fullCalendar = state.openFullCalendar,
                 onDateChange = { onAction(MainListScreenAction.OnSelectedDateChanged(it)) },
                 onFullCalendarClick = { onAction(MainListScreenAction.OnFullCalendarClicked) }
+            )
+            CategoryFilter(
+                categories = state.categories,
+                selectedCategorySummary = selectedFilter,
+                onCategoryClicked = { onAction(MainListScreenAction.OnCategoryFilterSelected(it)) }
             )
             ToDoList(
                 modifier = Modifier

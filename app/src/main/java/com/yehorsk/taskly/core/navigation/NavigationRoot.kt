@@ -20,7 +20,7 @@ import com.yehorsk.taskly.notes.presentation.list.NoteListScreenViewModel
 import com.yehorsk.taskly.todos.presentation.add_edit_todo.AddEditToDoScreenRoot
 import com.yehorsk.taskly.todos.presentation.list.ToDoListScreenRoot
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenAction
-import com.yehorsk.taskly.todos.presentation.list.MainListScreenViewModel
+import com.yehorsk.taskly.todos.presentation.MainToDoScreensViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -57,7 +57,7 @@ fun NavigationRoot(
             )
         }
         composable(
-            route = Route.Profile.route
+            route = Route.Settings.route
         ) {
             Column(
                 modifier = modifier
@@ -72,11 +72,11 @@ fun NavigationRoot(
         }
         composable<Route.AddEditTodo>() {
             val args = it.toRoute<Route.AddEditTodo>()
-            val viewModel: MainListScreenViewModel = koinViewModel()
+            val viewModel: MainToDoScreensViewModel = koinViewModel()
             LaunchedEffect(args.id) {
-                if(args.id != null){
-                    viewModel.onAction(MainListScreenAction.OnGetToDoById(args.id.toInt()))
-                }else{
+                args.id?.toIntOrNull()?.let { id ->
+                    viewModel.onAction(MainListScreenAction.OnGetToDoById(id))
+                } ?: run {
                     viewModel.onAction(MainListScreenAction.OnAddNewToDoClicked)
                 }
             }
@@ -89,9 +89,9 @@ fun NavigationRoot(
             val args = it.toRoute<Route.AddEditNote>()
             val viewModel: NoteListScreenViewModel = koinViewModel()
             LaunchedEffect(args.id) {
-                if(args.id != null){
+                args.id?.toIntOrNull()?.let { id ->
                     viewModel.onAction(NoteListScreenAction.OnGetNoteById(args.id.toInt()))
-                }else{
+                } ?: run {
                     viewModel.onAction(NoteListScreenAction.OnAddNewNoteClicked)
                 }
             }

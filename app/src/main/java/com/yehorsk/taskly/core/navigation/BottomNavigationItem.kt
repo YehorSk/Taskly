@@ -3,18 +3,13 @@ package com.yehorsk.taskly.core.navigation
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Category
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notes
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Task
 import androidx.compose.material.icons.outlined.Category
-import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Notes
-import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Task
-import androidx.compose.material3.Icon
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.yehorsk.taskly.R
 
@@ -45,14 +40,14 @@ sealed class BottomNavigationItem(
         unselectedIcon = Icons.Outlined.Notes,
     )
 
-    object Profile : BottomNavigationItem(
-        route = "PROFILE",
-        title = R.string.profile,
-        selectedIcon = Icons.Default.Person,
-        unselectedIcon = Icons.Outlined.Person
+    object Settings : BottomNavigationItem(
+        route = "SETTINGS",
+        title = R.string.settings,
+        selectedIcon = Icons.Default.Settings,
+        unselectedIcon = Icons.Outlined.Settings
     )
 
     companion object {
-        val items = listOf(Tasks, Categories, Notes, Profile)
+        val items = listOf(Tasks, Categories, Notes, Settings)
     }
 }

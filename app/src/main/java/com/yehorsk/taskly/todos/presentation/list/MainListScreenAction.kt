@@ -1,5 +1,6 @@
 package com.yehorsk.taskly.todos.presentation.list
 
+import com.yehorsk.taskly.todos.domain.models.CategorySummary
 import com.yehorsk.taskly.todos.domain.models.ToDo
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -25,6 +26,8 @@ sealed interface MainListScreenAction {
     data class OnItemClick(val todo: ToDo): MainListScreenAction
 
     data class OnGetToDoById(val id: Int): MainListScreenAction
+
+    data class OnCategoryFilterSelected(val category: CategorySummary): MainListScreenAction
 
     data object OnFABClicked: MainListScreenAction
 

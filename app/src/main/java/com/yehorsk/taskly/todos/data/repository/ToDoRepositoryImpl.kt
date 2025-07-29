@@ -26,7 +26,7 @@ class ToDoRepositoryImpl(
     val alarmScheduler: AlarmScheduler
 ): ToDoRepository {
 
-    override suspend fun getCategorySummaries(): List<CategorySummary> {
+    override fun getCategorySummaries(): Flow<List<CategorySummary>> {
         return toDoDao.getCategorySummaries()
     }
 

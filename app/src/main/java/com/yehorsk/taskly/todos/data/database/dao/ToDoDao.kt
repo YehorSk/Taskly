@@ -15,7 +15,7 @@ import java.time.LocalDate
 interface ToDoDao {
 
     @Query("SELECT id, title FROM category_table")
-    suspend fun getCategorySummaries(): List<CategorySummary>
+    fun getCategorySummaries(): Flow<List<CategorySummary>>
 
     @Query("""
         SELECT todo_table.*, category_table.bg_color 
