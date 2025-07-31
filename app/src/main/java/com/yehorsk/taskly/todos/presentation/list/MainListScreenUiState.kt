@@ -24,7 +24,7 @@ data class MainListScreenUiState(
     val action: AddEditAction = AddEditAction.ADD,
     val openFullCalendar: Boolean = false
 ){
-    val sectionedToDos =  items
+    val sectionedToDos = items
         .toList()
         .map { (date, todos) ->
             SectionedToDo(

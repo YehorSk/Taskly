@@ -79,6 +79,9 @@ dependencies {
 
     implementation(libs.kmp.date.time.picker)
 
+    implementation(libs.datastore)
+    implementation(libs.datastore.preferences)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

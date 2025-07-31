@@ -175,6 +175,7 @@ class MainToDoScreensViewModel(
     }
 
     private fun getToDoById(id: Int) {
+        Timber.d("Fetching ToDo by ID: $id")
         getTodoJob?.cancel()
         getTodoJob = viewModelScope.launch {
             _state.update { it.copy(

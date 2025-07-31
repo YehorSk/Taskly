@@ -1,5 +1,6 @@
 package com.yehorsk.taskly.core.navigation
 
+import androidx.compose.animation.EnterTransition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import com.yehorsk.taskly.notes.presentation.add_edit_note.AddEditNoteListScreen
 import com.yehorsk.taskly.notes.presentation.list.NoteListScreenAction
 import com.yehorsk.taskly.notes.presentation.list.NoteListScreenRoot
 import com.yehorsk.taskly.notes.presentation.list.NoteListScreenViewModel
+import com.yehorsk.taskly.settings.presentation.SettingsScreenRoot
 import com.yehorsk.taskly.todos.presentation.add_edit_todo.AddEditToDoScreenRoot
 import com.yehorsk.taskly.todos.presentation.list.ToDoListScreenRoot
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenAction
@@ -59,16 +61,9 @@ fun NavigationRoot(
         composable(
             route = Route.Settings.route
         ) {
-            Column(
-                modifier = modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Profile"
-                )
-            }
+            SettingsScreenRoot(
+                navController = navController
+            )
         }
         composable<Route.AddEditTodo>() {
             val args = it.toRoute<Route.AddEditTodo>()

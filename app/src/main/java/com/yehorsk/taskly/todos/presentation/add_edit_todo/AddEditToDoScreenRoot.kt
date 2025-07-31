@@ -162,16 +162,17 @@ fun AddEditToDoScreen(
                         .height(IntrinsicSize.Min)
                         .padding(start = 16.dp, end = 16.dp, top = 16.dp)
                 ){
+                    val selectedCategory = state.categories.find { it.id == state.selectedCategory }
                     OutlinedTextField(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable(enabled = true) { expanded = true },
                         readOnly = true,
                         label = { Text(stringResource(R.string.category)+"*") },
-                        value = if(state.selectedCategory == null) {
+                        value = if (state.selectedCategory == null || selectedCategory == null) {
                             stringResource(R.string.select)
-                        }else{
-                            state.categories.find { it.id == state.selectedCategory }!!.title
+                        } else {
+                            selectedCategory.title
                         },
                         onValueChange = {},
                         trailingIcon = {

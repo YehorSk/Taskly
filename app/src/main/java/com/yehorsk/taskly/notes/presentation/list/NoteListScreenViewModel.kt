@@ -2,25 +2,33 @@ package com.yehorsk.taskly.notes.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yehorsk.taskly.R
 import com.yehorsk.taskly.core.domain.onSuccess
 import com.yehorsk.taskly.core.utils.AddEditAction
+import com.yehorsk.taskly.core.utils.UiText
 import com.yehorsk.taskly.core.utils.brightColors
 import com.yehorsk.taskly.notes.data.database.models.CheckItem
 import com.yehorsk.taskly.notes.domain.models.Note
 import com.yehorsk.taskly.notes.domain.repository.NoteRepository
+import com.yehorsk.taskly.todos.domain.models.ToDo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.UUID
 
 class NoteListScreenViewModel(
@@ -98,6 +106,7 @@ class NoteListScreenViewModel(
         noteJob?.cancel()
         noteJob = noteRepository
             .getAllNotes()
+            .groupByRelativeDate()
             .onEach { notes ->
                 _state.update { it.copy(
                     items = notes
@@ -195,6 +204,33 @@ class NoteListScreenViewModel(
         _state.update { it.copy(
             title = title
         ) }
+    }
+
+    private fun Flow<List<Note>>.groupByRelativeDate(): Flow<Map<UiText, List<Note>>> {
+        val formatter = DateTimeFormatter.ofPattern("dd MMM")
+        val today = LocalDate.now()
+        return map{ notes ->
+            notes
+                .groupBy { todo ->
+                    LocalDateTime.ofInstant(
+                        todo.createdAt.atZone(ZoneId.systemDefault()).toInstant(),
+                        ZoneId.systemDefault()
+                    )
+                }
+                .mapValues { (_, notes) ->
+                    notes.sortedBy { it.createdAt }
+                }
+                .toSortedMap(compareBy { it })
+                .mapKeys { (dateTime, _) ->
+                    val date = dateTime.toLocalDate()
+                    when(date){
+                        today -> UiText.StringResource(R.string.today)
+                        today.plusDays(1) -> UiText.StringResource(R.string.tomorrow)
+                        today.minusDays(1) -> UiText.StringResource(R.string.yesterday)
+                        else -> UiText.DynamicString(date.format(formatter))
+                    }
+                }
+        }
     }
 
 }
