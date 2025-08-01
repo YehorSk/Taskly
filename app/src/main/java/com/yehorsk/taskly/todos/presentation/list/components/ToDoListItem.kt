@@ -90,12 +90,11 @@ fun ToDoListItem(
                     )
                     .weight(1f)
             ) {
+                val baseColor = MaterialTheme.colorScheme.onSurface
                 Text(
                     text = todo.title,
                     style = MaterialTheme.typography.headlineSmall.copy(
-                        color = MaterialTheme.typography.headlineSmall.color.copy(
-                            alpha = if (todo.isDone) 0.5f else 1f
-                        )
+                        color = baseColor.copy(alpha = if (todo.isDone) 0.5f else 1f)
                     ),
                     textDecoration = if(todo.isDone) TextDecoration.LineThrough else null,
                     fontWeight = FontWeight.Bold,
@@ -108,11 +107,8 @@ fun ToDoListItem(
                     textDecoration = if(todo.isDone) TextDecoration.LineThrough else null,
                     text = todo.dueDate.getTime(),
                     style = MaterialTheme.typography.bodySmall.copy(
-                        color = MaterialTheme.typography.headlineSmall.color.copy(
-                            alpha = if (todo.isDone) 0.5f else 1f
-                        )
-                    )
-
+                        color = baseColor.copy(alpha = if (todo.isDone) 0.5f else 1f)
+                    ),
                 )
             }
             Box(

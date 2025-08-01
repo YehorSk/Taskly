@@ -32,4 +32,11 @@
     <string name="add_note">Add Note</string>
     <string name="new_note">New Note</string>
     <string name="add_new_item">+ Add new item</string>
+    <string name="english">English</string>
+    <string name="ukrainian">Ukrainian</string>
+    <string name="slovak">Slovak</string>
+    <string name="theme">Theme</string>
+    <string name="theme_switch">Theme: </string>
+    <string name="title">Title</string>
+    <string name="language">Language</string>
 </resources>

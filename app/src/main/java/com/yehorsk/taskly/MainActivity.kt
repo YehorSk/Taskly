@@ -31,7 +31,6 @@ class MainActivity : ComponentActivity() {
         super.attachBaseContext(getContextForLanguage(newBase))
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestNotificationPermission()

@@ -44,7 +44,7 @@ fun MonthDayComponent(
             .padding(2.dp)
             .clip(RoundedCornerShape(16.dp))
             .background(color = when{
-                isSelected -> MaterialTheme.colorScheme.primaryContainer
+                isSelected -> MaterialTheme.colorScheme.tertiary
                 isPastDate -> Color.LightGray
                 else -> Color.White
             })
@@ -65,7 +65,12 @@ fun MonthDayComponent(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = day.date.dayOfMonth.toString()
+                text = day.date.dayOfMonth.toString(),
+                color = when {
+                    isPastDate -> Color.Gray
+                    isSelected -> Color.White
+                    else -> Color.Black
+                }
             )
         }
     }

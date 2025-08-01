@@ -218,8 +218,7 @@ fun AddEditToDoScreen(
                             Text(
                                 text = state.dueDate?.formatReadable() ?: stringResource(R.string.anytime),
                                 style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Black
+                                fontWeight = FontWeight.Bold
                             )
                         },
                         onClick = { onAction(MainListScreenAction.OnShowDateTimePicker) },
@@ -285,8 +284,7 @@ fun AddEditToDoScreen(
                                 AddEditAction.EDIT -> stringResource(R.string.update_task)
                             },
                             style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black
+                            fontWeight = FontWeight.Bold
                         )
                     },
                     onClick = {

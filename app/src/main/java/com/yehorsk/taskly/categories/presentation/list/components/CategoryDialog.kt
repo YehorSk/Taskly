@@ -96,7 +96,7 @@ fun CategoryDialog(
                 Text(
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                    text = "Title",
+                    text = stringResource(R.string.title),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleMedium
                 )
@@ -115,7 +115,7 @@ fun CategoryDialog(
                 Text(
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                    text = "Choose Color",
+                    text = stringResource(R.string.choose_color),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleMedium
                 )
@@ -161,9 +161,13 @@ fun CategoryDialog(
                     content = {
                         Text(
                             text = stringResource(button),
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Bold
                         )
                     },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                    ),
                     onClick = { onButtonClick() },
                     enabled = allowSubmit
                 )

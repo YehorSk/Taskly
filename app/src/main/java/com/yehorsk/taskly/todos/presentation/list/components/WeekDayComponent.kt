@@ -40,7 +40,7 @@ fun WeekDayComponent(
             .padding(2.dp)
             .clip(RoundedCornerShape(16.dp))
             .background(color = when{
-                isSelected -> MaterialTheme.colorScheme.primaryContainer
+                isSelected -> MaterialTheme.colorScheme.tertiary
                 isPastDate -> Color.LightGray
                 else -> Color.White
             })
@@ -62,9 +62,19 @@ fun WeekDayComponent(
         ) {
             Text(
                 text = day.date.dayOfWeek.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.getDefault()),
+                color = when {
+                    isSelected -> Color.White
+                    isPastDate -> Color.Gray
+                    else -> Color.Black
+                }
             )
             Text(
                 text = day.date.dayOfMonth.toString(),
+                color = when {
+                    isSelected -> Color.White
+                    isPastDate -> Color.Gray
+                    else -> Color.Black
+                }
             )
         }
     }

@@ -1,2 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">Taskly</string>
+    <string name="add_category">Pridať kategóriu</string>
+    <string name="update_category">Aktualizovať kategóriu</string>
+    <string name="save">Uložiť</string>
+    <string name="update">Aktualizovať</string>
+    <string name="delete">Odstrániť</string>
+    <string name="your_title">Váš názov</string>
+    <string name="your_description">Váš popis</string>
+    <string name="choose_color">Vyberte farbu</string>
+    <string name="categories">Kategórie</string>
+    <string name="my_tasks">Moje úlohy</string>
+    <string name="my_notes">Moje poznámky</string>
+    <string name="notes">Poznámky</string>
+    <string name="settings">Nastavenia</string>
+    <string name="today">Dnes</string>
+    <string name="yesterday">Včera</string>
+    <string name="tomorrow">Zajtra</string>
+    <string name="month">Mesiac</string>
+    <string name="go_back">Späť</string>
+    <string name="new_task">Nová úloha</string>
+    <string name="add_task">Pridať úlohu</string>
+    <string name="update_task">Aktualizovať úlohu</string>
+    <string name="due_date">Termín</string>
+    <string name="anytime">Kedykoľvek</string>
+    <string name="category">Kategória</string>
+    <string name="select">Vybrať</string>
+    <string name="alarm">Upozornenie</string>
+    <string name="calendar">Kalendár</string>
+    <string name="complete">Dokončiť úlohu</string>
+    <string name="update_note">Aktualizovať poznámku</string>
+    <string name="add_note">Pridať poznámku</string>
+    <string name="new_note">Nová poznámka</string>
+    <string name="add_new_item">+ Pridať novú položku</string>
+    <string name="english">Angličtina</string>
+    <string name="ukrainian">Ukrajinčina</string>
+    <string name="slovak">Slovenčina</string>
+    <string name="theme">Téma</string>
+    <string name="theme_switch">Téma: </string>
+    <string name="title">Názov</string>
+    <string name="language">Jazyk</string>
+</resources>

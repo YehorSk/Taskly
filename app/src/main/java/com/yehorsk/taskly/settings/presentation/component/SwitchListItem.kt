@@ -12,8 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.yehorsk.taskly.R
 
 @Composable
 fun SwitchListItem(
@@ -34,7 +36,7 @@ fun SwitchListItem(
         Text(
             modifier = Modifier
                 .padding(end = 16.dp),
-            text = "Theme: ",
+            text = stringResource(R.string.theme_switch),
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold
         )

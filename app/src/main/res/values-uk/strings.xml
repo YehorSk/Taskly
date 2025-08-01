@@ -1,2 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">Taskly</string>
+    <string name="add_category">Додати категорію</string>
+    <string name="update_category">Оновити категорію</string>
+    <string name="save">Зберегти</string>
+    <string name="update">Оновити</string>
+    <string name="delete">Видалити</string>
+    <string name="your_title">Ваш заголовок</string>
+    <string name="your_description">Ваш опис</string>
+    <string name="choose_color">Виберіть колір</string>
+    <string name="categories">Категорії</string>
+    <string name="my_tasks">Мої завдання</string>
+    <string name="my_notes">Мої нотатки</string>
+    <string name="notes">Нотатки</string>
+    <string name="settings">Налаштування</string>
+    <string name="today">Сьогодні</string>
+    <string name="yesterday">Вчора</string>
+    <string name="tomorrow">Завтра</string>
+    <string name="month">Місяць</string>
+    <string name="go_back">Назад</string>
+    <string name="new_task">Нове завдання</string>
+    <string name="add_task">Додати завдання</string>
+    <string name="update_task">Оновити завдання</string>
+    <string name="due_date">Кінцевий термін</string>
+    <string name="anytime">Будь-коли</string>
+    <string name="category">Категорія</string>
+    <string name="select">Вибрати</string>
+    <string name="alarm">Нагадування</string>
+    <string name="calendar">Календар</string>
+    <string name="complete">Завершити завдання</string>
+    <string name="update_note">Оновити нотатку</string>
+    <string name="add_note">Додати нотатку</string>
+    <string name="new_note">Нова нотатка</string>
+    <string name="add_new_item">+ Додати новий елемент</string>
+    <string name="english">Англійська</string>
+    <string name="ukrainian">Українська</string>
+    <string name="slovak">Словацька</string>
+    <string name="theme">Тема</string>
+    <string name="theme_switch">Тема: </string>
+    <string name="title">Заголовок</string>
+    <string name="language">Мова</string>
+</resources>

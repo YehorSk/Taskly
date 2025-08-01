@@ -50,7 +50,8 @@ fun CategoryFilter(
             ) {
                 Text(
                     modifier = Modifier.padding(8.dp),
-                    text = item.title
+                    text = item.title,
+                    color = Color.Black
                 )
             }
         }
