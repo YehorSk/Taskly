@@ -1,14 +1,5 @@
 package com.yehorsk.taskly.core.utils
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
-import com.kizitonwose.calendar.compose.CalendarLayoutInfo
-import com.kizitonwose.calendar.compose.CalendarState
-import com.kizitonwose.calendar.core.CalendarMonth
-import kotlinx.coroutines.flow.filterNotNull
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -26,7 +17,14 @@ sealed interface AddEditAction{
     data object ADD: AddEditAction
 }
 
-fun formatMonth(input: String): String {
+fun formatMonthYMD(input: String): String {
+    val parser = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val yearMonth = YearMonth.parse(input, parser)
+    val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
+    return yearMonth.format(formatter)
+}
+
+fun formatMonthYM(input: String): String {
     val parser = DateTimeFormatter.ofPattern("yyyy-MM")
     val yearMonth = YearMonth.parse(input, parser)
     val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")

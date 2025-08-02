@@ -29,6 +29,8 @@ import com.kizitonwose.calendar.compose.weekcalendar.rememberWeekCalendarState
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.yearMonth
 import com.yehorsk.taskly.core.utils.firstDay
+import com.yehorsk.taskly.core.utils.formatMonthYM
+import com.yehorsk.taskly.core.utils.formatMonthYMD
 import com.yehorsk.taskly.core.utils.lastDay
 import com.yehorsk.taskly.ui.theme.TasklyTheme
 import java.time.LocalDate
@@ -76,13 +78,10 @@ fun CustomDatePicker(
             Text(
                 text = (
                         if (!fullCalendar)
-                            weekState.firstVisibleWeek.days[0].date.month
+                            formatMonthYMD(weekState.firstVisibleWeek.days[0].date.toString())
                         else
-                            monthState.lastVisibleMonth.yearMonth.month
-                        ).getDisplayName(
-                    TextStyle.FULL,
-                    Locale.getDefault()
-                ),
+                            formatMonthYM(monthState.lastVisibleMonth.yearMonth.toString())
+                        ),
                 style = MaterialTheme.typography.titleLarge
             )
             Spacer(modifier = Modifier.width(4.dp))

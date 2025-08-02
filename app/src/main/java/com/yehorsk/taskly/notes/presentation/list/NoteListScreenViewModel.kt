@@ -67,6 +67,7 @@ class NoteListScreenViewModel(
             NoteListScreenAction.OnAddNewNoteClicked -> onAddNewClicked()
             NoteListScreenAction.OnFABClicked -> {}
             is NoteListScreenAction.OnItemClick -> {}
+            NoteListScreenAction.OnDeleteClicked -> onDeleteClicked()
         }
     }
 
@@ -127,6 +128,12 @@ class NoteListScreenViewModel(
                 color = _state.value.color
             )
             noteRepository.updateNote(updatedItem)
+        }
+    }
+
+    private fun onDeleteClicked() {
+        viewModelScope.launch {
+            noteRepository.deleteNote(_state.value.currentNote!!)
         }
     }
 

@@ -29,6 +29,8 @@ sealed interface NoteListScreenAction {
 
     data object OnUpdateClicked: NoteListScreenAction
 
+    data object OnDeleteClicked: NoteListScreenAction
+
     data object OnAddNewNoteClicked: NoteListScreenAction
 
     data object OnFABClicked: NoteListScreenAction

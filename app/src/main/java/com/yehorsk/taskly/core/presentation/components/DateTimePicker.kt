@@ -33,6 +33,20 @@ fun DateTimePicker(
     onDateChangeListener: (snappedDate: LocalDateTime) -> Unit = {},
     onDismiss: () -> Unit = {},
 ){
+    val monthNames = listOf(
+        stringResource(R.string.january),
+        stringResource(R.string.february),
+        stringResource(R.string.march),
+        stringResource(R.string.april),
+        stringResource(R.string.may),
+        stringResource(R.string.june),
+        stringResource(R.string.july),
+        stringResource(R.string.august),
+        stringResource(R.string.september),
+        stringResource(R.string.october),
+        stringResource(R.string.november),
+        stringResource(R.string.december)
+    )
     WheelDateTimePickerView(
         startDate = (startDate ?: LocalDateTime.now()).toKotlinLocalDateTime(),
         modifier = Modifier
@@ -41,7 +55,9 @@ fun DateTimePicker(
         showDatePicker = showDatePicker,
         minDate = kotlinx.datetime.LocalDateTime.now(),
         height = 170.dp,
+        containerColor = MaterialTheme.colorScheme.background,
         title = stringResource(title),
+        customMonthNames = monthNames,
         dateTimePickerView = DateTimePickerView.DIALOG_VIEW,
         titleStyle = TextStyle(
             fontWeight = FontWeight.Bold,
@@ -51,7 +67,13 @@ fun DateTimePicker(
         doneLabelStyle = TextStyle(
             fontWeight = FontWeight(600),
             fontSize = MaterialTheme.typography.titleLarge.fontSize,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.onSurface
+        ),
+        defaultDateTextStyle = TextStyle(
+            color = MaterialTheme.colorScheme.onSurface
+        ),
+        selectedDateTextStyle = TextStyle(
+            color = MaterialTheme.colorScheme.onSurface
         ),
         dragHandle = {
             HorizontalDivider(
@@ -75,6 +97,22 @@ fun DateTimePicker(
 @Composable
 fun DateTimePickerPreview(){
     TasklyTheme {
+        DateTimePicker(
+            showDatePicker = true,
+            title = R.string.due_date,
+            onDateChangeListener = {},
+            startDate = LocalDateTime.now(),
+            onDismiss = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun DateTimePickerDarkPreview(){
+    TasklyTheme(
+        isDarkMode = true
+    ) {
         DateTimePicker(
             showDatePicker = true,
             title = R.string.due_date,

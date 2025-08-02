@@ -46,6 +46,7 @@ import com.yehorsk.taskly.notes.data.database.models.CheckItem
 import com.yehorsk.taskly.notes.presentation.list.NoteListScreenAction
 import com.yehorsk.taskly.notes.presentation.list.NoteListScreenUiState
 import com.yehorsk.taskly.notes.presentation.list.NoteListScreenViewModel
+import com.yehorsk.taskly.todos.presentation.list.MainListScreenAction
 import com.yehorsk.taskly.ui.theme.TasklyTheme
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -235,7 +236,7 @@ fun AddEditNoteListScreen(
                         },
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 },
                 onClick = {
@@ -247,6 +248,33 @@ fun AddEditNoteListScreen(
                 },
                 enabled = state.title.isNotEmpty()
             )
+            if(state.action == AddEditAction.EDIT && state.currentNote != null){
+                Button(
+                    modifier = Modifier
+                        .padding(
+                            bottom = 16.dp,
+                            start = 16.dp,
+                            end = 16.dp
+                        )
+                        .fillMaxWidth(),
+                    shape = RoundedCornerShape(4.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFEF5350)
+                    ),
+                    content = {
+                        Text(
+                            text = stringResource(R.string.delete),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    },
+                    onClick = {
+                        onAction(NoteListScreenAction.OnDeleteClicked)
+                        onAction(NoteListScreenAction.OnGoBackClicked)
+                    },
+                    enabled = true
+                )
+            }
         }
     }
 }

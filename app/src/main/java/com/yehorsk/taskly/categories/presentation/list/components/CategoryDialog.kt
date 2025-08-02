@@ -162,7 +162,7 @@ fun CategoryDialog(
                         Text(
                             text = stringResource(button),
                             style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Bold
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -186,7 +186,8 @@ fun CategoryDialog(
                         content = {
                             Text(
                                 text = stringResource(R.string.delete),
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         },
                         onClick = { onDeleteClick() }

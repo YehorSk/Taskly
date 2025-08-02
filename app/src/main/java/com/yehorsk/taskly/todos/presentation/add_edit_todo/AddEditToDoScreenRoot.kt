@@ -218,7 +218,8 @@ fun AddEditToDoScreen(
                             Text(
                                 text = state.dueDate?.formatReadable() ?: stringResource(R.string.anytime),
                                 style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         },
                         onClick = { onAction(MainListScreenAction.OnShowDateTimePicker) },
@@ -284,7 +285,8 @@ fun AddEditToDoScreen(
                                 AddEditAction.EDIT -> stringResource(R.string.update_task)
                             },
                             style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     },
                     onClick = {
@@ -309,7 +311,8 @@ fun AddEditToDoScreen(
                         content = {
                             Text(
                                 text = stringResource(R.string.complete),
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         },
                         enabled = !state.currentToDo.isDone,
@@ -333,7 +336,8 @@ fun AddEditToDoScreen(
                         content = {
                             Text(
                                 text = stringResource(R.string.delete),
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         },
                         onClick = {
