@@ -55,6 +55,22 @@ fun CategoryFilter(
                 )
             }
         }
+//        item {
+//            Card(
+//                modifier = Modifier
+//                    .width(IntrinsicSize.Min)
+//                    .clickable{  },
+//                colors = CardDefaults.cardColors(
+//                    containerColor = Color.LightGray
+//                )
+//            ) {
+//                Text(
+//                    modifier = Modifier.padding(8.dp),
+//                    text = "Add",
+//                    color = Color.Black
+//                )
+//            }
+//        }
     }
 }
 

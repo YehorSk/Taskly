@@ -40,6 +40,8 @@
     <string name="theme_switch">Тема: </string>
     <string name="title">Заголовок</string>
     <string name="language">Мова</string>
+    <string name="use_24_hour_format">Годинний формат</string>
+    <string name="hour_format">Формат часу:</string>
 
     <string name="january">Січень</string>
     <string name="february">Лютий</string>
@@ -53,5 +55,7 @@
     <string name="october">Жовтень</string>
     <string name="november">Листопад</string>
     <string name="december">Грудень</string>
+    <string name="_24_hour">24 години</string>
+    <string name="am_pm">12 годин</string>
 
 </resources>

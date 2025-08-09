@@ -4,6 +4,8 @@ sealed interface SettingsScreenAction {
 
     data class OnThemeChanged(val theme: Boolean): SettingsScreenAction
 
+    data class OnHourFormatChanged(val format: Boolean): SettingsScreenAction
+
     data class OnLanguageChanged(val lang: String): SettingsScreenAction
 
 }

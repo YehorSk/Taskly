@@ -1,5 +1,6 @@
 package com.yehorsk.taskly.settings.presentation.component
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -20,6 +21,7 @@ import com.yehorsk.taskly.R
 @Composable
 fun SwitchListItem(
     checked: Boolean,
+    @StringRes text: Int,
     iconChecked: ImageVector,
     iconUnchecked: ImageVector,
     onSwitched: (Boolean) -> Unit
@@ -36,7 +38,7 @@ fun SwitchListItem(
         Text(
             modifier = Modifier
                 .padding(end = 16.dp),
-            text = stringResource(R.string.theme_switch),
+            text = stringResource(text),
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold
         )

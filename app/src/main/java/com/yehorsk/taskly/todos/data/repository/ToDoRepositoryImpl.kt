@@ -1,6 +1,10 @@
 package com.yehorsk.taskly.todos.data.repository
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.lifecycle.viewModelScope
 import androidx.sqlite.SQLiteException
+import com.yehorsk.taskly.core.data.datastore.IS_24_HOUR_FORMAT_KEY
 import com.yehorsk.taskly.core.domain.DataError
 import com.yehorsk.taskly.core.domain.EmptyResult
 import com.yehorsk.taskly.core.domain.Result
@@ -14,7 +18,10 @@ import com.yehorsk.taskly.todos.domain.models.ToDo
 import com.yehorsk.taskly.todos.domain.repository.ToDoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.time.LocalDate
@@ -23,8 +30,12 @@ import kotlin.collections.map
 
 class ToDoRepositoryImpl(
     val toDoDao: ToDoDao,
-    val alarmScheduler: AlarmScheduler
+    val alarmScheduler: AlarmScheduler,
+    val dataStore: DataStore<Preferences>
 ): ToDoRepository {
+
+    override val hourFormatFlow: Flow<Boolean> = dataStore.data
+        .map { prefs -> prefs[IS_24_HOUR_FORMAT_KEY] ?: true }
 
     override fun getCategorySummaries(): Flow<List<CategorySummary>> {
         return toDoDao.getCategorySummaries()

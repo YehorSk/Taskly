@@ -16,6 +16,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
@@ -46,6 +47,12 @@ class MainToDoScreensViewModel(
 
     private val _selectedCategories = MutableStateFlow<List<CategorySummary>>(emptyList())
     val selectedCategories = _selectedCategories.asStateFlow()
+
+    val hourFormat: StateFlow<Boolean> = toDoRepository
+        .hourFormatFlow
+        .stateIn(viewModelScope,
+            SharingStarted.WhileSubscribed(5000L),
+            true)
 
     private val _state = MutableStateFlow(MainListScreenUiState())
     val state = _state

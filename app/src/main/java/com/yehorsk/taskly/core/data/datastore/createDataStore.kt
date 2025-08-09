@@ -19,3 +19,4 @@ fun createDataStore(context: Context): DataStore<Preferences>{
 const val DATA_STORE_FILE_NAME = "prefs.preferences.db"
 val THEME_KEY = booleanPreferencesKey("dark_mode")
 val LANGUAGE_KEY = stringPreferencesKey("language")
+val IS_24_HOUR_FORMAT_KEY = booleanPreferencesKey("is_24_hour_format")

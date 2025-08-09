@@ -22,12 +22,14 @@ import network.chaintech.kmp_date_time_picker.utils.DateTimePickerView
 import com.yehorsk.taskly.R
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
+import network.chaintech.kmp_date_time_picker.utils.TimeFormat
 import network.chaintech.kmp_date_time_picker.utils.now
 import java.time.LocalDateTime
 
 @Composable
 fun DateTimePicker(
     showDatePicker: Boolean,
+    timeFormat: TimeFormat = TimeFormat.HOUR_24,
     startDate: LocalDateTime?,
     @StringRes title: Int,
     onDateChangeListener: (snappedDate: LocalDateTime) -> Unit = {},
@@ -53,6 +55,7 @@ fun DateTimePicker(
             .fillMaxWidth()
             .padding(top = 22.dp, bottom = 22.dp),
         showDatePicker = showDatePicker,
+        timeFormat = timeFormat,
         minDate = kotlinx.datetime.LocalDateTime.now(),
         height = 170.dp,
         containerColor = MaterialTheme.colorScheme.background,

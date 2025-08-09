@@ -10,6 +10,8 @@ import java.time.LocalDate
 
 interface ToDoRepository {
 
+    val hourFormatFlow: Flow<Boolean>
+
     fun getCategorySummaries(): Flow<List<CategorySummary>>
 
     fun getTodos(dates: List<LocalDate>): Flow<List<ToDo>>

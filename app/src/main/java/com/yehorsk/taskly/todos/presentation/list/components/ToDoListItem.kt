@@ -41,6 +41,7 @@ import java.time.LocalDateTime
 @Composable
 fun ToDoListItem(
     modifier: Modifier = Modifier,
+    hourFormat: Boolean,
     todo: ToDo,
     onClick: () -> Unit,
     onDoneClick: () -> Unit
@@ -105,7 +106,7 @@ fun ToDoListItem(
                     modifier = Modifier
                         .padding(top = 8.dp),
                     textDecoration = if(todo.isDone) TextDecoration.LineThrough else null,
-                    text = todo.dueDate.getTime(),
+                    text = todo.dueDate.getTime(hourFormat),
                     style = MaterialTheme.typography.bodySmall.copy(
                         color = baseColor.copy(alpha = if (todo.isDone) 0.5f else 1f)
                     ),
@@ -152,6 +153,7 @@ fun ToDoListItemPreview(){
             ToDoListItem(
                 todo = fakeToDo,
                 onClick = {},
+                hourFormat = true,
                 onDoneClick = {}
             )
         }
@@ -184,6 +186,7 @@ fun ToDoListItemIsDonePreview(){
             ToDoListItem(
                 todo = fakeToDo,
                 onClick = {},
+                hourFormat = true,
                 onDoneClick = {}
             )
         }

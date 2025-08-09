@@ -39,6 +39,8 @@
     <string name="theme_switch">Theme: </string>
     <string name="title">Title</string>
     <string name="language">Language</string>
+    <string name="use_24_hour_format">Hour format</string>
+    <string name="hour_format">Hour format:</string>
 
     <string name="january">January</string>
     <string name="february">February</string>
@@ -52,5 +54,7 @@
     <string name="october">October</string>
     <string name="november">November</string>
     <string name="december">December</string>
+    <string name="_24_hour">24 Hour</string>
+    <string name="am_pm">12 Hour</string>
 
 </resources>

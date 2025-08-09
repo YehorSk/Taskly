@@ -27,7 +27,7 @@ fun formatMonthYMD(input: String): String {
 fun formatMonthYM(input: String): String {
     val parser = DateTimeFormatter.ofPattern("yyyy-MM")
     val yearMonth = YearMonth.parse(input, parser)
-    val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
+    val formatter = DateTimeFormatter.ofPattern("yyyy MMMM")
     return yearMonth.format(formatter)
 }
 

@@ -23,6 +23,7 @@ import com.yehorsk.taskly.ui.theme.TasklyTheme
 fun ToDoList(
     modifier: Modifier = Modifier,
     items: List<SectionedToDo>,
+    hourFormat: Boolean,
     onItemClick: (ToDo) -> Unit,
     onIsDoneClick: (ToDo) -> Unit,
 ){
@@ -54,13 +55,14 @@ fun ToDoList(
             ){ index, todo ->
                 ToDoListItem(
                     todo = todo,
+                    hourFormat = hourFormat,
                     onClick = { onItemClick(todo) },
                     onDoneClick = { onIsDoneClick(todo) },
                 )
             }
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
-            }
+//            item {
+//                Spacer(modifier = Modifier.height(8.dp))
+//            }
         }
     }
 }
@@ -72,6 +74,7 @@ fun ToDoListPreview(){
         ToDoList(
             items = sampleToDos,
             onItemClick = {},
+            hourFormat = true,
             onIsDoneClick = {}
         )
     }

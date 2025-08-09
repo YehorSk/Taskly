@@ -9,7 +9,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class MainListScreenUiState(
-    val selectedDates: List<LocalDate> = listOf(LocalDate.now()),
+    val selectedDates: List<LocalDate> = listOf(LocalDate.now(), LocalDate.now().plusDays(1)),
     val items: Map<UiText, List<ToDo>> = emptyMap(),
     val isLoading: Boolean = true,
     val currentToDo: ToDo? = null,

@@ -18,6 +18,12 @@ class SettingsScreenViewModel(
             SharingStarted.WhileSubscribed(5000L),
             false)
 
+    val hourFormat: StateFlow<Boolean> = settingsRepository
+        .hourFormatFlow
+        .stateIn(viewModelScope,
+            SharingStarted.WhileSubscribed(5000L),
+            true)
+
     val language: StateFlow<String> = settingsRepository
         .languageFlow
         .stateIn(viewModelScope,
@@ -28,6 +34,13 @@ class SettingsScreenViewModel(
         when(action){
             is SettingsScreenAction.OnLanguageChanged -> setLanguage(action.lang)
             is SettingsScreenAction.OnThemeChanged -> setDarkMode(action.theme)
+            is SettingsScreenAction.OnHourFormatChanged -> setHourFormat(action.format)
+        }
+    }
+
+    private fun setHourFormat(format: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setHourFormat(format)
         }
     }
 

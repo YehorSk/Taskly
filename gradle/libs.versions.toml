@@ -22,11 +22,14 @@ gson = "2.13.1"
 uiTextGoogleFonts = "1.8.3"
 google_services = "4.4.3"
 datastore = "1.1.7"
+crashlytics = "3.0.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-crashlytics-ndk = { module = "com.google.firebase:firebase-crashlytics-ndk" }
+google-firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -75,3 +78,4 @@ room = { id = "androidx.room", version.ref = "room_version" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google_services"}
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics"}

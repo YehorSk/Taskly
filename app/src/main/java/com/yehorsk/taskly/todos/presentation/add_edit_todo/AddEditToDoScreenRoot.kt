@@ -56,6 +56,7 @@ import com.yehorsk.taskly.todos.presentation.list.MainListScreenAction
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenUiState
 import com.yehorsk.taskly.todos.presentation.MainToDoScreensViewModel
 import com.yehorsk.taskly.ui.theme.TasklyTheme
+import network.chaintech.kmp_date_time_picker.utils.TimeFormat
 
 @Composable
 fun AddEditToDoScreenRoot(
@@ -64,10 +65,12 @@ fun AddEditToDoScreenRoot(
     onGoBackClicked: () -> Unit
 ){
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val hourFormat by viewModel.hourFormat.collectAsStateWithLifecycle()
 
     AddEditToDoScreen(
         modifier = modifier,
         state = state,
+        hourFormat = hourFormat,
         onAction = { action ->
             when(action){
                 is MainListScreenAction.OnGoBackClicked -> { onGoBackClicked() }
@@ -81,6 +84,7 @@ fun AddEditToDoScreenRoot(
 @Composable
 fun AddEditToDoScreen(
     modifier: Modifier = Modifier,
+    hourFormat: Boolean,
     state: MainListScreenUiState,
     onAction: (MainListScreenAction) -> Unit
 ){
@@ -216,7 +220,7 @@ fun AddEditToDoScreen(
                         ),
                         content = {
                             Text(
-                                text = state.dueDate?.formatReadable() ?: stringResource(R.string.anytime),
+                                text = state.dueDate?.formatReadable(hourFormat = hourFormat) ?: stringResource(R.string.anytime),
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface
@@ -350,6 +354,7 @@ fun AddEditToDoScreen(
                 DateTimePicker(
                     showDatePicker = state.showDateTimePicker,
                     title = R.string.due_date,
+                    timeFormat = if(hourFormat) TimeFormat.HOUR_24 else TimeFormat.AM_PM,
                     startDate = state.dueDate,
                     onDateChangeListener = {
                         onAction(MainListScreenAction.OnDueDateChanged(it))
@@ -383,6 +388,7 @@ fun AddEditToDoScreenPreview(){
     TasklyTheme {
         AddEditToDoScreen(
             state = MainListScreenUiState(isLoading = false),
+            hourFormat = true,
             onAction = {}
         )
     }

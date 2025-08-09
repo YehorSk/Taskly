@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Category
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -60,6 +58,7 @@ fun ToDoListScreen(
     onAction: (MainListScreenAction) -> Unit
 ){
 
+    val hourFormat by viewModel.hourFormat.collectAsStateWithLifecycle()
     val state by viewModel.state.collectAsStateWithLifecycle()
     val selectedFilter by viewModel.selectedCategories.collectAsStateWithLifecycle()
 
@@ -71,14 +70,14 @@ fun ToDoListScreen(
                 title = R.string.my_tasks,
                 onGoBack = {},
                 showGoBack = false,
-                actions = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            imageVector = Icons.Filled.Category,
-                            contentDescription = "Localized description"
-                        )
-                    }
-                }
+//                actions = {
+//                    IconButton(onClick = { /* do something */ }) {
+//                        Icon(
+//                            imageVector = Icons.Filled.Category,
+//                            contentDescription = "Localized description"
+//                        )
+//                    }
+//                }
             )
         },
         floatingActionButton = {
@@ -109,6 +108,7 @@ fun ToDoListScreen(
             ToDoList(
                 modifier = Modifier
                     .fillMaxSize(),
+                hourFormat = hourFormat,
                 items = state.sectionedToDos,
                 onItemClick = { onAction(MainListScreenAction.OnItemClick(it)) },
                 onIsDoneClick = { onAction(MainListScreenAction.OnIsDoneClicked(it))  }

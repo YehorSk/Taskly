@@ -6,8 +6,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
+import androidx.compose.material.icons.filled.RadioButtonChecked
+import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -33,10 +37,12 @@ fun SettingsScreenRoot(
 ){
     val theme by viewModel.darkMode.collectAsStateWithLifecycle()
     val language by viewModel.language.collectAsStateWithLifecycle()
+    val hourFormat by viewModel.hourFormat.collectAsStateWithLifecycle()
 
     SettingsScreen(
         theme = theme,
         language = language,
+        hourFormat = hourFormat,
         bottomBar = {
             BottomBar(
                 navController = navController
@@ -51,6 +57,7 @@ fun SettingsScreen(
     modifier: Modifier = Modifier,
     theme: Boolean,
     language: String,
+    hourFormat: Boolean,
     bottomBar: @Composable() () -> Unit,
     onAction: (SettingsScreenAction) -> Unit
 ){
@@ -81,9 +88,33 @@ fun SettingsScreen(
             item {
                 SwitchListItem(
                     checked = theme,
+                    text = R.string.theme_switch,
                     iconChecked = Icons.Filled.LightMode,
                     iconUnchecked = Icons.Filled.DarkMode,
                     onSwitched = { onAction(SettingsScreenAction.OnThemeChanged(it)) }
+                )
+            }
+            item{
+                SettingsListHeader(
+                    text = stringResource(R.string.use_24_hour_format)
+                )
+            }
+            item{
+                SettingsListItem(
+                    text = R.string._24_hour,
+                    onClick = {
+                        onAction(SettingsScreenAction.OnHourFormatChanged(true))
+                    },
+                    isActive = hourFormat
+                )
+            }
+            item{
+                SettingsListItem(
+                    text = R.string.am_pm,
+                    onClick = {
+                        onAction(SettingsScreenAction.OnHourFormatChanged(false))
+                    },
+                    isActive = !hourFormat
                 )
             }
             item{
