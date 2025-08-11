@@ -23,6 +23,7 @@ uiTextGoogleFonts = "1.8.3"
 google_services = "4.4.3"
 datastore = "1.1.7"
 crashlytics = "3.0.6"
+splashscreen = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,6 +65,8 @@ kizitonwose-calendar = { module = "com.kizitonwose.calendar:compose" , version.r
 timber = { module = "com.jakewharton.timber:timber" , version.ref = "timber"}
 
 gson = { module = "com.google.code.gson:gson", version.ref = "gson"}
+
+splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }
 
 datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }

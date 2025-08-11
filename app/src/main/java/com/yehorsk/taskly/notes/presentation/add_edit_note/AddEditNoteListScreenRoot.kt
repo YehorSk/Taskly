@@ -181,7 +181,7 @@ fun AddEditNoteListScreen(
             Text(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, top = 32.dp),
-                text = "Choose Color",
+                text = stringResource(R.string.choose_color),
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.titleMedium
             )

@@ -252,17 +252,15 @@ class MainToDoScreensViewModel(
         return map{ todos ->
             todos
                 .groupBy { todo ->
-                    LocalDateTime.ofInstant(
-                        todo.dueDate!!.atZone(ZoneId.systemDefault()).toInstant(),
-                        ZoneId.systemDefault()
-                    )
+                    todo.dueDate!!
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate()
                 }
                 .mapValues { (_, todos) ->
                     todos.sortedBy { it.dueDate }
                 }
                 .toSortedMap(compareBy { it })
-                .mapKeys { (dateTime, _) ->
-                    val date = dateTime.toLocalDate()
+                .mapKeys { (date, _) ->
                     when(date){
                         today -> UiText.StringResource(R.string.today)
                         today.plusDays(1) -> UiText.StringResource(R.string.tomorrow)

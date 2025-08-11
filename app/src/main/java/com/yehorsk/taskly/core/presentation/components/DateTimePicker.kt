@@ -58,6 +58,7 @@ fun DateTimePicker(
         timeFormat = timeFormat,
         minDate = kotlinx.datetime.LocalDateTime.now(),
         height = 170.dp,
+        doneLabel = stringResource(R.string.done),
         containerColor = MaterialTheme.colorScheme.background,
         title = stringResource(title),
         customMonthNames = monthNames,

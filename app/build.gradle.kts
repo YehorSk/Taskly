@@ -75,6 +75,8 @@ dependencies {
 
     implementation(libs.timber)
 
+    implementation(libs.splashscreen)
+
     implementation(libs.gson)
     implementation(libs.androidx.ui.text.google.fonts)
 

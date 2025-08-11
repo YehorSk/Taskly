@@ -56,5 +56,6 @@
     <string name="december">December</string>
     <string name="_24_hour">24 Hour</string>
     <string name="am_pm">12 Hour</string>
+    <string name="done">Done</string>
 
 </resources>

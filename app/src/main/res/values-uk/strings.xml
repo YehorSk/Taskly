@@ -57,5 +57,6 @@
     <string name="december">Грудень</string>
     <string name="_24_hour">24 години</string>
     <string name="am_pm">12 годин</string>
+    <string name="done">Готово</string>
 
 </resources>

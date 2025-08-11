@@ -57,5 +57,6 @@
     <string name="december">December</string>
     <string name="_24_hour">24 hodín</string>
     <string name="am_pm">12 hodín</string>
+    <string name="done">Hotovo</string>
 
 </resources>
