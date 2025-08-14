@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.yehorsk.taskly.categories.presentation.list.CategoryScreenRoot
+import com.yehorsk.taskly.core.presentation.components.MainScaffold
 import com.yehorsk.taskly.notes.presentation.add_edit_note.AddEditNoteListScreenRoot
 import com.yehorsk.taskly.notes.presentation.list.NoteListScreenAction
 import com.yehorsk.taskly.notes.presentation.list.NoteListScreenRoot
@@ -24,70 +25,73 @@ fun NavigationRoot(
     modifier: Modifier = Modifier,
     navController: NavHostController
 ){
-    NavHost(
+    MainScaffold(
+        modifier = modifier,
         navController = navController,
-        startDestination = Route.ToDos.route
-    ){
-        composable(
-            route = Route.Categories.route
-        ) {
-            CategoryScreenRoot(
+        content = {
+            NavHost(
                 navController = navController,
-                modifier = modifier
-            )
-        }
-        composable(
-            route = Route.ToDos.route
-        ) {
-            ToDoListScreenRoot(
-                navController = navController,
-                onItemClick = { id -> navController.navigate(Route.AddEditTodo(id = id.toString())){launchSingleTop = true} }
-            )
-        }
-        composable(
-            route = Route.Notes.route
-        ) {
-            NoteListScreenRoot(
-                navController = navController,
-                onItemClick = { id -> navController.navigate(Route.AddEditNote(id = id.toString())){launchSingleTop = true} }
-            )
-        }
-        composable(
-            route = Route.Settings.route
-        ) {
-            SettingsScreenRoot(
-                navController = navController
-            )
-        }
-        composable<Route.AddEditTodo>() {
-            val args = it.toRoute<Route.AddEditTodo>()
-            val viewModel: MainToDoScreensViewModel = koinViewModel()
-            LaunchedEffect(args.id) {
-                args.id?.toIntOrNull()?.let { id ->
-                    viewModel.onAction(MainListScreenAction.OnGetToDoById(id))
-                } ?: run {
-                    viewModel.onAction(MainListScreenAction.OnAddNewToDoClicked)
+                startDestination = Route.ToDos.route
+            ){
+                composable(
+                    route = Route.Categories.route
+                ) {
+                    CategoryScreenRoot()
+                }
+                composable(
+                    route = Route.ToDos.route
+                ) {
+                    ToDoListScreenRoot(
+                        navController = navController,
+                        onItemClick = { id -> navController.navigate(Route.AddEditTodo(id = id.toString())){launchSingleTop = true} }
+                    )
+                }
+                composable(
+                    route = Route.Notes.route
+                ) {
+                    NoteListScreenRoot(
+                        navController = navController,
+                        onItemClick = { id -> navController.navigate(Route.AddEditNote(id = id.toString())){launchSingleTop = true} }
+                    )
+                }
+                composable(
+                    route = Route.Settings.route
+                ) {
+                    SettingsScreenRoot(
+                        navController = navController
+                    )
+                }
+                composable<Route.AddEditTodo>() {
+                    val args = it.toRoute<Route.AddEditTodo>()
+                    val viewModel: MainToDoScreensViewModel = koinViewModel()
+                    LaunchedEffect(args.id) {
+                        args.id?.toIntOrNull()?.let { id ->
+                            viewModel.onAction(MainListScreenAction.OnGetToDoById(id))
+                        } ?: run {
+                            viewModel.onAction(MainListScreenAction.OnAddNewToDoClicked)
+                        }
+                    }
+                    AddEditToDoScreenRoot(
+                        viewModel = viewModel,
+                        onGoBackClicked = { navController.navigateUp() }
+                    )
+                }
+                composable<Route.AddEditNote> {
+                    val args = it.toRoute<Route.AddEditNote>()
+                    val viewModel: NoteListScreenViewModel = koinViewModel()
+                    LaunchedEffect(args.id) {
+                        args.id?.toIntOrNull()?.let { id ->
+                            viewModel.onAction(NoteListScreenAction.OnGetNoteById(args.id.toInt()))
+                        } ?: run {
+                            viewModel.onAction(NoteListScreenAction.OnAddNewNoteClicked)
+                        }
+                    }
+                    AddEditNoteListScreenRoot(
+                        viewModel = viewModel,
+                        onGoBackClicked = { navController.navigateUp() }
+                    )
                 }
             }
-            AddEditToDoScreenRoot(
-                viewModel = viewModel,
-                onGoBackClicked = { navController.navigateUp() }
-            )
         }
-        composable<Route.AddEditNote> {
-            val args = it.toRoute<Route.AddEditNote>()
-            val viewModel: NoteListScreenViewModel = koinViewModel()
-            LaunchedEffect(args.id) {
-                args.id?.toIntOrNull()?.let { id ->
-                    viewModel.onAction(NoteListScreenAction.OnGetNoteById(args.id.toInt()))
-                } ?: run {
-                    viewModel.onAction(NoteListScreenAction.OnAddNewNoteClicked)
-                }
-            }
-            AddEditNoteListScreenRoot(
-                viewModel = viewModel,
-                onGoBackClicked = { navController.navigateUp() }
-            )
-        }
-    }
+    )
 }

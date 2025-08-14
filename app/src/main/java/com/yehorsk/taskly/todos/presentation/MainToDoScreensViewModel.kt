@@ -134,10 +134,6 @@ class MainToDoScreensViewModel(
         }
     }
 
-//    private fun validateForm(): Boolean{
-//        return _state.value.selectedCategory != null &&
-//    }
-
     private fun onDoneClicked(todo: ToDo) {
         viewModelScope.launch {
             toDoRepository.onDone(todo)
@@ -182,7 +178,6 @@ class MainToDoScreensViewModel(
     }
 
     private fun getToDoById(id: Int) {
-        Timber.d("Fetching ToDo by ID: $id")
         getTodoJob?.cancel()
         getTodoJob = viewModelScope.launch {
             _state.update { it.copy(

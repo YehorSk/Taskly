@@ -3,9 +3,11 @@ package com.yehorsk.taskly.todos.presentation.list
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -41,11 +43,6 @@ fun ToDoListScreenRoot(
                 else -> Unit
             }
             viewModel.onAction(action)
-        },
-        bottomBar = {
-            BottomBar(
-                navController = navController
-            )
         }
     )
 }
@@ -54,7 +51,6 @@ fun ToDoListScreenRoot(
 fun ToDoListScreen(
     modifier: Modifier = Modifier,
     viewModel: MainToDoScreensViewModel,
-    bottomBar: @Composable() () -> Unit,
     onAction: (MainListScreenAction) -> Unit
 ){
 
@@ -81,13 +77,14 @@ fun ToDoListScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { onAction(MainListScreenAction.OnFABClicked) }) {
+            FloatingActionButton(
+                modifier = Modifier.navigationBarsPadding(),
+                onClick = { onAction(MainListScreenAction.OnFABClicked) }
+            ) {
                 Icon(Icons.Default.Add, contentDescription = null)
             }
         },
-        bottomBar = {
-            bottomBar()
-        }
+        floatingActionButtonPosition = FabPosition.End,
     ) { innerPadding ->
         Column(
             modifier = Modifier

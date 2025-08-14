@@ -13,34 +13,34 @@ import androidx.compose.material.icons.outlined.Task
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.yehorsk.taskly.R
 
-sealed class BottomNavigationItem(
+sealed class NavigationItem(
     val route: String,
     @StringRes val title: Int,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
 ) {
-    object Tasks : BottomNavigationItem(
+    object Tasks : NavigationItem(
         route = "TODOS",
         title = R.string.my_tasks,
         selectedIcon = Icons.Default.Task,
         unselectedIcon = Icons.Outlined.Task
     )
 
-    object Categories : BottomNavigationItem(
+    object Categories : NavigationItem(
         route = "CATEGORIES",
         title = R.string.categories,
         selectedIcon = Icons.Default.Category,
         unselectedIcon = Icons.Outlined.Category,
     )
 
-    object Notes : BottomNavigationItem(
+    object Notes : NavigationItem(
         route = "NOTES",
         title = R.string.notes,
         selectedIcon = Icons.Default.Notes,
         unselectedIcon = Icons.Outlined.Notes,
     )
 
-    object Settings : BottomNavigationItem(
+    object Settings : NavigationItem(
         route = "SETTINGS",
         title = R.string.settings,
         selectedIcon = Icons.Default.Settings,

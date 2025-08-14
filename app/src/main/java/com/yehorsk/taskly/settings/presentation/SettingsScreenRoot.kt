@@ -43,11 +43,6 @@ fun SettingsScreenRoot(
         theme = theme,
         language = language,
         hourFormat = hourFormat,
-        bottomBar = {
-            BottomBar(
-                navController = navController
-            )
-        },
         onAction = viewModel::onAction
     )
 }
@@ -58,7 +53,6 @@ fun SettingsScreen(
     theme: Boolean,
     language: String,
     hourFormat: Boolean,
-    bottomBar: @Composable() () -> Unit,
     onAction: (SettingsScreenAction) -> Unit
 ){
     Scaffold(
@@ -70,9 +64,6 @@ fun SettingsScreen(
                 onGoBack = {},
                 showGoBack = false
             )
-        },
-        bottomBar = {
-            bottomBar()
         }
     ) { innerPadding ->
         LazyColumn(

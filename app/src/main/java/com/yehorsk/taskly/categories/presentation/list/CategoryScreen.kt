@@ -24,7 +24,6 @@ import com.yehorsk.taskly.core.utils.AddEditAction
 @Composable
 fun CategoryScreenRoot(
     modifier: Modifier = Modifier,
-    navController: NavHostController,
     viewModel: CategoryScreenViewModel = koinViewModel()
 ){
 
@@ -35,11 +34,6 @@ fun CategoryScreenRoot(
         state = state,
         onAction = {
             viewModel.onAction(it)
-        },
-        bottomBar = {
-            BottomBar(
-                navController = navController
-            )
         }
     )
 }
@@ -48,8 +42,7 @@ fun CategoryScreenRoot(
 fun CategoryScreen(
     modifier: Modifier = Modifier,
     state: CategoryScreenUiState,
-    onAction: (CategoryScreenAction) -> Unit,
-    bottomBar: @Composable() () -> Unit,
+    onAction: (CategoryScreenAction) -> Unit
 ){
     if(state.showAddCategoryDialog){
         CategoryDialog(
@@ -79,9 +72,6 @@ fun CategoryScreen(
                 onGoBack = {},
                 showGoBack = false
             )
-        },
-        bottomBar = {
-            bottomBar()
         }
     ) { innerPadding ->
         Box(

@@ -10,11 +10,11 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.yehorsk.taskly.core.navigation.BottomNavigationItem
+import com.yehorsk.taskly.core.navigation.NavigationItem
 
 @Composable
 fun RowScope.AddItem(
-    screen: BottomNavigationItem,
+    screen: NavigationItem,
     currentDestination: NavDestination?,
     navController: NavHostController,
 ){

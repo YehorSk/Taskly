@@ -80,10 +80,14 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.androidx.ui.text.google.fonts)
 
+    debugImplementation(libs.leakcanary)
+
     //Icons
     implementation(libs.androidx.material.icons.extended)
 
     implementation(libs.kmp.date.time.picker)
+
+    implementation(libs.material3.adaptive.navigation.suite)
 
     implementation(libs.datastore)
     implementation(libs.datastore.preferences)

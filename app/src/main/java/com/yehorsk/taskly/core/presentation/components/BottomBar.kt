@@ -5,13 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.yehorsk.taskly.core.navigation.BottomNavigationItem.Companion.items
+import com.yehorsk.taskly.core.navigation.NavigationItem.Companion.items
 
 @Composable
 fun BottomBar(
     navController: NavHostController
 ){
-
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
@@ -30,5 +29,4 @@ fun BottomBar(
             }
         }
     }
-
 }

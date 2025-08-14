@@ -34,8 +34,6 @@ import com.yehorsk.taskly.core.utils.formatMonthYMD
 import com.yehorsk.taskly.core.utils.lastDay
 import com.yehorsk.taskly.ui.theme.TasklyTheme
 import java.time.LocalDate
-import java.time.format.TextStyle
-import java.util.Locale
 
 @Composable
 fun CustomDatePicker(

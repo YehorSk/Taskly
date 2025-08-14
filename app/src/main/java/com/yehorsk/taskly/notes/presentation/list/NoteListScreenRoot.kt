@@ -3,9 +3,11 @@ package com.yehorsk.taskly.notes.presentation.list
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -39,11 +41,6 @@ fun NoteListScreenRoot(
                 else -> Unit
             }
             viewModel.onAction(action)
-        },
-        bottomBar = {
-            BottomBar(
-                navController = navController
-            )
         }
     )
 
@@ -53,8 +50,7 @@ fun NoteListScreenRoot(
 fun NoteListScreen(
     modifier: Modifier = Modifier,
     state: NoteListScreenUiState,
-    onAction: (NoteListScreenAction) -> Unit,
-    bottomBar: @Composable() () -> Unit,
+    onAction: (NoteListScreenAction) -> Unit
 ){
     Scaffold(
         modifier = modifier
@@ -67,13 +63,14 @@ fun NoteListScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { onAction(NoteListScreenAction.OnFABClicked) }) {
+            FloatingActionButton(
+                modifier = Modifier.navigationBarsPadding(),
+                onClick = { onAction(NoteListScreenAction.OnFABClicked) }
+            ) {
                 Icon(Icons.Default.Add, contentDescription = null)
             }
         },
-        bottomBar = {
-            bottomBar()
-        }
+        floatingActionButtonPosition = FabPosition.End,
     ){ innerPadding ->
         Column(
             modifier = Modifier
