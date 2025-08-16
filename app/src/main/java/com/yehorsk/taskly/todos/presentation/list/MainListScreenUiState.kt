@@ -22,7 +22,8 @@ data class MainListScreenUiState(
     val alarmOn: Boolean = false,
     val showDateTimePicker: Boolean = false,
     val action: AddEditAction = AddEditAction.ADD,
-    val openFullCalendar: Boolean = false
+    val openFullCalendar: Boolean = false,
+    val showFilterBottomSheet: Boolean = false
 ){
     val sectionedToDos = items
         .toList()

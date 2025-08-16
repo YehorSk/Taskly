@@ -36,7 +36,9 @@ fun NavigationRoot(
                 composable(
                     route = Route.Categories.route
                 ) {
-                    CategoryScreenRoot()
+                    CategoryScreenRoot(
+                        onGoBackClicked = { navController.navigateUp() }
+                    )
                 }
                 composable(
                     route = Route.ToDos.route

@@ -94,8 +94,26 @@ class MainToDoScreensViewModel(
                     openFullCalendar = !_state.value.openFullCalendar
                 ) }
             }
-
             MainListScreenAction.OnFABClicked -> {}
+            MainListScreenAction.CloseBottomSheet -> onCloseBottomSheet()
+            MainListScreenAction.OpenBottomSheet -> onOpenBottomSheet()
+            MainListScreenAction.OpenManageCategories -> { }
+        }
+    }
+
+    private fun onOpenBottomSheet(){
+        _state.update {
+            it.copy(
+                showFilterBottomSheet = true
+            )
+        }
+    }
+
+    private fun onCloseBottomSheet(){
+        _state.update {
+            it.copy(
+                showFilterBottomSheet = false
+            )
         }
     }
 

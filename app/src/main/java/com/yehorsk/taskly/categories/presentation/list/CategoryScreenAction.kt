@@ -4,6 +4,7 @@ import com.yehorsk.taskly.categories.domain.models.Category
 
 sealed interface CategoryScreenAction {
 
+    data object OnGoBackClicked: CategoryScreenAction
     data object OnCategoryUpdate: CategoryScreenAction
     data object OnCategorySave: CategoryScreenAction
     data object OnCategoryDelete: CategoryScreenAction

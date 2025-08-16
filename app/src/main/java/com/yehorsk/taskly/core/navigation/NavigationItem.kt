@@ -26,12 +26,12 @@ sealed class NavigationItem(
         unselectedIcon = Icons.Outlined.Task
     )
 
-    object Categories : NavigationItem(
-        route = "CATEGORIES",
-        title = R.string.categories,
-        selectedIcon = Icons.Default.Category,
-        unselectedIcon = Icons.Outlined.Category,
-    )
+//    object Categories : NavigationItem(
+//        route = "CATEGORIES",
+//        title = R.string.categories,
+//        selectedIcon = Icons.Default.Category,
+//        unselectedIcon = Icons.Outlined.Category,
+//    )
 
     object Notes : NavigationItem(
         route = "NOTES",
@@ -48,6 +48,6 @@ sealed class NavigationItem(
     )
 
     companion object {
-        val items = listOf(Tasks, Categories, Notes, Settings)
+        val items = listOf(Tasks, Notes, Settings)
     }
 }

@@ -58,4 +58,7 @@
     <string name="am_pm">12 Hour</string>
     <string name="done">Done</string>
 
+    <string name="filter_by_category">Filter by Categories:</string>
+    <string name="manage_categories">Manage Categories</string>
+
 </resources>

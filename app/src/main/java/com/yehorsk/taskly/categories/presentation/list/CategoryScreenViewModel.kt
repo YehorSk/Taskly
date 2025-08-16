@@ -50,6 +50,7 @@ class CategoryScreenViewModel(
             CategoryScreenAction.HideCategoryDialog -> hideCategoryDialog()
             CategoryScreenAction.ShowCategoryDialog -> showCategoryDialog()
             CategoryScreenAction.OnInputValidate -> validateInput()
+            CategoryScreenAction.OnGoBackClicked -> {}
         }
     }
 

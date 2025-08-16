@@ -2,6 +2,7 @@ package com.yehorsk.taskly.todos.presentation.list.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,25 +28,24 @@ fun CategoryFilter(
     selectedCategorySummary: List<CategorySummary>,
     onCategoryClicked: (CategorySummary) -> Unit
 ){
-    LazyRow(
+    FlowRow(
         modifier = modifier
             .padding(5.dp)
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+        verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        items(
-            items = categories, key = { it.id }
-        ){ item ->
+        categories.forEach { item ->
             Card(
                 modifier = Modifier
                     .width(IntrinsicSize.Min)
-                    .clickable{ onCategoryClicked(item) },
+                    .clickable { onCategoryClicked(item) },
                 colors = CardDefaults.cardColors(
-                    containerColor = if(item in selectedCategorySummary){
-                                        MaterialTheme.colorScheme.primaryContainer
-                                    }else{
-                                        Color.LightGray
-                                    }
+                    containerColor = if (item in selectedCategorySummary) {
+                        MaterialTheme.colorScheme.primaryContainer
+                    } else {
+                        Color.LightGray
+                    }
                 )
             ) {
                 Text(
@@ -55,22 +55,6 @@ fun CategoryFilter(
                 )
             }
         }
-//        item {
-//            Card(
-//                modifier = Modifier
-//                    .width(IntrinsicSize.Min)
-//                    .clickable{  },
-//                colors = CardDefaults.cardColors(
-//                    containerColor = Color.LightGray
-//                )
-//            ) {
-//                Text(
-//                    modifier = Modifier.padding(8.dp),
-//                    text = "Add",
-//                    color = Color.Black
-//                )
-//            }
-//        }
     }
 }
 

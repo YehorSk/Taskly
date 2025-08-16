@@ -12,19 +12,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import com.yehorsk.taskly.R
 import com.yehorsk.taskly.categories.presentation.list.components.CategoryGrid
 import org.koin.compose.viewmodel.koinViewModel
 import com.yehorsk.taskly.categories.presentation.list.components.CategoryDialog
-import com.yehorsk.taskly.core.presentation.components.BottomBar
 import com.yehorsk.taskly.core.presentation.components.TitleNavBar
 import com.yehorsk.taskly.core.utils.AddEditAction
 
 @Composable
 fun CategoryScreenRoot(
     modifier: Modifier = Modifier,
-    viewModel: CategoryScreenViewModel = koinViewModel()
+    viewModel: CategoryScreenViewModel = koinViewModel(),
+    onGoBackClicked: () -> Unit
 ){
 
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -32,8 +31,12 @@ fun CategoryScreenRoot(
     CategoryScreen(
         modifier = modifier,
         state = state,
-        onAction = {
-            viewModel.onAction(it)
+        onAction = { action ->
+            when(action){
+                is CategoryScreenAction.OnGoBackClicked -> { onGoBackClicked() }
+                else -> Unit
+            }
+            viewModel.onAction(action)
         }
     )
 }
@@ -69,8 +72,8 @@ fun CategoryScreen(
         topBar = {
             TitleNavBar(
                 title = R.string.categories,
-                onGoBack = {},
-                showGoBack = false
+                onGoBack = { onAction(CategoryScreenAction.OnGoBackClicked) },
+                showGoBack = true
             )
         }
     ) { innerPadding ->

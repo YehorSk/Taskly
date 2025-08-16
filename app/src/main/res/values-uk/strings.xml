@@ -59,4 +59,7 @@
     <string name="am_pm">12 годин</string>
     <string name="done">Готово</string>
 
+    <string name="filter_by_category">Фільтрувати за категоріями:</string>
+    <string name="manage_categories">Керувати категоріями</string>
+
 </resources>

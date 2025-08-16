@@ -7,6 +7,9 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -32,9 +35,11 @@ fun MainScaffold(
 
     val windowSize = currentWindowSize()
 
+    val navType = getNavigationSuiteType(windowSize.toDpSize())
+
     NavigationSuiteScaffold(
         modifier = modifier,
-        layoutType = if(!bottomBarDestination) NavigationSuiteType.None else getNavigationSuiteType(windowSize.toDpSize()),
+        layoutType = if(!bottomBarDestination) NavigationSuiteType.None else navType,
         navigationSuiteItems = {
             items.forEach { item ->
                 val isSelected = currentDestination?.hierarchy?.any{
@@ -81,7 +86,7 @@ fun MainScaffold(
  */
 fun getNavigationSuiteType(windowSize: DpSize): NavigationSuiteType {
     return if (windowSize.width > 1240.dp) {
-        NavigationSuiteType.NavigationDrawer
+        NavigationSuiteType.NavigationRail
     } else if (windowSize.width >= 600.dp) {
         NavigationSuiteType.NavigationRail
     } else {

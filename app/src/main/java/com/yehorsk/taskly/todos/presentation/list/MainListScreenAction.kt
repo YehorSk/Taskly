@@ -45,4 +45,10 @@ sealed interface MainListScreenAction {
 
     data object OnFullCalendarClicked: MainListScreenAction
 
+    data object CloseBottomSheet: MainListScreenAction
+
+    data object OpenBottomSheet: MainListScreenAction
+
+    data object OpenManageCategories: MainListScreenAction
+
 }

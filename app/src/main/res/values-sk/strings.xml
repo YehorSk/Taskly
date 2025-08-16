@@ -59,4 +59,7 @@
     <string name="am_pm">12 hodín</string>
     <string name="done">Hotovo</string>
 
+    <string name="filter_by_category">Filtrovať podľa kategórií:</string>
+    <string name="manage_categories">Spravovať kategórie</string>
+
 </resources>
