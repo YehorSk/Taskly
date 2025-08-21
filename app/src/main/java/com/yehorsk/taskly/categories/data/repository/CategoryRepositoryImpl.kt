@@ -1,7 +1,6 @@
 package com.yehorsk.taskly.categories.data.repository
 
 import com.yehorsk.taskly.categories.data.database.dao.CategoryDao
-import com.yehorsk.taskly.categories.data.database.models.CategoryWithToDos
 import com.yehorsk.taskly.categories.data.mappers.toCategory
 import com.yehorsk.taskly.categories.data.mappers.toCategoryEntity
 import com.yehorsk.taskly.categories.data.mappers.toCategoryMain
@@ -22,10 +21,6 @@ class CategoryRepositoryImpl(
                     it.toCategory()
                 }
             }
-    }
-
-    override fun getAllCategoriesWithToDos(): Flow<List<CategoryWithToDos>> {
-        TODO("Not yet implemented")
     }
 
     override fun getCategoriesWithToDoCount(): Flow<List<CategoryMain>> {

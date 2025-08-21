@@ -58,6 +58,18 @@
     <string name="am_pm">12 Hour</string>
     <string name="done">Done</string>
 
+    <string name="snackbar_todo_added">ToDo added</string>
+    <string name="snackbar_todo_updated">ToDo updated</string>
+    <string name="snackbar_todo_deleted">ToDo deleted</string>
+
+    <string name="snackbar_note_added">Note added</string>
+    <string name="snackbar_note_updated">Note updated</string>
+    <string name="snackbar_note_deleted">Note deleted</string>
+
+    <string name="theme_changed">Theme changed</string>
+    <string name="hour_format_changed">Hour format changed</string>
+    <string name="language_changed">Language changed</string>
+
     <string name="filter_by_category">Filter by Categories:</string>
     <string name="manage_categories">Manage Categories</string>
 

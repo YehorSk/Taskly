@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.yehorsk.taskly.R
 import com.yehorsk.taskly.core.domain.onSuccess
 import com.yehorsk.taskly.core.utils.AddEditAction
+import com.yehorsk.taskly.core.utils.SnackbarController
+import com.yehorsk.taskly.core.utils.SnackbarEvent
 import com.yehorsk.taskly.core.utils.UiText
 import com.yehorsk.taskly.core.utils.brightColors
 import com.yehorsk.taskly.notes.data.database.models.CheckItem
@@ -128,12 +130,26 @@ class NoteListScreenViewModel(
                 color = _state.value.color
             )
             noteRepository.updateNote(updatedItem)
+                .onSuccess {
+                    SnackbarController.sendEvent(
+                        event = SnackbarEvent(
+                            message = UiText.StringResource(R.string.snackbar_note_updated)
+                        )
+                    )
+                }
         }
     }
 
     private fun onDeleteClicked() {
         viewModelScope.launch {
             noteRepository.deleteNote(_state.value.currentNote!!)
+                .onSuccess {
+                    SnackbarController.sendEvent(
+                        event = SnackbarEvent(
+                            message = UiText.StringResource(R.string.snackbar_note_deleted)
+                        )
+                    )
+                }
         }
     }
 
@@ -165,6 +181,13 @@ class NoteListScreenViewModel(
                 color = _state.value.color
             )
             noteRepository.insertNote(newItem)
+                .onSuccess {
+                    SnackbarController.sendEvent(
+                        event = SnackbarEvent(
+                            message = UiText.StringResource(R.string.snackbar_note_added)
+                        )
+                    )
+                }
         }
     }
 

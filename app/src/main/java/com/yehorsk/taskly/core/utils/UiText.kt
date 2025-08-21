@@ -1,5 +1,6 @@
 package com.yehorsk.taskly.core.utils
 
+import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -39,4 +40,10 @@ sealed interface UiText {
         is DynamicString -> value
         is StringResource -> stringResource(id, args)
     }
+
+    fun asString(context: Context): String = when (this) {
+        is DynamicString -> value
+        is StringResource -> context.getString(id, args)
+    }
+
 }

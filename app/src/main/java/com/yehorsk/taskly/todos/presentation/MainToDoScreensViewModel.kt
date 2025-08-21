@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.yehorsk.taskly.R
 import com.yehorsk.taskly.core.domain.onSuccess
 import com.yehorsk.taskly.core.utils.AddEditAction
+import com.yehorsk.taskly.core.utils.SnackbarController
+import com.yehorsk.taskly.core.utils.SnackbarEvent
 import com.yehorsk.taskly.core.utils.UiText
 import com.yehorsk.taskly.todos.domain.models.CategorySummary
 import com.yehorsk.taskly.todos.domain.models.ToDo
@@ -170,12 +172,26 @@ class MainToDoScreensViewModel(
                 alarmOn = _state.value.alarmOn
             )
             toDoRepository.insertTodo(newToDo)
+                .onSuccess {
+                    SnackbarController.sendEvent(
+                        event = SnackbarEvent(
+                            message = UiText.StringResource(R.string.snackbar_todo_added)
+                        )
+                    )
+                }
         }
     }
 
     private fun deleteToDo(){
         viewModelScope.launch {
             toDoRepository.deleteTodo(_state.value.currentToDo!!)
+                .onSuccess {
+                    SnackbarController.sendEvent(
+                        event = SnackbarEvent(
+                            message = UiText.StringResource(R.string.snackbar_todo_deleted)
+                        )
+                    )
+                }
         }
     }
 
@@ -192,6 +208,13 @@ class MainToDoScreensViewModel(
                 alarmOn = _state.value.alarmOn
             )
             toDoRepository.updateTodo(updateToDo)
+                .onSuccess {
+                    SnackbarController.sendEvent(
+                        event = SnackbarEvent(
+                            message = UiText.StringResource(R.string.snackbar_todo_updated)
+                        )
+                    )
+                }
         }
     }
 

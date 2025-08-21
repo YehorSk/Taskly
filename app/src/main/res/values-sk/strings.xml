@@ -59,6 +59,18 @@
     <string name="am_pm">12 hodín</string>
     <string name="done">Hotovo</string>
 
+    <string name="snackbar_todo_added">Úloha pridaná</string>
+    <string name="snackbar_todo_updated">Úloha aktualizovaná</string>
+    <string name="snackbar_todo_deleted">Úloha odstránená</string>
+
+    <string name="snackbar_note_added">Poznámka pridaná</string>
+    <string name="snackbar_note_updated">Poznámka aktualizovaná</string>
+    <string name="snackbar_note_deleted">Poznámka odstránená</string>
+
+    <string name="theme_changed">Téma zmenená</string>
+    <string name="hour_format_changed">Formát času zmenený</string>
+    <string name="language_changed">Jazyk zmenený</string>
+
     <string name="filter_by_category">Filtrovať podľa kategórií:</string>
     <string name="manage_categories">Spravovať kategórie</string>
 
