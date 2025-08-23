@@ -12,7 +12,6 @@ import com.yehorsk.taskly.core.utils.brightColors
 import com.yehorsk.taskly.notes.data.database.models.CheckItem
 import com.yehorsk.taskly.notes.domain.models.Note
 import com.yehorsk.taskly.notes.domain.repository.NoteRepository
-import com.yehorsk.taskly.todos.domain.models.ToDo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow

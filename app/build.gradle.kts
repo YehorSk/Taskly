@@ -55,6 +55,7 @@ dependencies {
 
     implementation(libs.firebase.crashlytics.ndk)
     implementation(libs.google.firebase.analytics)
+    implementation(libs.androidx.glance.appwidget)
 
     // Room
     ksp(libs.androidx.room.compiler)

@@ -1,6 +1,7 @@
 package com.yehorsk.taskly.core.utils
 
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
@@ -29,6 +30,11 @@ fun formatMonthYM(input: String): String {
     val yearMonth = YearMonth.parse(input, parser)
     val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
     return yearMonth.format(formatter)
+}
+
+fun LocalDateTime.toHourMinute(): String {
+    val formatter = DateTimeFormatter.ofPattern("HH:mm")
+    return this.format(formatter)
 }
 
 val YearMonth.firstDay: LocalDate
