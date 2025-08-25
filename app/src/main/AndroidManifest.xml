@@ -28,6 +28,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="com.yehorsk.CREATE_TODO"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="https"
+                    android:host="taskly.com"
+                    android:path="/add-todo"/>
+            </intent-filter>
         </activity>
         <receiver android:name=".core.data.alarm.AlarmReceiver"/>
         <receiver android:name=".core.data.alarm.BootCompletedReceiver" android:exported="false">

@@ -3,10 +3,12 @@ package com.yehorsk.taskly.core.navigation
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Category
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Notes
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Task
 import androidx.compose.material.icons.outlined.Category
+import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Notes
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Task
@@ -36,8 +38,8 @@ sealed class NavigationItem(
     object Notes : NavigationItem(
         route = "NOTES",
         title = R.string.notes,
-        selectedIcon = Icons.Default.Notes,
-        unselectedIcon = Icons.Outlined.Notes,
+        selectedIcon = Icons.Default.Description,
+        unselectedIcon = Icons.Outlined.Description,
     )
 
     object Settings : NavigationItem(

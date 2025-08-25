@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import com.yehorsk.taskly.categories.presentation.list.CategoryScreenRoot
 import com.yehorsk.taskly.core.presentation.components.MainScaffold
@@ -29,12 +30,14 @@ import com.yehorsk.taskly.todos.presentation.MainToDoScreensViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 
+const val ACTION_CREATE_TODO = "com.yehorsk.CREATE_TODO"
+
 @Composable
 fun NavigationRoot(
     modifier: Modifier = Modifier,
     navController: NavHostController
 ){
-
+    val uri = "https://taskly.com"
     val snackbarHostState = remember {
         SnackbarHostState()
     }
@@ -97,7 +100,13 @@ fun NavigationRoot(
                         navController = navController
                     )
                 }
-                composable<Route.AddEditTodo>() {
+                composable<Route.AddEditTodo>(
+                    deepLinks = listOf(
+                        navDeepLink<Route.AddEditTodo>(basePath = "$uri/add-todo"){
+                            action = ACTION_CREATE_TODO
+                        }
+                    )
+                ) {
                     val args = it.toRoute<Route.AddEditTodo>()
                     val viewModel: MainToDoScreensViewModel = koinViewModel()
                     LaunchedEffect(args.id) {
@@ -109,10 +118,15 @@ fun NavigationRoot(
                     }
                     AddEditToDoScreenRoot(
                         viewModel = viewModel,
-                        onGoBackClicked = { navController.navigateUp() }
+                        onGoBackClicked = { navController.navigateUp() },
+                        onOpenCategoriesClicked = { navController.navigate(Route.Categories.route) }
                     )
                 }
-                composable<Route.AddEditNote> {
+                composable<Route.AddEditNote>(
+                    deepLinks = listOf(
+                        navDeepLink<Route.AddEditTodo>(basePath = "$uri/add-note")
+                    )
+                ) {
                     val args = it.toRoute<Route.AddEditNote>()
                     val viewModel: NoteListScreenViewModel = koinViewModel()
                     LaunchedEffect(args.id) {

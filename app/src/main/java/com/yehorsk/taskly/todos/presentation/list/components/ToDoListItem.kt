@@ -54,7 +54,8 @@ fun ToDoListItem(
             .padding(start = 8.dp, end = 8.dp),
         shadowElevation = 3.dp,
         border = BorderStroke(2.dp, isOverDue),
-        shape = RoundedCornerShape(18.dp)
+        shape = RoundedCornerShape(18.dp),
+        color = MaterialTheme.colorScheme.onSecondary,
     ){
         Row(
             modifier = Modifier

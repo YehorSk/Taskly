@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -252,30 +254,30 @@ fun AddEditNoteListScreen(
                 enabled = state.title.isNotEmpty()
             )
             if(state.action == AddEditAction.EDIT && state.currentNote != null){
-                Button(
+                IconButton(
                     modifier = Modifier
                         .padding(
+                            top = 16.dp,
                             bottom = 16.dp,
                             start = 16.dp,
                             end = 16.dp
                         )
                         .fillMaxWidth(),
-                    shape = RoundedCornerShape(4.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFEF5350)
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Color(0xFFEF5350)
                     ),
                     content = {
-                        Text(
-                            text = stringResource(R.string.delete),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface
+                        Icon(
+                            modifier = Modifier
+                                .size(48.dp),
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = ""
                         )
                     },
                     onClick = {
                         onAction(NoteListScreenAction.OnDeleteClicked)
                         onAction(NoteListScreenAction.OnGoBackClicked)
-                    },
-                    enabled = true
+                    }
                 )
             }
         }

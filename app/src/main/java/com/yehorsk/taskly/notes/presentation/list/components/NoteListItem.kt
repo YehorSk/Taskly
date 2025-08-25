@@ -1,5 +1,6 @@
 package com.yehorsk.taskly.notes.presentation.list.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -61,7 +62,8 @@ fun NoteListItem(
             .clickable{ onClick() }
             .padding(start = 8.dp, end = 8.dp),
         shadowElevation = 3.dp,
-        shape = RoundedCornerShape(18.dp)
+        shape = RoundedCornerShape(18.dp),
+        color = MaterialTheme.colorScheme.onSecondary,
     ) {
         Column(
             modifier = Modifier

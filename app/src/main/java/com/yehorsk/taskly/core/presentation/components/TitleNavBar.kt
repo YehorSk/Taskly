@@ -13,7 +13,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
@@ -30,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import com.yehorsk.taskly.ui.theme.TasklyTheme
@@ -80,16 +83,18 @@ fun TitleNavBar(
                 )
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
-        )
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.background,
+            scrolledContainerColor = MaterialTheme.colorScheme.background
+        ),
+    )
+    HorizontalDivider(
+        thickness = 1.dp,
+        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
     )
 }
 
-@Preview(
-    backgroundColor = 0xFFFFFFFF,
-    showBackground = true
-)
+@PreviewLightDark()
 @Composable
 fun TitleNavBarPreview(){
     TasklyTheme {

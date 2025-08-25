@@ -19,13 +19,17 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -50,21 +54,25 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.yehorsk.taskly.R
 import com.yehorsk.taskly.categories.utils.formatReadable
 import com.yehorsk.taskly.categories.utils.select
+import com.yehorsk.taskly.core.navigation.Route
 import com.yehorsk.taskly.core.presentation.components.DateTimePicker
 import com.yehorsk.taskly.core.presentation.components.TitleNavBar
 import com.yehorsk.taskly.core.utils.AddEditAction
+import com.yehorsk.taskly.todos.domain.models.ToDo
 import com.yehorsk.taskly.todos.presentation.add_edit_todo.components.SelectCategoryDialog
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenAction
 import com.yehorsk.taskly.todos.presentation.list.MainListScreenUiState
 import com.yehorsk.taskly.todos.presentation.MainToDoScreensViewModel
 import com.yehorsk.taskly.ui.theme.TasklyTheme
 import network.chaintech.kmp_date_time_picker.utils.TimeFormat
+import java.time.LocalDateTime
 
 @Composable
 fun AddEditToDoScreenRoot(
     modifier: Modifier = Modifier,
     viewModel: MainToDoScreensViewModel,
-    onGoBackClicked: () -> Unit
+    onGoBackClicked: () -> Unit,
+    onOpenCategoriesClicked: () -> Unit
 ){
     val state by viewModel.state.collectAsStateWithLifecycle()
     val hourFormat by viewModel.hourFormat.collectAsStateWithLifecycle()
@@ -76,6 +84,7 @@ fun AddEditToDoScreenRoot(
         onAction = { action ->
             when(action){
                 is MainListScreenAction.OnGoBackClicked -> { onGoBackClicked() }
+                is MainListScreenAction.OpenManageCategories -> { onOpenCategoriesClicked() }
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -169,33 +178,50 @@ fun AddEditToDoScreen(
                         .height(IntrinsicSize.Min)
                         .padding(start = 16.dp, end = 16.dp, top = 16.dp)
                 ){
-                    val selectedCategory = state.categories.find { it.id == state.selectedCategory }
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable(enabled = true) { expanded = true },
-                        readOnly = true,
-                        label = { Text(stringResource(R.string.category)+"*") },
-                        value = if (state.selectedCategory == null || selectedCategory == null) {
-                            stringResource(R.string.select)
-                        } else {
-                            selectedCategory.title
-                        },
-                        onValueChange = {},
-                        trailingIcon = {
-                            val icon = expanded.select(Icons.Filled.ArrowDropUp, Icons.Filled.ArrowDropDown)
-                            Icon(imageVector = icon, "")
-                        },
-                        enabled = !isNavigating
-                    )
-                    Surface(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 8.dp)
-                            .clip(MaterialTheme.shapes.extraSmall)
-                            .clickable(enabled = true) { expanded = true },
-                        color = Color.Transparent,
-                    ) {  }
+                    if(!state.categories.isEmpty()){
+                        val selectedCategory = state.categories.find { it.id == state.selectedCategory }
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable(enabled = true) { expanded = true },
+                            readOnly = true,
+                            label = { Text(stringResource(R.string.category)+"*") },
+                            value = if (state.selectedCategory == null || selectedCategory == null) {
+                                stringResource(R.string.select)
+                            } else {
+                                selectedCategory.title
+                            },
+                            onValueChange = {},
+                            trailingIcon = {
+                                val icon = expanded.select(Icons.Filled.ArrowDropUp, Icons.Filled.ArrowDropDown)
+                                Icon(imageVector = icon, "")
+                            },
+                            enabled = !isNavigating
+                        )
+                        Surface(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(top = 8.dp)
+                                .clip(MaterialTheme.shapes.extraSmall)
+                                .clickable(enabled = true) { expanded = true },
+                            color = Color.Transparent,
+                        ) {  }
+                    }else{
+                        OutlinedButton(
+                            onClick = {
+                                onAction(MainListScreenAction.CloseBottomSheet)
+                                onAction(MainListScreenAction.OpenManageCategories)
+                            },
+                            modifier = Modifier.padding(top = 8.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.manage_categories),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                    }
                 }
                 Row(
                     modifier = Modifier
@@ -223,7 +249,7 @@ fun AddEditToDoScreen(
                         ),
                         content = {
                             Text(
-                                text = state.dueDate?.formatReadable(hourFormat = hourFormat) ?: stringResource(R.string.anytime),
+                                text = state.dueDate.formatReadable(hourFormat = hourFormat),
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface
@@ -328,30 +354,30 @@ fun AddEditToDoScreen(
                             onAction(MainListScreenAction.OnGoBackClicked)
                         }
                     )
-                    Button(
+                    IconButton(
                         modifier = Modifier
                             .padding(
+                                top = 16.dp,
                                 bottom = 16.dp,
                                 start = 16.dp,
                                 end = 16.dp
                             )
                             .fillMaxWidth(),
-                        shape = RoundedCornerShape(4.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFEF5350)
+                        colors = IconButtonDefaults.iconButtonColors(
+                            contentColor = Color(0xFFEF5350)
                         ),
                         content = {
-                            Text(
-                                text = stringResource(R.string.delete),
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurface
+                            Icon(
+                                modifier = Modifier
+                                    .size(48.dp),
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = ""
                             )
                         },
                         onClick = {
                             onAction(MainListScreenAction.OnDeleteClicked)
                             onAction(MainListScreenAction.OnGoBackClicked)
-                        },
-                        enabled = true
+                        }
                     )
                 }
                 DateTimePicker(
@@ -390,7 +416,16 @@ fun AddEditToDoScreen(
 fun AddEditToDoScreenPreview(){
     TasklyTheme {
         AddEditToDoScreen(
-            state = MainListScreenUiState(isLoading = false),
+            state = MainListScreenUiState(
+                isLoading = false,
+                action = AddEditAction.EDIT,
+                currentToDo = ToDo(
+                    createdAt = LocalDateTime.now(),
+                    title = "",
+                    isDone = true,
+                    categoryId = 1
+                )
+            ),
             hourFormat = true,
             onAction = {}
         )
