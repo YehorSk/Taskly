@@ -17,6 +17,15 @@ With Taskly, you can:</p>
   <li><strong>Localization</strong> — English, Slovak, and Ukrainian translations included.</li>
 </ul>
 
+<h2>Screenshots</h2>
+
+<p align="center">
+  <img src="screenshots/Todo_dark.jpg" width="200" alt="Home Dark" style="margin: 0 20px;">
+  <img src="screenshots/Todo_light.jpg" width="200" alt="Home Light" style="margin: 0 20px;">
+  <img src="screenshots/Notes.jpg" width="200" alt="Notes" style="margin: 0 20px;">
+  <img src="screenshots/Settings.jpg" width="200" alt="Settings" style="margin: 0 20px;">
+</p>
+
 <h2>🛠 Tech Stack</h2>
 
 <h3>Languages & Frameworks</h3>
