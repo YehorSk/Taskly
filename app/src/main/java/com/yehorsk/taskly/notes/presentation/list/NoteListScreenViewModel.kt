@@ -240,18 +240,14 @@ class NoteListScreenViewModel(
         val today = LocalDate.now()
         return map{ notes ->
             notes
-                .groupBy { todo ->
-                    LocalDateTime.ofInstant(
-                        todo.createdAt.atZone(ZoneId.systemDefault()).toInstant(),
-                        ZoneId.systemDefault()
-                    )
+                .groupBy { note ->
+                    note.createdAt.atZone(ZoneId.systemDefault()).toLocalDate()
                 }
                 .mapValues { (_, notes) ->
                     notes.sortedBy { it.createdAt }
                 }
                 .toSortedMap(compareBy { it })
-                .mapKeys { (dateTime, _) ->
-                    val date = dateTime.toLocalDate()
+                .mapKeys { (date, _) ->
                     when(date){
                         today -> UiText.StringResource(R.string.today)
                         today.plusDays(1) -> UiText.StringResource(R.string.tomorrow)

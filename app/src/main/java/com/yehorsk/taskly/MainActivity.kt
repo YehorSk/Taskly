@@ -11,6 +11,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.core.app.ActivityCompat
@@ -36,7 +38,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestNotificationPermission()
-        installSplashScreen()
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                val darkMode = themeViewModel.darkMode.value
+                val language = themeViewModel.language.value
+                darkMode == null || language.isEmpty()
+            }
+        }
         enableEdgeToEdge()
         setContent {
 
@@ -46,14 +54,11 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             setLocale(language, this)
-
-            TasklyTheme(
-                isDarkMode = darkMode
-            ) {
-                Surface {
-                    NavigationRoot(
-                        navController = navController
-                    )
+            darkMode?.let { isDark ->
+                TasklyTheme(isDarkMode = isDark) {
+                    Surface {
+                        NavigationRoot(navController = navController)
+                    }
                 }
             }
         }

@@ -11,11 +11,11 @@ class ThemeViewModel(
     private val settingsRepository: SettingsRepository
 ): ViewModel() {
 
-    val darkMode: StateFlow<Boolean> = settingsRepository
+    val darkMode: StateFlow<Boolean?> = settingsRepository
         .darkModeFlow
         .stateIn(viewModelScope,
             SharingStarted.WhileSubscribed(5000L),
-            false)
+            null)
 
     val language: StateFlow<String> = settingsRepository
         .languageFlow

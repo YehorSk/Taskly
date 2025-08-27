@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -332,28 +333,29 @@ fun AddEditToDoScreen(
                     enabled = state.title.isNotEmpty() && state.selectedCategory != null && !isNavigating
                 )
                 if(state.action == AddEditAction.EDIT && state.currentToDo != null){
-                    Button(
-                        modifier = Modifier
-                            .padding(
-                                bottom = 16.dp,
-                                start = 16.dp,
-                                end = 16.dp
-                            )
-                            .fillMaxWidth(),
-                        shape = RoundedCornerShape(4.dp),
-                        content = {
-                            Text(
-                                text = stringResource(R.string.complete),
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        },
-                        enabled = !state.currentToDo.isDone,
-                        onClick = {
-                            onAction(MainListScreenAction.OnIsDoneClicked(todo = state.selectedToDo!!))
-                            onAction(MainListScreenAction.OnGoBackClicked)
-                        }
-                    )
+//                    Button(
+//                        modifier = Modifier
+//                            .padding(
+//                                bottom = 16.dp,
+//                                start = 16.dp,
+//                                end = 16.dp
+//                            )
+//                            .fillMaxWidth(),
+//                        shape = RoundedCornerShape(4.dp),
+//                        content = {
+//                            Text(
+//                                text = stringResource(R.string.complete),
+//                                style = MaterialTheme.typography.bodyLarge,
+//                                color = MaterialTheme.colorScheme.onSurface
+//                            )
+//                        },
+//                        enabled = !state.currentToDo.isDone,
+//                        onClick = {
+//                            onAction(MainListScreenAction.OnIsDoneClicked(todo = state.selectedToDo!!))
+//                            onAction(MainListScreenAction.OnGoBackClicked)
+//                        }
+//                    )
+                    Spacer(modifier = Modifier.weight(1f))
                     IconButton(
                         modifier = Modifier
                             .padding(

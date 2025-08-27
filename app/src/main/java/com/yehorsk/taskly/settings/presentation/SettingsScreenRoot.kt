@@ -60,7 +60,7 @@ fun SettingsScreen(
             .background(MaterialTheme.colorScheme.background),
         topBar = {
             TitleNavBar(
-                title = R.string.my_tasks,
+                title = R.string.settings,
                 onGoBack = {},
                 showGoBack = false
             )
