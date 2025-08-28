@@ -15,6 +15,7 @@ With Taskly, you can:</p>
   <li><strong>Notes</strong> — quick, lightweight notes management.</li>
   <li><strong>Dark Theme</strong> — manual and automatic dark mode support.</li>
   <li><strong>Localization</strong> — English, Slovak, and Ukrainian translations included.</li>
+  <li><strong>Home Screen Widget</strong> — view today’s tasks at a glance, mark them as complete, and quickly navigate to the app to add new ones.</li>
 </ul>
 
 <h2>Screenshots</h2>
